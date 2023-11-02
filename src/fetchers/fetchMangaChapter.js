@@ -5,7 +5,11 @@ const BASE_URL = 'https://api.mangadex.org';
 
 async function getChapterData(chapterID) {
     try {
-        const response = await axios.get(`${BASE_URL}/at-home/server/${chapterID}`);
+        const response = await axios({
+            method: 'get',
+            url: `${BASE_URL}/at-home/server/${chapterID}`,
+            withCredentials: false,
+        });
         const { baseUrl, chapter: { hash, data, dataSaver } } = response.data;
         return { baseUrl, hash, data, dataSaver };
     } catch (error) {

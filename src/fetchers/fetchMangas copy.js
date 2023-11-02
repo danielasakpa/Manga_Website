@@ -4,7 +4,11 @@ import axios from 'axios';
 const BASE_URL = 'https://api.mangadex.org';
 
 async function fetchMangas(order, limit = 100, includedTags, excludedTags) {
-    const tagsResponse = await axios.get(`${BASE_URL}/manga/tag`);
+    const tagsResponse = await axios({
+        method: 'get',
+        url: `${BASE_URL}/manga/tag`,
+        withCredentials: false,
+    });
 
     const includedTagIDs = tagsResponse.data.data
         .filter(tag => includedTags.includes(tag.attributes.name.en))
@@ -20,7 +24,10 @@ async function fetchMangas(order, limit = 100, includedTags, excludedTags) {
         finalOrderQuery[`order[${key}]`] = value;
     }
 
-    const response = await axios.get(`${BASE_URL}/manga`, {
+    const response = await axios({
+        method: 'get',
+        url: `${BASE_URL}/manga`,
+        withCredentials: false,
         params: {
             includedTags: includedTagIDs,
             excludedTags: excludedTagIDs,

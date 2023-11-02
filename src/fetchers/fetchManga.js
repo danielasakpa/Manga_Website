@@ -4,7 +4,11 @@ import axios from 'axios';
 const BASE_URL = 'https://api.mangadex.org';
 
 async function fetchMangaDetails(mangaId) {
-    const response = await axios.get(`${BASE_URL}/manga/${mangaId}/?includes[]=author&includes[]=artist&includes[]=cover_art`);
+    const response = await axios({
+        method: 'get',
+        url: `${BASE_URL}/manga/${mangaId}/?includes[]=author&includes[]=artist&includes[]=cover_art`,
+        withCredentials: false,
+    });
 
     return response.data.data;
 }

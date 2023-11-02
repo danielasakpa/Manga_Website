@@ -65,6 +65,7 @@ const Search = ({ setMangas, setVis, setMangaVis }) => {
       const resp = await axios({
         method: 'GET',
         url: `${BASE_URL}/manga`,
+        withCredentials: false,
         params: {
           title: searchParams.mangaName
         }
@@ -93,14 +94,17 @@ const Search = ({ setMangas, setVis, setMangaVis }) => {
       finalOrderQuery[`order[${key}]`] = value;
     }
 
-    const response = await axios.get(`${BASE_URL}/manga`, {
+    const response = await axios({
+      method: 'get',
+      url: `${BASE_URL}/manga`,
+      withCredentials: false,
       params: {
         includedTags: includedTagIDs,
         excludedTags: excludedTagIDs,
         ...finalOrderQuery,
         limit: searchParams.limit,
       },
-    });
+  });
 
     // console.log(response.data.data)
     setMangas(response.data.data);

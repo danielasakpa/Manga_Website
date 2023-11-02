@@ -4,7 +4,11 @@ import axios from 'axios';
 const BASE_URL = 'https://api.mangadex.org';
 
 async function fetchMangaStatistics(mangaId) {
-    const response = await axios.get(`${BASE_URL}/statistics/manga/${mangaId}`);
+    const response = await axios({
+        method: 'get',
+        url: `${BASE_URL}/statistics/manga/${mangaId}`,
+        withCredentials: false,
+    });
     const { rating, follows } = response.data.statistics[mangaId];
     return { rating, follows };
 }
