@@ -30,7 +30,7 @@ function MangaOverview() {
                 if (isCoverLoading === false) {
                     for (const relationship of mangaData?.relationships) {
                         if (relationship.type === 'manga') {
-                            const response = await axios.get(`https://api.mangadex.org/manga/${relationship.id}`);
+                            const response = await axios.get(`https://web-production-1734.up.railway.app/https://api.mangadex.org/manga/${relationship.id}`);
                             const manga = response.data.data;
                             relatedMangaData.push(manga);
                         }

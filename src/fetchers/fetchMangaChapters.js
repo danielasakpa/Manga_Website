@@ -3,7 +3,8 @@ import axios from 'axios';
 
 const useMangaChapters = (mangaID, languages = ['en']) => {
     const fetchMangaChapters = async () => {
-        const baseUrl = 'https://api.mangadex.org';
+        const baseUrl = 'https://web-production-1734.up.railway.app/https://api.mangadex.org';
+
 
         try {
             const response = await axios({

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
 
-const BASE_URL = 'https://api.mangadex.org';
+const BASE_URL = 'https://web-production-1734.up.railway.app/https://api.mangadex.org';
+
 const categories = [
   "Action",
   "Adventure",
@@ -104,7 +104,7 @@ const Search = ({ setMangas, setVis, setMangaVis }) => {
         ...finalOrderQuery,
         limit: searchParams.limit,
       },
-  });
+    });
 
     // console.log(response.data.data)
     setMangas(response.data.data);

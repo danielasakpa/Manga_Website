@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-const BASE_URL = 'https://api.mangadex.org';
+const BASE_URL = 'https://web-production-1734.up.railway.app/https://api.mangadex.org';
 
 async function fetchMangaDetails(mangaId) {
     const response = await axios({
