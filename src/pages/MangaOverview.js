@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useManga } from "../fetchers/fetchManga"
-import { MangaCover } from "../fetchers/fetchMangaCover";
-import { MangaStatistics } from "../fetchers/fetchMangaStatistics";
+import { useManga } from "../utils/fetchManga"
+import { MangaCover } from "../utils/fetchMangaCover";
+import { MangaStatistics } from "../utils/fetchMangaStatistics";
 import HorizontalScrollMenu from '../components/HorizontalScrollMenu';
 import MangaCards from '../components/MangaCards';
 import MangaCard from '../components/MangaCard';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { MangaCover } from "../fetchers/fetchMangaCover";
-import useMangaChapters from "../fetchers/fetchMangaChapters";
+import { MangaCover } from "../utils/fetchMangaCover";
+import useMangaChapters from "../utils/fetchMangaChapters";
 import CarouselImageSkeleton from '../components/CarouselImageSkeleton ';
 
 const CarouselImage = ({ manga }) => {

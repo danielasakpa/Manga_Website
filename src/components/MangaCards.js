@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import MangaCard from './MangaCard';
 import MangaCardSkeleton from './MangaCardSkeleton';
-import { useMangasFetcher } from '../fetchers/fetchMangas';
+import { useMangasFetcher } from '../utils/fetchMangas';
 import HorizontalScrollMenu from './HorizontalScrollMenu';
 
 const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {

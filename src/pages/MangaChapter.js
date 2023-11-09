@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useChapterData from "../fetchers/fetchMangaChapter";
-import useMangaChapters from '../fetchers/fetchMangaChapters';
+import useChapterData from "../utils/fetchMangaChapter";
+import useMangaChapters from '../utils/fetchMangaChapters';
 
 function MangaChapter() {
     const { id, chapterId } = useParams();
