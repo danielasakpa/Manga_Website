@@ -3,13 +3,11 @@ import axios from 'axios';
 
 const useMangaChapters = (mangaID, languages = ['en']) => {
     const fetchMangaChapters = async () => {
-        const baseUrl = 'https://web-production-1734.up.railway.app/https://api.mangadex.org';
-
 
         try {
             const response = await axios({
                 method: 'get',
-                url: `${baseUrl}/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`,
+                url: `https://manga-proxy-server.onrender.com/chapters?url=${encodeURIComponent(`https://api.mangadex.org/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`)}`,
                 withCredentials: false,
                 params: {
                     translatedLanguage: languages,

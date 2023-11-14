@@ -10,7 +10,7 @@ export const MangaOverviewSkeleton = () => {
             </div>
             <div className="flex justify-between mt-8 space-x-3">
                 <SkeletonImage />
-                <div className="mt-4">
+                <div className="mt-4 grow">
                     <SkeletonText />
                     <div className="mt-6">
                         <p className="text-[20px]">Category</p>
@@ -42,13 +42,13 @@ const SkeletonElement = () => {
 
 const SkeletonImage = () => {
     return (
-        <div className="animate-pulse bg-white bg-opacity-20 h-[400px] w-[250px] shadow-yellow rounded-md" />
+        <div className="basis-1/4 mr-20 animate-pulse bg-white bg-opacity-20 h-[300px] w-[1500px] shadow-yellow rounded-md" />
     );
 };
 
 const SkeletonText = () => {
     return (
-        <div className="animate-pulse bg-white bg-opacity-20 mb-3 text-[14px] text-center text-white text-start h-[120px] w-[600px]" />
+        <div className="animate-pulse bg-white bg-opacity-20 mb-3 text-[14px] text-center text-white text-start h-[120px] w-full" />
     );
 };
 

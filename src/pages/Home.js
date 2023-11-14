@@ -60,7 +60,7 @@ function Home() {
             <div className='py-5 bg-[#1F1F1F]'>
                 <div className='flex flex-col items-center justify-center px-[20px] py-10'>
                     <h4 className='text-white text-[25px] my-6 self-start'>Most Viewed</h4>
-                    <MangaCards type={"mostViewed"} order={{ rating: 'desc', followedCount: 'desc' }} limit={50} includedTags={['action']} excludedTags={['romance']} />
+                    <MangaCards type={"viewedMost"} order={{ rating: 'desc', followedCount: 'desc' }} limit={50} includedTags={['action']} excludedTags={['romance']} />
                 </div>
                 <div className='flex flex-col items-center justify-center px-[20px] py-10'>
                     <h4 className='text-white text-[25px] my-6 self-start'>Popular New</h4>

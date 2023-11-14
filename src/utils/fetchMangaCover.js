@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-const BASE_URL = 'https://web-production-1734.up.railway.app/https://api.mangadex.org';
 
 async function fetchMangaCover(mangaId) {
     const response = await axios({
         method: 'get',
-        url: `${BASE_URL}/cover?manga[]=${mangaId}`,
+        url: `https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/cover?manga[]=${mangaId}`)}`,
         withCredentials: false,
     });
     const cover = response.data.data;

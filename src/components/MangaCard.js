@@ -73,7 +73,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
             onMouseLeave={handleMouseLeave}
             onClick={handleClick}
         >
-            <img src={`https://uploads.mangadex.org/covers/${id}/${imageUrl}`} alt={attributes.title.en} loading="lazy" className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
+            <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={attributes.title.en} className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
             <div
                 className={`absolute top-0 left-0 right-0 bottom-0 hidden md:flex bg-[#1F1F1F] bg-opacity-80 flex flex-col items-center justify-center ${isHovered ? 'opacity-100 scale-105' : 'opacity-0'
                     } transition-opacity duration-300`}
@@ -95,7 +95,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
                 <div className="flex items-center justify-center pb-2">
                     <span className="text-gray-500">Rating:</span>
                     <div className="flex items-center ml-1">
-                        <span className="mr-1 text-yellow-500">{rating.average ? rating.average.toString().slice(0, 3) : rating.average}</span>
+                        <span className="mr-1 text-yellow-500">{rating.average ? rating?.average.toString().slice(0, 3) : rating.average}</span>
                         ⭐
                     </div>
                 </div>
@@ -123,7 +123,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
                 <div className="flex items-center px-2 mb-2">
                     <span className="text-gray-500">Rating:</span>
                     <div className="flex items-center ml-1">
-                        <span className="mr-1 text-yellow-500">{rating.average ? rating.average.toString().slice(0, 3) : rating.average}</span>
+                        <span className="mr-1 text-yellow-500">{rating.average ? rating?.average.toString().slice(0, 3) : rating.average}</span>
                         ⭐
                     </div>
                 </div>

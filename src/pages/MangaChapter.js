@@ -111,7 +111,7 @@ function MangaChapter() {
             </div>
             <div className='mt-7'>
                 {data?.data.map((img) => (
-                    <img src={`${data.baseUrl}/data/${data.hash}/${img}`} alt='manga img' loading="lazy" className='mx-auto object-cover mb-3 w-[700px]' key={img} />
+                    <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`${data.baseUrl}/data/${data.hash}/${img}`)}`} alt='manga img' loading="lazy" className='mx-auto object-cover mb-3 w-[700px]' key={img} />
                 ))}
             </div>
         </div>

@@ -28,9 +28,9 @@ function MangaOverview() {
             try {
                 const relatedMangaData = [];
                 if (isCoverLoading === false) {
-                    for (const relationship of mangaData?.relationships) {
+                    for (const relationship of mangaData?.relationships || []) {
                         if (relationship.type === 'manga') {
-                            const response = await axios.get(`https://web-production-1734.up.railway.app/https://api.mangadex.org/manga/${relationship.id}`);
+                            const response = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/${relationship.id}`)}`);
                             const manga = response.data.data;
                             relatedMangaData.push(manga);
                         }
@@ -57,11 +57,11 @@ function MangaOverview() {
     const myList = ['Reading', 'Completed', 'On-Hold', 'Dropped', 'Plan to Read']
 
     const mangaDetails = [
-        { label: 'Status', value: mangaData?.attributes.status },
-        { label: 'Demographic', value: mangaData?.attributes.publicationDemographic },
-        { label: 'Year', value: mangaData?.attributes.year },
-        { label: 'Rating', value: `${rating?.average.toString().slice(0, 3)} ⭐` },
-        { label: 'follows', value: follows }
+        { label: 'Status', value: mangaData?.attributes?.status || "No Status" },
+        { label: 'Demographic', value: mangaData?.attributes?.publicationDemographic || "No Demographic" },
+        { label: 'Year', value: mangaData?.attributes?.year || "No date" },
+        { label: 'Rating', value: `${rating?.average?.toString().slice(0, 3)} ⭐` || "No rating" },
+        { label: 'follows', value: follows || 0 }
     ];
 
     return (
@@ -107,7 +107,9 @@ function MangaOverview() {
                         ))}
                     </div>
                     <div className='flex justify-between mt-8 space-x-10'>
-                        <img src={`https://uploads.mangadex.org/covers/${id}/${imageUrl}`} alt={mangaData?.attributes.title.en} loading="lazy" className="h-[400px] w-[250px] object-cover shadow-yellow rounded-md" />
+                        <div className='h-[300px] w-[1500px] shadow-yellow rounded-md'>
+                            <img src={`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={mangaData?.attributes.title.en} className=" h-full w-full object-cover " />
+                        </div>
                         <div className='mt-4'>
                             <p className="mb-3 text-[14px] text-center text-white text-start">{mangaData?.attributes.description.en ? mangaData?.attributes.description.en : mangaData?.attributes.title.en}</p>
                             <div className='mt-6'>
@@ -125,10 +127,11 @@ function MangaOverview() {
                             </div>
                             <div className='mt-6'>
                                 <p className='text-[20px]'>My List</p>
-                                <div className='grid grid-cols-5 gap-2 mt-4'>
+                                <div className='flex mt-4 border-box'>
+                                    {/* <div className='grid grid-cols-5 gap-2 mt-4'> */}
                                     {myList.map((item, index) => (
                                         <button
-                                            className={`px-3 py-1 rounded-md font-semibold text-center text-[13px] tracking-[0.1em] border border-[#1F1F1F]
+                                            className={`basis-1/5 mr-2 px-3 py-1 rounded-md font-semibold text-center text-[13px] tracking-[0.1em] border border-[#1F1F1F]
                                     ${selectedReading === item
                                                     ? "bg-blue-500 text-white"
                                                     : "bg-gray-200 text-[#1F1F1F]"
