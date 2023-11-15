@@ -153,13 +153,15 @@ function MangaOverview() {
                                     <h4 className='text-white text-[25px] my-6 self-start'>Related Manga</h4>
                                     <HorizontalScrollMenu>
                                         {relatedManga?.map((manga) => (
-                                            <MangaCard
-                                                itemId={manga.id}
-                                                title={manga.id}
-                                                key={manga.id}
-                                                manga={manga}
-                                                setIsLastItem={setIsLastItem}
-                                            />
+                                            <div className='mr-5'>
+                                                <MangaCard
+                                                    itemId={manga.id}
+                                                    title={manga.id}
+                                                    key={manga.id}
+                                                    manga={manga}
+                                                    setIsLastItem={setIsLastItem}
+                                                />
+                                            </div>
                                         ))
                                         }
                                         {isLastItem && relatedManga.length > 1 && <SeeMoreLink />}

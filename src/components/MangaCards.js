@@ -16,13 +16,15 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
                 ))
             ) : (
                 data?.map((manga) => (
-                    <MangaCard
-                        itemId={manga.id}
-                        title={manga.id}
-                        key={manga.id}
-                        manga={manga}
-                        setIsLastItem={setIsLastItem}
-                    />
+                    <div className='mr-5'>
+                        <MangaCard
+                            itemId={manga.id}
+                            title={manga.id}
+                            key={manga.id}
+                            manga={manga}
+                            setIsLastItem={setIsLastItem}
+                        />
+                    </div>
                 ))
             )}
             {isLastItem && data.length > 1 && <SeeMoreLink />}

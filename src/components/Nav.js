@@ -1,9 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MagnifyingGlassIcon, BellAlertIcon } from "@heroicons/react/24/outline";
 import DanImg from "../assets/dan.png"
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useMangaContext } from '../context/MangaContext';
 
 function Nav() {
+
+    const [mangaName, setMangaName] = useState('');
+    const { setMangas, setLoading } = useMangaContext();
+
+
+
+    async function handleSearch() {
+        setLoading(true)
+        if (mangaName) {
+            const resp = await axios({
+                method: 'GET',
+                url: `https://manga-proxy-server.onrender.com/manga?url=${encodeURIComponent(`https://api.mangadex.org/manga`)}`,
+                withCredentials: false,
+                params: {
+                    title: mangaName
+                }
+            });
+
+            // console.log(resp.data.data);
+            setLoading(false)
+            setMangas(resp.data.data);
+            return;
+        }
+    }
 
     const notificationCount = 14; // Number of notifications
 
@@ -22,15 +48,21 @@ function Nav() {
                             <input
                                 type="text"
                                 placeholder="Search"
+                                value={mangaName}
+                                onChange={(e) => setMangaName(e.target.value)}
                                 className=" bg-white border-r-2 border-gray-300 px-4 py-2 h-[50px] w-[400px] focus:outline-none"
                             />
                             <div className="absolute right-3 top-4">
                                 <MagnifyingGlassIcon className="w-5 h-5 text-gray-400" />
                             </div>
                         </div>
-                        <button className="bg-white hover:bg-[#E40066] hover:text-white h-[50px] py-2 px-4">
+                        <Link
+                            to='/search'
+                            className="flex items-center bg-white hover:bg-[#E40066] hover:text-white h-[50px] py-2 px-4"
+                            onClick={() => handleSearch()}
+                        >
                             Search here
-                        </button>
+                        </Link>
                     </div>
                 </div>
                 <div className="relative">

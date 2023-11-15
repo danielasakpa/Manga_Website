@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
-
-const BASE_URL = 'https://web-production-1734.up.railway.app/https://api.mangadex.org';
-
 const categories = [
   "Action",
   "Adventure",
@@ -39,12 +36,13 @@ const orderDirections = [
   { label: "Descending", value: "desc" },
 ];
 
-const Search = ({ setMangas, setVis, setMangaVis }) => {
+const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
   const [mangaName, setMangaName] = useState('');
   const [tags, setTags] = useState([]);
   const [status, setStatus] = useState('');
   const [order, setOrder] = useState('');
   const [orderDirection, setOrderDirection] = useState('');
+
 
   async function handleSearch() {
     const searchParams = {
@@ -56,15 +54,18 @@ const Search = ({ setMangas, setVis, setMangaVis }) => {
       orderDirection,
     };
 
+    setLoading(true);
+
+
     setVis(prevVis => !prevVis);
     setMangaVis(true);
 
-    const tagsResponse = await axios.get(`${BASE_URL}/manga/tag`);
+    const tagsResponse = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/tag`)}`);
 
     if (searchParams.mangaName) {
       const resp = await axios({
         method: 'GET',
-        url: `${BASE_URL}/manga`,
+        url: `https://manga-proxy-server.onrender.com/manga?url=${encodeURIComponent(`https://api.mangadex.org/manga`)}`,
         withCredentials: false,
         params: {
           title: searchParams.mangaName
@@ -96,7 +97,7 @@ const Search = ({ setMangas, setVis, setMangaVis }) => {
 
     const response = await axios({
       method: 'get',
-      url: `${BASE_URL}/manga`,
+      url: `https://manga-proxy-server.onrender.com/mangas?url=https://api.mangadex.org/manga`,
       withCredentials: false,
       params: {
         includedTags: includedTagIDs,
@@ -107,6 +108,7 @@ const Search = ({ setMangas, setVis, setMangaVis }) => {
     });
 
     // console.log(response.data.data)
+    setLoading(false);
     setMangas(response.data.data);
     return response.data.data;
   };

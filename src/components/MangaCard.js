@@ -66,7 +66,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
     return (
 
         <div
-            className={`relative rounded-md md:rounded-lg cursor-pointer w-[160px] h-[200px] md:w-[300px] md:h-[530px] mr-5 overflow-hidden shadow-lg bg-white transform transition-transform ${isHovered ? 'scale-105' : ''
+            className={`relative rounded-md md:rounded-lg cursor-pointer w-[160px] h-[200px] lg:w-[300px] lg:h-[530px]  overflow-hidden shadow-lg bg-white transform transition-transform ${isHovered ? 'scale-105' : ''
                 }`}
 
             onMouseEnter={handleMouseEnter}
@@ -75,7 +75,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
         >
             <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={attributes.title.en} loading='lazy' className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
             <div
-                className={`absolute top-0 left-0 right-0 bottom-0 hidden md:flex bg-[#1F1F1F] bg-opacity-80 flex flex-col items-center justify-center ${isHovered ? 'opacity-100 scale-105' : 'opacity-0'
+                className={`absolute top-0 left-0 right-0 bottom-0 hidden lg:flex bg-[#1F1F1F] bg-opacity-80 flex flex-col items-center justify-center ${isHovered ? 'opacity-100 scale-105' : 'opacity-0'
                     } transition-opacity duration-300`}
             >
                 <p className="p-4 mb-3 text-center text-white">{attributes.description.en ? attributes.description.en.split(" ").slice(0, 20).join(" ") : attributes.title.en}...</p>
@@ -83,12 +83,12 @@ const MangaCard = ({ manga, setIsLastItem }) => {
                     <button className="text-white font-bold bg-[#1B6FA8] hover:bg-[#E40066] border-2 border-[#1F1F1F] w-max px-4 py-3 rounded">Read Now</button>
                 </Link>
             </div>
-            <div className={`absolute bottom-0 md:hidden py-1 border-t-[5px] border-[#1B6FA8] w-full bg-[#1F1F1F] bg-opacity-80 ${isClicked ? "" : ""}`}>
+            <div className={`absolute bottom-0 lg:hidden py-1 border-t-[5px] border-[#1B6FA8] w-full bg-[#1F1F1F] bg-opacity-80 ${isClicked ? "" : ""}`}>
                 <p className="text-[15px] text-white text-center font-semibold">{title.split(" ").slice(0, 2).join(" ")}...</p>
             </div>
 
             <div
-                className={`absolute bottom-0 left-0 right-0 sm:hidden bg-[#1F1F1F] bg-opacity-80 text-white text-center ${isHovered ? 'opacity-100' : 'opacity-0'
+                className={`absolute bottom-0 left-0 right-0 lg:hidden bg-[#1F1F1F] bg-opacity-80 text-white text-center ${isHovered ? 'opacity-100' : 'opacity-0'
                     } transition-opacity duration-300`}
             >
                 <p className="p-2 text-[15px] font-semibold">{title.split(" ").slice(0, 3).join(" ")}</p>
@@ -103,11 +103,11 @@ const MangaCard = ({ manga, setIsLastItem }) => {
                     <button className="text-white font-bold bg-[#1B6FA8] hover:bg-[#E40066] border-2 border-[#1F1F1F] w-[80%] px-2 py-2 mb-2 rounded">Read Now</button>
                 </Link>
             </div>
-            <div className='bg-[#1B6FA8] hidden md:block p-2 flex flex-col items-center justify-center border-y-2 border-[#1F1F1F]'>
+            <div className='bg-[#1B6FA8] hidden lg:block p-2 flex flex-col items-center justify-center border-y-2 border-[#1F1F1F]'>
                 <h3 className="text-lg text-white text-center tracking-[0.2em] mb-1">{title.split(" ").slice(0, 3).join(" ")}</h3>
                 <p className="text-[16px] text-white"></p>
             </div>
-            <div className="hidden px-2 py-2 md:block">
+            <div className="hidden px-2 py-2 lg:block">
                 <div className="flex flex-col px-2 mt-1 mb-2">
                     <div className="mb-2">
                         <span className="mb-2 mr-2 text-gray-500">{follows}</span>

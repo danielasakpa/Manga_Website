@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import SearchComponent from '../components/Search';
 import MangaCard from '../components/MangaCard';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useMangaContext } from '../context/MangaContext';
+import { MagnifyingGlass } from 'react-loader-spinner'
 
 const Search = () => {
-    const [mangas, setMangas] = useState([]);
+    const { mangas, setMangas, clearMangas, isLoading, setLoading } = useMangaContext();
     const [vis, setVis] = useState(false);
     const [mangaVis, setMangaVis] = useState(true);
     const [isLastItem, setIsLastItem] = useState(false);
@@ -14,6 +16,7 @@ const Search = () => {
     const handleSearch = () => {
         setMangaVis(false);
         setVis(prevVis => !prevVis)
+        clearMangas()
     }
 
     return (
@@ -31,20 +34,32 @@ const Search = () => {
                 </button>
             </div>
             <div className={`${vis ? "block" : "hidden"} inset-0 py-20  bg-[#000] z-20 absolute inset-0 overflow-y-scroll`}>
-                <SearchComponent setMangas={setMangas} setVis={setVis} setMangaVis={setMangaVis} />
+                <SearchComponent setMangas={setMangas} setVis={setVis} setMangaVis={setMangaVis} setLoading={setLoading} />
             </div>
-            {mangas.length > 0 ? (
-                <div className={`${mangaVis ? "block" : "hidden"} flex flex-wrap justify-center items-center  gap-4 mt-16`}>
-                    {mangas.map((manga) => (
-                        <MangaCard
-                            key={manga.id}
-                            manga={manga}
-                            setIsLastItem={setIsLastItem}
-                        />
-                    ))}
+            {isLoading ? (
+                <div className="searchPopOut">
+                    <MagnifyingGlass
+                        type="Audio"
+                        height={80}
+                        width={80}
+                        color="green"
+                        ariaLabel="loading"
+                    />
                 </div>
             ) : (
-                <p className="text-white text-center w-full">No manga</p>
+                mangas.length > 0 ? (
+                    <div className={`${mangaVis ? "block" : "hidden"} grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 justify-items-center content-center gap-4 mt-16`}>
+                        {mangas.map((manga) => (
+                            <MangaCard
+                                key={manga.id}
+                                manga={manga}
+                                setIsLastItem={setIsLastItem}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-white text-center w-full">No manga</p>
+                )
             )}
         </div>
     )
