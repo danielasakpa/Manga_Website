@@ -50,7 +50,7 @@ const CarouselImage = ({ manga }) => {
             <div className="absolute flex items-center px-2 py-1 space-x-2 bg-white rounded-md top-4 right-4">
                 <span className="font-semibold">{manga.type}</span>
             </div>
-            <div className="z-10 lg:w-[60%] ml-5 ">
+            <div className="z-10 lg:w-[60%] ml-5 lg:ml-0 ">
                 <h1 className="text-white font-semibold md:text-[40px] text-[25px] leading-9 lg:leading-10 mb-2">
                     {manga.attributes.title.en
                         ? manga.attributes.title.en.split(" ").slice(0, 3).join(" ")
@@ -69,7 +69,11 @@ const CarouselImage = ({ manga }) => {
             </div>
             {isCoverError || ischaptersError ? <CarouselImageSkeleton /> : null}
             {!coverFilename && <p>No cover found for manga ID</p>}
-            {sortedChapters && (
+            {sortedChapters === null ? (
+                <div className="absolute bottom-4  left-2 md:left-4 font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
+                    No Chapter
+                </div>
+            ) : (
                 <div className="absolute bottom-4  left-2 md:left-4 font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
                     Chapter {sortedChapters[sortedChapters.length - 1].attributes.chapter}
                 </div>

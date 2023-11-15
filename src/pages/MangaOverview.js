@@ -58,7 +58,7 @@ function MangaOverview() {
 
     const mangaDetails = [
         { label: 'Status', value: mangaData?.attributes?.status || "No Status" },
-        { label: 'Demographic', value: mangaData?.attributes?.publicationDemographic || "No Demographic" },
+        { label: 'Demographic', value: mangaData?.attributes?.publicationDemographic || "No Demographic".slice(0, 6) + "..." },
         { label: 'Year', value: mangaData?.attributes?.year || "No date" },
         { label: 'Rating', value: `${rating?.average?.toString().slice(0, 3)} ⭐` || "No rating" },
         { label: 'follows', value: follows || 0 }
@@ -96,42 +96,42 @@ function MangaOverview() {
                 </>
             ) : (
                 <>
-                    <div className='flex text-center my-4'>
+                    <div className='flex flex-wrap xl:flex-nowrap justify-center text-center my-4'>
                         {mangaDetails.map((detail, index) => (
                             <div
                                 key={index}
-                                className='px-7 py-2 basis-1/3 border-2 border-[#1F1F1F] font-medium tracking-[0.3em] cursor-pointer bg-white text-[#1F1F1F]'
+                                className='text-[10px] md:text-[15px] px-4 md:px-7 py-2 basis-1/3 border-2 border-[#1F1F1F] font-medium tracking-[0.1em] lg:tracking-[0.2em] cursor-pointer bg-white text-[#1F1F1F]'
                             >
                                 {detail.value}
                             </div>
                         ))}
                     </div>
-                    <div className='flex justify-between mt-8 space-x-10'>
-                        <div className='h-[300px] w-[1500px] shadow-yellow rounded-md'>
-                            <img src={`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={mangaData?.attributes.title.en} className=" h-full w-full object-cover " />
+                    <div className='flex flex-col md:flex-row justify-between items-center md:items-start mt-8 md:space-x-10'>
+                        <div className='h-[300px] w-[90%] md:w-[400px] shadow-yellow rounded-md'>
+                            <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={mangaData?.attributes.title.en} className=" h-full w-full object-cover " />
                         </div>
-                        <div className='mt-4'>
-                            <p className="mb-3 text-[14px] text-center text-white text-start">{mangaData?.attributes.description.en ? mangaData?.attributes.description.en : mangaData?.attributes.title.en}</p>
-                            <div className='mt-6'>
+                        <div className='mt-4 w-[95%] md:w-full'>
+                            <p className="mb-3 mt-5 md:mt-0 text-[14px] text-start text-white">{mangaData?.attributes.description.en ? mangaData?.attributes.description.en : mangaData?.attributes.title.en}</p>
+                            <div className='mt-6 flex justify-center flex-col'>
                                 <p className='text-[20px]'>Category</p>
-                                <div className='grid grid-cols-5 gap-2 mt-4'>
+                                <div className='grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-2  mt-4 w-[70%] md:w-[100%]'>
                                     {mangaData?.attributes.tags.slice(0, 10).map((item) => (
                                         <div
-                                            className={`px-3 py-1 flex items-center justify-center rounded-md font-semibold text-center bg-white text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F]`}
+                                            className={`py-1 flex items-center justify-center rounded-md font-semibold text-center bg-white text-[10px] md:text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F]`}
                                             key={item.id}
                                         >
-                                            {item.attributes.name.en}
+                                            {item.attributes.name.en.toString()}
                                         </div>
                                     ))}
                                 </div>
                             </div>
                             <div className='mt-6'>
                                 <p className='text-[20px]'>My List</p>
-                                <div className='flex mt-4 border-box'>
+                                <div className='flex flex-wrap lg:flex-nowrap mt-4 border-box'>
                                     {/* <div className='grid grid-cols-5 gap-2 mt-4'> */}
                                     {myList.map((item, index) => (
                                         <button
-                                            className={`basis-1/5 mr-2 px-3 py-1 rounded-md font-semibold text-center text-[13px] tracking-[0.1em] border border-[#1F1F1F]
+                                            className={`md:basis-1/5 mr-1 md:mr-2 grow my-1 px-3 py-1 rounded-md font-semibold text-center text-[10px] md:text-[13px] tracking-[0.1em] border border-[#1F1F1F]
                                     ${selectedReading === item
                                                     ? "bg-blue-500 text-white"
                                                     : "bg-gray-200 text-[#1F1F1F]"
@@ -169,7 +169,7 @@ function MangaOverview() {
                     }
                     <div className='bg-[#1F1F1F] mt-4'>
                         <div className='flex flex-col items-center justify-center px-[20px]'>
-                            <h4 className='text-white text-[25px] my-6 self-start'>If you like this manga, you might like</h4>
+                            <h4 className='text-white text-[20px] lg:text-[25px] my-6 self-start'>If you like this manga, you might like</h4>
                             <MangaCards type={"mostViewed"} order={{ rating: 'desc', followedCount: 'desc' }} limit={20} includedTags={mangaData.attributes.tags.map(item => item.attributes.name.en)} excludedTags={['']} />
                         </div>
                     </div>
