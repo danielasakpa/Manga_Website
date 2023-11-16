@@ -3,9 +3,29 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap");
 
 html {
   height: 100%;
+}
+
+.gradient-1 {
+  background: linear-gradient(to right, #5a1cd6 20%, #9203ff 50%, #8a45a8 48%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-2 {
+  background: linear-gradient(to right, #243b96 20%, #19a895 48%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-3 {
+  background: linear-gradient(to right, #6e51a8 20%, #381da8 48%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 * {
@@ -61,10 +81,7 @@ body {
   padding: 30px 0px 30px 20px;
 }
 
-.searchPopOut {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.popOut {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);

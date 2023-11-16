@@ -36,7 +36,7 @@ const orderDirections = [
   { label: "Descending", value: "desc" },
 ];
 
-const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
+const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handleErrorResponse }) => {
   const [mangaName, setMangaName] = useState('');
   const [tags, setTags] = useState([]);
   const [status, setStatus] = useState('');
@@ -59,60 +59,70 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
 
     setVis(prevVis => !prevVis);
     setMangaVis(true);
+    try {
+      const tagsResponse = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/tag`)}`);
 
-    const tagsResponse = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/tag`)}`);
+      if (searchParams.mangaName) {
+        const resp = await axios({
+          method: 'GET',
+          url: `https://manga-proxy-server.onrender.com/manga?url=${encodeURIComponent(`https://api.mangadex.org/manga`)}`,
+          withCredentials: false,
+          params: {
+            title: searchParams.mangaName
+          }
+        });
 
-    if (searchParams.mangaName) {
-      const resp = await axios({
-        method: 'GET',
-        url: `https://manga-proxy-server.onrender.com/manga?url=${encodeURIComponent(`https://api.mangadex.org/manga`)}`,
+        // console.log(resp.data.data);
+        setLoading(false);
+        setMangas(resp.data.data);
+        return;
+      }
+
+      const includedTagIDs = tagsResponse.data.data
+        .filter(tag => searchParams.includedTags.includes(tag.attributes.name.en))
+        .map(tag => tag.id);
+
+      const excludedTagIDs = tagsResponse.data.data
+        .filter(tag => searchParams.excludedTags.includes(tag.attributes.name.en))
+        .map(tag => tag.id);
+
+      const finalOrderQuery = {};
+
+      for (const [key, value] of Object.entries(
+        searchParams.order = "rating" ? { rating: "desc" }
+          : searchParams.order = "followedCount" ? { followedCount: "desc" }
+            : { year: "desc" })
+      ) {
+        finalOrderQuery[`order[${key}]`] = value;
+      }
+
+      const response = await axios({
+        method: 'get',
+        url: `https://manga-proxy-server.onrender.com/mangas?url=https://api.mangadex.org/manga`,
         withCredentials: false,
         params: {
-          title: searchParams.mangaName
-        }
+          includedTags: includedTagIDs,
+          excludedTags: excludedTagIDs,
+          ...finalOrderQuery,
+          limit: searchParams.limit,
+        },
       });
 
-      // console.log(resp.data.data);
-      setMangas(resp.data.data);
-      return;
+      // console.log(response.data.data)
+      setLoading(false);
+      setMangas(response.data.data);
+    } catch (error) {
+      setLoading(false);
+      if (error.code) {
+        setErrorVis(true)
+        handleErrorResponse(error.code);
+      } else {
+        // Handle other types of errors here
+        console.error('Unexpected error:', error.message);
+      }
     }
-
-    const includedTagIDs = tagsResponse.data.data
-      .filter(tag => searchParams.includedTags.includes(tag.attributes.name.en))
-      .map(tag => tag.id);
-
-    const excludedTagIDs = tagsResponse.data.data
-      .filter(tag => searchParams.excludedTags.includes(tag.attributes.name.en))
-      .map(tag => tag.id);
-
-    const finalOrderQuery = {};
-
-    for (const [key, value] of Object.entries(
-      searchParams.order = "rating" ? { rating: "desc" }
-        : searchParams.order = "followedCount" ? { followedCount: "desc" }
-          : { year: "desc" })
-    ) {
-      finalOrderQuery[`order[${key}]`] = value;
-    }
-
-    const response = await axios({
-      method: 'get',
-      url: `https://manga-proxy-server.onrender.com/mangas?url=https://api.mangadex.org/manga`,
-      withCredentials: false,
-      params: {
-        includedTags: includedTagIDs,
-        excludedTags: excludedTagIDs,
-        ...finalOrderQuery,
-        limit: searchParams.limit,
-      },
-    });
-
-    // console.log(response.data.data)
-    setLoading(false);
-    setMangas(response.data.data);
-    return response.data.data;
+    // return response.data.data;
   };
-
 
   const handleTagClick = (tagName) => {
     const existingTag = tags.find((tag) => tag.name === tagName);

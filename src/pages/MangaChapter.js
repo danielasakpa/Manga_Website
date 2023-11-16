@@ -28,7 +28,7 @@ function MangaChapter() {
     if (isChaptersError || isError) {
         return (
             <div className="flex bg-[#1F1F1F] w-full justify-center items-center h-[500px] px-10">
-                <p className='text-[20px] text-white'>Error fetching manga chapter...</p>
+                <p className='text-[13px] md:text-[20px] text-white'>Error fetching manga chapter...</p>
             </div>
         );
     }
@@ -118,7 +118,7 @@ function MangaChapter() {
                             src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`${data.baseUrl}/data/${data.hash}/${img}`)}`}
                             alt='manga img'
                             loading="lazy"
-                            className='mx-auto object-cover mb-3 w-[700px]'
+                            className='mx-auto object-cover mb-[2px] w-[700px]'
                             key={img}
                         />
                     ))

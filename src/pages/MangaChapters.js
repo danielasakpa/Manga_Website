@@ -13,7 +13,7 @@ function MangaChapters() {
     if (isChaptersLoading) {
         return (
             <div className="flex justify-center items-center h-[500px] mt-16 px-10">
-                <p className='text-[20px] text-white'>Loading manga chapters...</p>
+                <p className='text-[13px] md:text-[20px] text-white'>Loading manga chapters...</p>
             </div>
         );
     }
@@ -21,7 +21,7 @@ function MangaChapters() {
     if (isChaptersError) {
         return (
             <div className="flex justify-center items-center h-[500px] mt-16 px-10">
-                <p className='text-[20px] text-white'>Error fetching manga chapters..</p>
+                <p className='text-[13px] md:text-[20px] text-white'>Error fetching manga chapters..</p>
             </div>
         );
     }
@@ -48,7 +48,7 @@ function MangaChapters() {
             {
                 chaptersData.data.length < 1 ?
                     <div className="flex justify-center items-center h-[90%] mt-16 px-10">
-                        <p className='text-[20px] text-white'>No Available chapters...</p>
+                        <p className='text-[13px] md:text-[20px] text-center text-white'>No Available chapters...</p>
                     </div>
                     :
                     <div className="overflow-x-hidden overflow-auto h-[90%] mt-8 md:mt-16 px-10">

@@ -11,7 +11,7 @@ const MangaChapterSkeleton = () => {
                     <select className="px-2 md:px-4 text-[10px] md:text-[20px] py-2 bg-white text-black rounded animate-pulse">
                         {[...Array(7)].map((_, index) => (
                             <option key={index} value={index + 1}>
-                                Chapter {index + 1}
+                                Chapter
                             </option>
                         ))}
                     </select>

@@ -37,11 +37,15 @@ const MangaCard = ({ manga, setIsLastItem }) => {
 
     if (isCoverLoading || isStatsLoading) {
         // return <p>Loading manga details...</p>;
-        return <div className='mr-5'><MangaCardSkeleton /></div>;
+        return (
+            <MangaCardSkeleton />
+        );
     }
 
     if (isCoverError || isStatsError) {
-        return <div className='mr-5'><MangaCardSkeleton /></div>;
+        return (
+            <MangaCardSkeleton />
+        );
     }
 
     if (!coverFilename) {
@@ -66,7 +70,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
     return (
 
         <div
-            className={`relative rounded-md md:rounded-lg cursor-pointer w-[160px] h-[200px] lg:w-[300px] lg:h-[530px]  overflow-hidden shadow-lg bg-white transform transition-transform ${isHovered ? 'scale-105' : ''
+            className={`relative rounded-md md:rounded-lg cursor-pointer w-[120px] h-[170px] xm:w-[160px] xm:h-[200px] lg:w-[300px] lg:h-[530px]  overflow-hidden shadow-lg bg-white transform transition-transform ${isHovered ? 'scale-105' : ''
                 }`}
 
             onMouseEnter={handleMouseEnter}
@@ -84,14 +88,14 @@ const MangaCard = ({ manga, setIsLastItem }) => {
                 </Link>
             </div>
             <div className={`absolute bottom-0 lg:hidden py-1 border-t-[5px] border-[#1B6FA8] w-full bg-[#1F1F1F] bg-opacity-80 ${isClicked ? "" : ""}`}>
-                <p className="text-[15px] text-white text-center font-semibold">{title.split(" ").slice(0, 2).join(" ")}...</p>
+                <p className="text-[12px] text-white text-center font-semibold">{title.split(" ").slice(0, 2).join(" ")}...</p>
             </div>
 
             <div
                 className={`absolute bottom-0 left-0 right-0 lg:hidden bg-[#1F1F1F] bg-opacity-80 text-white text-center ${isHovered ? 'opacity-100' : 'opacity-0'
                     } transition-opacity duration-300`}
             >
-                <p className="p-2 text-[15px] font-semibold">{title.split(" ").slice(0, 3).join(" ")}</p>
+                <p className="p-2 text-[12px] font-semibold">{title.split(" ").slice(0, 2).join(" ")}</p>
                 <div className="flex items-center justify-center pb-2">
                     <span className="text-gray-500">Rating:</span>
                     <div className="flex items-center ml-1">
@@ -100,7 +104,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
                     </div>
                 </div>
                 <Link className='list-none mx-auto' to={`/manga/${manga.id}/overview`}>
-                    <button className="text-white font-bold bg-[#1B6FA8] hover:bg-[#E40066] border-2 border-[#1F1F1F] w-[80%] px-2 py-2 mb-2 rounded">Read Now</button>
+                    <button className="text-white text-[13px] font-bold bg-[#1B6FA8] hover:bg-[#E40066] border-2 border-[#1F1F1F] w-[80%] px-2 py-2 mb-2 rounded">Read Now</button>
                 </Link>
             </div>
             <div className='bg-[#1B6FA8] hidden lg:block p-2 flex flex-col items-center justify-center border-y-2 border-[#1F1F1F]'>

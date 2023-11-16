@@ -8,12 +8,15 @@ module.exports = {
     extend: {
       fontFamily: {
         'Roboto': ["Roboto"],
+        "Bebas": ["Bebas Neue"],
+        "Kanit": ["Kanit"]
       },
       maxWidth: {
         '2/3': '90%',
       },
       screens: {
         'xs': '320px',
+        'xm': '375px',
         'sm': '640px',
         'md': '768px',
         'lg': '1024px',

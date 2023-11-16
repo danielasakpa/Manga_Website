@@ -66,28 +66,32 @@ function MangaOverview() {
 
     return (
         <div className='text-white w-[90%] h-[100%] mt-4 mx-auto'>
-            {isCoverLoading || isStatsLoading || isLoading || isCoverError || isStatsError || isError || loadingRelatedManga ? (
+            {isCoverLoading || isStatsLoading || loadingRelatedManga || isLoading || isCoverError || isStatsError || isError ? (
                 <>
                     <MangaOverviewSkeleton />
                     <div className='bg-[#1F1F1F] mt-10'>
-                        <div className='flex flex-col items-center justify-center px-[20px]'>
-                            <h4 className='text-white text-[25px] my-6 self-start'>Related Manga</h4>
+                        <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
+                            <h4 className='gradient-1 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>RELATED MANGA</h4>
                             <HorizontalScrollMenu>
                                 {
                                     [...Array(20)].map((_, index) => (
-                                        <div className='mr-5'><MangaCardSkeleton itemId={index} title={index} key={index} /></div>
+                                        <div className='mr-5'>
+                                            <MangaCardSkeleton itemId={index} title={index} key={index} />
+                                        </div>
                                     ))
                                 }
                             </HorizontalScrollMenu>
                         </div>
                     </div>
-                    <div className='bg-[#1F1F1F]'>
-                        <div className='flex flex-col items-center justify-center px-[20px]'>
-                            <h4 className='text-white text-[25px] my-6 self-start'>If you like this manga, you might like</h4>
+                    <div className='bg-[#1F1F1F] mt-4'>
+                        <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
+                            <h4 className='gradient-2 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>YOU MIGHT LIKE THIS</h4>
                             <HorizontalScrollMenu>
                                 {
                                     [...Array(20)].map((_, index) => (
-                                        <div className='mr-5'><MangaCardSkeleton itemId={index} title={index} key={index} /></div>
+                                        <div className='mr-5'>
+                                            <MangaCardSkeleton itemId={index} title={index} key={index} />
+                                        </div>
                                     ))
                                 }
                             </HorizontalScrollMenu>
@@ -110,14 +114,14 @@ function MangaOverview() {
                         <div className='h-[300px] w-[90%] md:w-[400px] shadow-yellow rounded-md'>
                             <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={mangaData?.attributes.title.en} className=" h-full w-full object-cover rounded-md" />
                         </div>
-                        <div className='mt-4 w-[95%] md:w-full'>
+                        <div className='mt-4 md:mt-0 w-[95%] md:w-full'>
                             <p className="mb-3 mt-5 md:mt-0 text-[14px] text-start text-white">{mangaData?.attributes.description.en ? mangaData?.attributes.description.en : mangaData?.attributes.title.en}</p>
                             <div className='mt-6 flex justify-center flex-col'>
                                 <p className='text-[20px]'>Category</p>
-                                <div className='grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-2  mt-4 w-[70%] md:w-[100%]'>
+                                <div className='grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-2 mt-4 w-[100%] md:w-[100%]'>
                                     {mangaData?.attributes.tags.slice(0, 10).map((item) => (
                                         <div
-                                            className={`py-1 flex items-center justify-center rounded-md font-semibold text-center bg-white text-[10px] md:text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F]`}
+                                            className={`py-1 px-1 flex items-center justify-center rounded-md font-semibold text-center bg-white text-[10px] md:text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F]`}
                                             key={item.id}
                                         >
                                             {item.attributes.name.en.toString()}
@@ -147,10 +151,10 @@ function MangaOverview() {
                         </div>
                     </div>
                     {
-                        relatedManga.length > 1 ?
+                        relatedManga.length > 0 ?
                             <div className='bg-[#1F1F1F] mt-10'>
-                                <div className='flex flex-col items-center justify-center px-[20px]'>
-                                    <h4 className='text-white text-[25px] my-6 self-start'>Related Manga</h4>
+                                <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
+                                    <h4 className='gradient-1 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>RELATED MANGA</h4>
                                     <HorizontalScrollMenu>
                                         {relatedManga?.map((manga) => (
                                             <div className='mr-5'>
@@ -170,8 +174,8 @@ function MangaOverview() {
                             </div> : null
                     }
                     <div className='bg-[#1F1F1F] mt-4'>
-                        <div className='flex flex-col items-center justify-center px-[20px]'>
-                            <h4 className='text-white text-[20px] lg:text-[25px] my-6 self-start'>If you like this manga, you might like</h4>
+                        <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
+                            <h4 className='gradient-2 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>YOU MIGHT LIKE THIS</h4>
                             <MangaCards type={"mostViewed"} order={{ rating: 'desc', followedCount: 'desc' }} limit={20} includedTags={mangaData.attributes.tags.map(item => item.attributes.name.en)} excludedTags={['']} />
                         </div>
                     </div>
@@ -183,8 +187,8 @@ function MangaOverview() {
 
 const SeeMoreLink = () => {
     return (
-        <div className="mr-7 flex justify-center bg-white text-black font-medium tracking-[0.3em] hover:bg-[#E40066] hover:text-white items-center cursor-pointer h-[100%] w-[100px] bottom-2 left-14">
-            <p>See More</p>
+        <div className="md:mr-7 flex justify-center bg-white text-black font-medium tracking-[0.3em] hover:bg-[#E40066] hover:text-white items-center cursor-pointer h-[100%] w-[100px] bottom-2 left-14">
+            <p className="text-center">See More</p>
         </div>
     );
 };
