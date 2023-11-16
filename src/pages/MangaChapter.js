@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import useChapterData from "../utils/fetchMangaChapter";
 import useMangaChapters from '../utils/fetchMangaChapters';
+import MangaChapterSkeleton from '../components/MangaChapterSkeleton';
+import useWindowWidth from '../hooks/useWindowWidth'; // Adjust the path based on your file structure
 
 function MangaChapter() {
     const { id, chapterId } = useParams();
+
+    const windowWidth = useWindowWidth();
 
     const { data, isLoading, isError, error } = useChapterData(chapterId);
 
@@ -17,9 +21,7 @@ function MangaChapter() {
 
     if (isChaptersLoading || isLoading) {
         return (
-            <div className="flex bg-[#1F1F1F] w-full justify-center items-center h-[80%] px-10">
-                <p className='text-[20px] text-white'>Loading manga chapter...</p>
-            </div>
+            <MangaChapterSkeleton />
         );
     }
 
@@ -69,22 +71,22 @@ function MangaChapter() {
     const currentIndex = sortedChapters.findIndex((chapter) => chapter.id === selectedChapter);
 
     return (
-        <div className='bg-[#1F1F1F] w-full p-5'>
+        <div className='bg-[#1F1F1F] w-full min-h-screen p-5'>
             <div className='flex justify-between mb-4'>
                 {selectedChapter !== sortedChapters[0]?.id && (
                     <Link
                         to={`/manga/${id}/chapter/${sortedChapters[currentIndex - 1]?.id}`}
-                        className='px-4 py-2 text-white bg-gray-800 rounded hover:bg-gray-700'
+                        className='px-2 md:px-4 text-[10px] md:text-[20px] py-2 text-white bg-gray-800 rounded hover:bg-gray-700'
                         onClick={handlePrevChapter}
                     >
-                        Previous Chapter
+                        {windowWidth > 768 ? "previous chapter" : " Prev Chap"}
                     </Link>
                 )}
                 <div>
                     <select
                         value={selectedChapter}
                         onChange={handleChapterChange}
-                        className='px-4 py-2 bg-white text-black rounded'
+                        className='px-2 md:px-4 text-[10px] md:text-[20px] py-2 bg-white text-black rounded'
                     >
                         {sortedChapters.map((chapter) => (
                             <option key={chapter.id} value={chapter.id}>
@@ -94,7 +96,7 @@ function MangaChapter() {
                     </select>
                     <Link
                         to={`/manga/${id}/chapter/${selectedChapter}`}
-                        className='px-4 py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-400'
+                        className='px-2 md:px-4 text-[10px] md:text-[20px] py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-400'
                     >
                         Go
                     </Link>
@@ -102,17 +104,25 @@ function MangaChapter() {
                 {selectedChapter !== sortedChapters[sortedChapters.length - 1]?.id && (
                     <Link
                         to={`/manga/${id}/chapter/${sortedChapters[currentIndex + 1]?.id}`}
-                        className='px-4 py-2 text-white bg-gray-800 rounded hover:bg-gray-700'
+                        className='px-2 md:px-4 text-[10px] md:text-[20px] py-2 text-white bg-gray-800 rounded hover:bg-gray-700'
                         onClick={handleNextChapter}
                     >
-                        Next Chapter
+                        {windowWidth > 768 ? "Next Chapter" : "Next Chap"}
                     </Link>
                 )}
             </div>
-            <div className='mt-7'>
-                {data?.data.map((img) => (
-                    <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`${data.baseUrl}/data/${data.hash}/${img}`)}`} alt='manga img' loading="lazy" className='mx-auto object-cover mb-3 w-[700px]' key={img} />
-                ))}
+            <div className='mt-10 md:mt-16'>
+                {
+                    data?.data.map((img) => (
+                        <img
+                            src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`${data.baseUrl}/data/${data.hash}/${img}`)}`}
+                            alt='manga img'
+                            loading="lazy"
+                            className='mx-auto object-cover mb-3 w-[700px]'
+                            key={img}
+                        />
+                    ))
+                }
             </div>
         </div>
     );

@@ -37,11 +37,11 @@ const MangaCard = ({ manga, setIsLastItem }) => {
 
     if (isCoverLoading || isStatsLoading) {
         // return <p>Loading manga details...</p>;
-        return <MangaCardSkeleton />;
+        return <div className='mr-5'><MangaCardSkeleton /></div>;
     }
 
     if (isCoverError || isStatsError) {
-        return <MangaCardSkeleton />;
+        return <div className='mr-5'><MangaCardSkeleton /></div>;
     }
 
     if (!coverFilename) {

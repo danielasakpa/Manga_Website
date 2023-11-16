@@ -70,11 +70,11 @@ const CarouselImage = ({ manga }) => {
             {isCoverError || ischaptersError ? <CarouselImageSkeleton /> : null}
             {!coverFilename && <p>No cover found for manga ID</p>}
             {sortedChapters === null ? (
-                <div className="absolute bottom-4  left-2 md:left-4 font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
+                <div className="absolute bottom-4 left-2 md:left-4 text-[13px] md:text-[16px] font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
                     No Chapter
                 </div>
             ) : (
-                <div className="absolute bottom-4  left-2 md:left-4 font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
+                <div className="absolute bottom-4 left-2 md:left-4 font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
                     Chapter {sortedChapters[sortedChapters.length - 1].attributes.chapter}
                 </div>
             )}

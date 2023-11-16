@@ -152,13 +152,13 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
   // const searchButtonText = isMangaNameEmpty ? 'Filter' : 'Search';
 
   return (
-    <div className="w-[70%] p-7 mx-auto bg-white  border border-gray-300 rounded-lg relative">
+    <div className="w-[90%] md:w-[70%] p-7 mx-auto bg-white  border border-gray-300 rounded-lg relative">
       <button onClick={() => handleCloseSearch()}>
         <XCircleIcon className="w-7 h-7 text-black absolute top-2 right-2" />
       </button>
-      <h2 className="mb-4 text-2xl font-bold">Search Manga</h2>
+      <h2 className="mb-4 text-[20px] md:text-2xl font-bold">Search Manga</h2>
       <div className="mb-4">
-        <label htmlFor="mangaName" className="block mb-1">Manga Name:</label>
+        <label htmlFor="mangaName" className="block mb-1 text-[15px] md:text-sm">Manga Name:</label>
         <input
           type="text"
           id="mangaName"
@@ -168,7 +168,7 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
         />
       </div>
       <div className="mb-4">
-        <h3 className="mb-2 text-lg font-bold">Tags:</h3>
+        <h3 className="mb-2 font-bold text-[15px] md:text-lg">Tags:</h3>
         <div>
           {categories.map((tag) => {
             const existingTag = tags.find((t) => t.name === tag);
@@ -181,7 +181,7 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
             return (
               <button
                 key={tag}
-                className={`mr-2 mb-2 px-3 py-2 text-sm font-medium rounded ${buttonClasses}`}
+                className={`mr-2 mb-2 px-3 py-2 text-[10px] md:text-sm font-medium rounded ${buttonClasses}`}
                 onClick={() => handleTagClick(tag)}
               >
                 {tag}
@@ -196,12 +196,12 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
         </div>
       </div>
       <div className="mb-4">
-        <h3 className="mb-2 text-lg font-bold">Status:</h3>
+        <h3 className="mb-2 font-bold text-[15px] md:text-lg">Status:</h3>
         <div>
           {statuses.map((statusOption) => (
             <button
               key={statusOption}
-              className={`mr-2 mb-2 px-3 py-2 text-sm font-medium rounded ${status === statusOption ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'
+              className={`mr-2 mb-2 px-3 py-2 text-[10px] md:text-sm font-medium rounded ${status === statusOption ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'
                 }`}
               onClick={() => handleStatusClick(statusOption)}
             >
@@ -212,10 +212,10 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
         </div>
       </div>
       <div className="mb-4">
-        <label htmlFor="order" className="block mb-1">Order:</label>
+        <label htmlFor="order" className="block mb-1 text-[15px] md:text-lg">Order:</label>
         <select
           id="order"
-          className="w-full px-3 py-2 border border-gray-300 rounded"
+          className="w-full px-3 py-2 text-[10px] md:text-sm border border-gray-300 rounded"
           value={order}
           onChange={handleOrderChange}
         >
@@ -228,10 +228,10 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
         </select>
       </div>
       <div className="mb-4">
-        <label htmlFor="orderDirection" className="block mb-1">Order Direction:</label>
+        <label htmlFor="orderDirection" className="block mb-1 text-[15px] md:text-lg">Order Direction:</label>
         <select
           id="orderDirection"
-          className="w-full px-3 py-2 border border-gray-300 rounded"
+          className="w-full px-3 py-2 text-[10px] md:text-sm border border-gray-300 rounded"
           value={orderDirection}
           onChange={handleOrderDirectionChange}
         >
@@ -244,7 +244,7 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading }) => {
         </select>
       </div>
       <button
-        className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400"
+        className="px-4 py-2 text-white text-[10px] md:text-sm bg-blue-500 rounded hover:bg-blue-400"
         onClick={handleSearch}
       >
         {isMangaNameEmpty ? 'Filter' : 'Search'}

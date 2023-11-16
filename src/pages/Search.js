@@ -20,13 +20,13 @@ const Search = () => {
     }
 
     return (
-        <div className='bg-[#1F1F1F] px-5 py-5 min-h-[100%] relative'>
+        <div className='bg-[#1F1F1F] px-5 py-5 h-[max-content] relative overflow-hidden'>
             <div className='flex top-0 z-20 justify-between'>
-                <p className='px-4 py-2 ml-2 text-white text-[25px]'>
+                <p className='px-2 md:px-4 py-2 text-[10px] md:text-[25px] ml-2 text-white'>
                     ALL <span className='text-[#F4B333]'>UPLOADS</span>
                 </p>
                 <button
-                    className='flex justify-center items-center w-[150px] px-5 py-1 text-white bg-blue-500 rounded hover:bg-blue-400'
+                    className='flex justify-center items-center w-[150px] text-[10px] md:text-[25px] px-2 md:px-5 py-1 text-white bg-blue-500 rounded hover:bg-blue-400'
                     onClick={() => handleSearch()}
                 >
                     Search
@@ -37,15 +37,20 @@ const Search = () => {
                 <SearchComponent setMangas={setMangas} setVis={setVis} setMangaVis={setMangaVis} setLoading={setLoading} />
             </div>
             {isLoading ? (
-                <div className="searchPopOut">
-                    <MagnifyingGlass
-                        type="Audio"
-                        height={80}
-                        width={80}
-                        color="green"
-                        ariaLabel="loading"
-                    />
-                </div>
+                <>
+                    <div className='no-manga'>
+                        <p className="text-white text-center">No manga</p>
+                    </div>
+                    <div className="searchPopOut">
+                        <MagnifyingGlass
+                            type="Audio"
+                            height={80}
+                            width={80}
+                            color="green"
+                            ariaLabel="loading"
+                        />
+                    </div>
+                </>
             ) : (
                 mangas.length > 0 ? (
                     <div className={`${mangaVis ? "block" : "hidden"} grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 justify-items-center content-center gap-4 mt-16`}>
@@ -58,7 +63,9 @@ const Search = () => {
                         ))}
                     </div>
                 ) : (
-                    <p className="text-white text-center w-full">No manga</p>
+                    <div className='no-manga'>
+                        <p className="text-white text-center">No manga</p>
+                    </div>
                 )
             )}
         </div>

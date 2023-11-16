@@ -3,7 +3,7 @@ import React from 'react'
 const MangaCardSkeleton = () => {
     return (
         <div
-            className={`relative rounded-lg cursor-pointer w-[160px] h-[200px] lg:w-[300px] lg:h-[530px] mr-5 overflow-hidden shadow-lg bg-white transform transition-transform animate-pulse`}
+            className={`relative rounded-lg cursor-pointer w-[160px] h-[200px] lg:w-[300px] lg:h-[530px] overflow-hidden shadow-lg bg-white transform transition-transform animate-pulse`}
 
         >
             <div className="h-[200px] w-[100%] md:h-[300px] bg-gray-200 animate-pulse" />

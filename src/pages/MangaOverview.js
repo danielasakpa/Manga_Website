@@ -65,7 +65,7 @@ function MangaOverview() {
     ];
 
     return (
-        <div className='text-white w-[90%] mt-4 mx-auto'>
+        <div className='text-white w-[90%] h-[100%] mt-4 mx-auto'>
             {isCoverLoading || isStatsLoading || isLoading || isCoverError || isStatsError || isError || loadingRelatedManga ? (
                 <>
                     <MangaOverviewSkeleton />
@@ -75,7 +75,7 @@ function MangaOverview() {
                             <HorizontalScrollMenu>
                                 {
                                     [...Array(20)].map((_, index) => (
-                                        <MangaCardSkeleton itemId={index} title={index} key={index} />
+                                        <div className='mr-5'><MangaCardSkeleton itemId={index} title={index} key={index} /></div>
                                     ))
                                 }
                             </HorizontalScrollMenu>
@@ -87,7 +87,7 @@ function MangaOverview() {
                             <HorizontalScrollMenu>
                                 {
                                     [...Array(20)].map((_, index) => (
-                                        <MangaCardSkeleton itemId={index} title={index} key={index} />
+                                        <div className='mr-5'><MangaCardSkeleton itemId={index} title={index} key={index} /></div>
                                     ))
                                 }
                             </HorizontalScrollMenu>
@@ -108,7 +108,7 @@ function MangaOverview() {
                     </div>
                     <div className='flex flex-col md:flex-row justify-between items-center md:items-start mt-8 md:space-x-10'>
                         <div className='h-[300px] w-[90%] md:w-[400px] shadow-yellow rounded-md'>
-                            <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={mangaData?.attributes.title.en} className=" h-full w-full object-cover " />
+                            <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={mangaData?.attributes.title.en} className=" h-full w-full object-cover rounded-md" />
                         </div>
                         <div className='mt-4 w-[95%] md:w-full'>
                             <p className="mb-3 mt-5 md:mt-0 text-[14px] text-start text-white">{mangaData?.attributes.description.en ? mangaData?.attributes.description.en : mangaData?.attributes.title.en}</p>

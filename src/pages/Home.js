@@ -44,7 +44,7 @@ function Home() {
                         {categories.map((category, index) => (
                             <button
                                 key={index}
-                                className={`px-6 py-2 rounded-md font-semibold tracking-[0.2em] border border-[#1F1F1F] text-[##1F1F1F]
+                                className={`px-2 md:px-6 py-2 text-[11px] md:text-[20px] rounded-md font-semibold tracking-[0.2em] border border-[#1F1F1F] text-[##1F1F1F]
                                 ${selectedCategory === category
                                         ? "bg-blue-500 text-white"
                                         : "bg-gray-200 text-[#1F1F1F]"
