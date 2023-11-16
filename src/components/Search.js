@@ -54,8 +54,12 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
       orderDirection,
     };
 
-    setLoading(true);
+    if (!searchParams.mangaName.trim()) {
+      console.error('Manga name is empty');
+      return;
+    }
 
+    setLoading(true);
 
     setVis(prevVis => !prevVis);
     setMangaVis(true);

@@ -70,7 +70,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
     return (
 
         <div
-            className={`relative rounded-md md:rounded-lg cursor-pointer w-[120px] h-[170px] xm:w-[160px] xm:h-[200px] lg:w-[300px] lg:h-[530px]  overflow-hidden shadow-lg bg-white transform transition-transform ${isHovered ? 'scale-105' : ''
+            className={`relative rounded-md md:rounded-lg cursor-pointer w-[120px] h-[170px] xm:w-[160px] xm:h-[200px] md:w-[300px] md:h-[300px] lg:w-[300px] lg:h-[530px]  overflow-hidden shadow-lg bg-white transform transition-transform ${isHovered ? 'scale-105' : ''
                 }`}
 
             onMouseEnter={handleMouseEnter}
@@ -92,7 +92,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
             </div>
 
             <div
-                className={`absolute bottom-0 left-0 right-0 lg:hidden bg-[#1F1F1F] bg-opacity-80 text-white text-center ${isHovered ? 'opacity-100' : 'opacity-0'
+                className={`absolute bottom-0 left-0 right-0 lg:hidden md:pb-5 bg-[#1F1F1F] bg-opacity-80 text-white text-center ${isHovered ? 'opacity-100' : 'opacity-0'
                     } transition-opacity duration-300`}
             >
                 <p className="p-2 text-[12px] font-semibold">{title.split(" ").slice(0, 2).join(" ")}</p>
