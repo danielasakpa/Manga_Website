@@ -35,8 +35,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
     const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = MangaCover(id);
     const { data: statistics, isLoading: isStatsLoading, isError: isStatsError, error: statsError } = MangaStatistics(id);
 
-    if (isCoverLoading || isStatsLoading) {
-        // return <p>Loading manga details...</p>;
+    if (isStatsLoading) {
         return (
             <MangaCardSkeleton />
         );
@@ -46,10 +45,6 @@ const MangaCard = ({ manga, setIsLastItem }) => {
         return (
             <MangaCardSkeleton />
         );
-    }
-
-    if (!coverFilename) {
-        return <p>No cover found for manga ID</p>;
     }
 
     const imageUrl = coverFilename;
@@ -77,7 +72,14 @@ const MangaCard = ({ manga, setIsLastItem }) => {
             onMouseLeave={handleMouseLeave}
             onClick={handleClick}
         >
-            <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={attributes.title.en} loading='lazy' className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
+            <div className='flex justify-center items-center h-[200px] w-[100%] md:h-[300px]'>
+                {
+                    isCoverLoading ?
+                        <div className="h-[200px] w-[100%] md:h-[300px] bg-gray-200 animate-pulse" />
+                        :
+                        <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={attributes.title.en} loading='lazy' className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
+                }
+            </div>
             <div
                 className={`absolute top-0 left-0 right-0 bottom-0 hidden lg:flex bg-[#1F1F1F] bg-opacity-80 flex flex-col items-center justify-center ${isHovered ? 'opacity-100 scale-105' : 'opacity-0'
                     } transition-opacity duration-300`}
@@ -114,7 +116,7 @@ const MangaCard = ({ manga, setIsLastItem }) => {
             <div className="hidden px-2 py-2 lg:block">
                 <div className="flex flex-col px-2 mt-1 mb-2">
                     <div className="mb-2">
-                        <span className="mb-2 mr-2 text-gray-500">{follows}</span>
+                        <span className="mb-2 mr-2 text-gray-500">{follows.toLocaleString()}</span>
                         <span className="text-[#1F1F1F] mb-2 font-bold">follows</span>
                     </div>
                     <div className='flex flex-wrap space-y-2'>

@@ -60,15 +60,15 @@ function Home() {
             <div className='py-5 bg-[#1F1F1F]'>
                 <div className='flex flex-col items-center justify-center px-[20px] py-4'>
                     <h4 className='gradient-1 font-Bebas font-bold text-[25px] md:text-[45px] my-1 self-start'>Most Viewed</h4>
-                    <MangaCards type={"viewedMost"} order={{ rating: 'desc', followedCount: 'desc' }} limit={50} includedTags={['action']} excludedTags={['romance']} />
+                    <MangaCards type={"viewedMost"} order={{ rating: 'desc', followedCount: 'desc' }} limit={20} includedTags={['action']} excludedTags={['romance']} />
                 </div>
                 <div className='flex flex-col items-center justify-center px-[20px] py-4'>
                     <h4 className='gradient-2 font-Bebas font-bold text-[25px] md:text-[45px] my-1 self-start'>Popular New</h4>
-                    <MangaCards type={"popularNew"} order={{ year: 'desc', rating: 'desc' }} limit={50} includedTags={[]} excludedTags={[]} />
+                    <MangaCards type={"popularNew"} order={{ year: 'desc', rating: 'desc' }} limit={20} includedTags={[]} excludedTags={[]} />
                 </div>
                 <div className='flex flex-col items-center justify-center px-[20px] py-4'>
                     <h4 className='gradient-3 font-Bebas font-bold text-[25px] md:text-[45px] my-1 self-start'>Recently Added</h4>
-                    <MangaCards type={"recentlyAdded"} order={{ year: 'desc' }} limit={50} includedTags={['comedy', 'slice of life']} excludedTags={['horror']} />
+                    <MangaCards type={"recentlyAdded"} order={{ year: 'desc' }} limit={20} includedTags={['comedy', 'slice of life']} excludedTags={['horror']} />
                 </div>
             </div>
         </div>

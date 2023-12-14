@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-async function fetchMangas(order, limit, includedTags, excludedTags) {
+export async function fetchMangas(order, limit, includedTags, excludedTags, page) {
     const tagsResponse = await axios({
         method: 'get',
         url: `https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/tag`)}`,
@@ -31,12 +31,15 @@ async function fetchMangas(order, limit, includedTags, excludedTags) {
             excludedTags: excludedTagIDs,
             ...finalOrderQuery,
             limit,
+            offset: page * limit,  // Calculate offset based on page number
         },
     });
 
-    return response.data.data;
+    return response.data;
 }
 
-export function useMangasFetcher(type, order, limit, includedTags, excludedTags) {
-    return useQuery([type, type], () => fetchMangas(order, limit, includedTags, excludedTags));
+export function useMangasFetcher(type, order, limit, includedTags, excludedTags, page) {
+    return useQuery([type, page], () => fetchMangas(order, limit, includedTags, excludedTags, page), {
+        keepPreviousData: true, // Ensure previous data is not discarded during pagination
+    });
 }

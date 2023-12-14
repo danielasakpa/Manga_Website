@@ -33,7 +33,7 @@ const CarouselImage = ({ manga }) => {
         }
     }, [chaptersData]);
 
-    if (isCoverLoading || isChaptersLoading) {
+    if (isChaptersLoading) {
         return <CarouselImageSkeleton />;
     }
 

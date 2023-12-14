@@ -17,17 +17,19 @@ const Carousel = () => {
     const includedTags = ['Action', 'Shounen', "Thriller"];
     const excludedTags = ['Harem'];
 
-    const { data, isLoading, isError, error } = useMangasFetcher(type, order, limit, includedTags, excludedTags);;
+    const page = 0;
+
+    const { data, isLoading, isError, error } = useMangasFetcher(type, order, limit, includedTags, excludedTags, page);;
 
     const handleArrow = (direction) => {
         if (direction === "l") {
             setIndex((prevIndex) =>
-                prevIndex !== 0 ? prevIndex - 1 : data.length - 1
+                prevIndex !== 0 ? prevIndex - 1 : data.data.length - 1
             );
         }
         if (direction === "r") {
             setIndex((prevIndex) =>
-                prevIndex !== data.length - 1 ? prevIndex + 1 : 0
+                prevIndex !== data.data.length - 1 ? prevIndex + 1 : 0
             );
         }
     };
@@ -76,7 +78,7 @@ const Carousel = () => {
                             className="flex h-[400px] rounded-lg transition-transform duration-300"
                             style={{ transform: `translateX(${-index * 100}%)` }}
                         >
-                            {data.map((manga, i) => (
+                            {data.data.map((manga, i) => (
                                 <CarouselImage key={i} manga={manga} />
                             ))}
                         </div>
