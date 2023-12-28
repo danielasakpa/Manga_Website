@@ -1,9 +1,31 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AtSymbolIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import authBackground from "../assets/authBackground.jpg";
 import googleLogo from "../assets/googleLogo.svg";
+import { useAuth } from "../Auth/AuthProvider";
 
 const Login = () => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [focused, setFocused] = useState("false");
+
+  const { login } = useAuth();
+
+  const handleLogIn = async (e) => {
+    e.preventDefault();
+
+    const logInParams = {
+      email,
+      password
+    }
+
+    console.log(logInParams);
+
+    await login(logInParams);
+  }
+
   return (
     <section className="bg-white text-sm md:grid md:grid-cols-2 justify-items-center">
       <div className=" max-w-sm mx-auto px-4 py-16 ">
@@ -19,11 +41,17 @@ const Login = () => {
 
         <form action="">
           {/* Email Input */}
-          <div className="relative mb-7">
+          <div className="relative mb-16">
             <input
               type="text"
               placeholder="Email"
               className="peer h-11 w-full border-2 border-gray-400 rounded-lg pl-4 pr-12 text-gray-500 text-sm placeholder-transparent"
+              value={email}
+              pattern={`[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+`}
+              required
+              focused={focused}
+              onBlur={() => setFocused("true")}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
               Email
@@ -32,11 +60,14 @@ const Login = () => {
           </div>
 
           {/* Password Input */}
-          <div className="relative">
+          <div className="relative mb-16">
             <input
               type="password"
               placeholder="Password"
               className="peer h-11 w-full border-2 border-gray-400 rounded-lg pl-4 pr-12 text-gray-500 text-sm placeholder-transparent"
+              value={password}
+              required
+              onChange={(e) => setPassword(e.target.value)}
             />
             <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
               Password
@@ -57,7 +88,10 @@ const Login = () => {
           </div>
 
           {/* Buttons */}
-          <button className="h-11 w-full  text-center font-semibold text-white bg-[#1B6FA8] hover:bg-[#155580] rounded-lg  mb-5">
+          <button
+            className="h-11 w-full  text-center font-semibold text-white bg-[#1B6FA8] hover:bg-[#155580] rounded-lg  mb-5"
+            onClick={handleLogIn}
+          >
             Log In
           </button>
           <button className="h-11 w-full flex gap-2 justify-center items-center border-2 border-gray-400 rounded-lg text-gray-500 mb-4">

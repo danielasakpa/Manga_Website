@@ -1,6 +1,6 @@
 import React from 'react'
 import MainRouter from './MainRouter'
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, ScrollRestoration } from "react-router-dom";
 import { MangaProvider } from './context/MangaContext';
 
 const App = () => {
@@ -9,6 +9,7 @@ const App = () => {
       <MangaProvider>
         <BrowserRouter>
           <MainRouter />
+          {/* <ScrollRestoration /> */}
         </BrowserRouter>
       </MangaProvider>
     </div>

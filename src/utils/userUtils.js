@@ -1,59 +1,51 @@
-const axios = require('axios');
+import axios from 'axios';
 
 // Utility function to get all users
-const getAllUsers = async () => {
+export const getAllUsers = async () => {
     try {
         const response = await axios.get('/users');
         return response.data;
     } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error.response?.data?.message || 'An error occurred while fetching users.');
     }
 };
 
 // Utility function to get one user by ID
-const getOneUser = async (id) => {
+export const getOneUser = async (id) => {
     try {
         const response = await axios.get(`/users/${id}`);
         return response.data;
     } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error.response?.data?.message || 'An error occurred while fetching the user.');
     }
 };
 
 // Utility function to create a user
-const createUser = async (userData) => {
+export const createUser = async (userData) => {
     try {
-        const response = await axios.post('/users', userData);
+        const response = await axios.post('http://localhost:5000/api/user', userData);
         return response.data;
     } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error.response?.data?.message || 'An error occurred while creating the user.');
     }
 };
 
 // Utility function to update a user by ID
-const updateUser = async (id, userData) => {
+export const updateUser = async (id, userData) => {
     try {
         const response = await axios.put(`/users/${id}`, userData);
         return response.data;
     } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error.response?.data?.message || 'An error occurred while updating the user.');
     }
 };
 
 // Utility function to delete a user by ID
-const deleteUser = async (id) => {
+export const deleteUser = async (id) => {
     try {
         const response = await axios.delete(`/users/${id}`);
         return response.data;
     } catch (error) {
-        throw new Error(error.message);
+        throw new Error(error.response?.data?.message || 'An error occurred while deleting the user.');
     }
-};
-
-module.exports = {
-    getAllUsers,
-    getOneUser,
-    createUser,
-    updateUser,
-    deleteUser
 };

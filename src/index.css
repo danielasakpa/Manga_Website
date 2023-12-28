@@ -101,6 +101,27 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
+.formInput {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+}
+
+.form-span {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+}
+
+input:invalid[focused="true"] {
+  border: 1px solid red;
+}
+
+input:invalid[focused="true"] ~ .form-span {
+  display: block;
+}
+
 @media screen and (max-width: 768px) {
   .react-horizontal-scrolling-menu--scroll-container {
     padding: 0px;

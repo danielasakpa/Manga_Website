@@ -54,6 +54,6 @@ const SkeletonText = () => {
 
 const SkeletonButton = () => {
     return (
-        <div className="animate-pulse bg-white bg-opacity-20 px-3 py-1 rounded-md font-semibold text-center text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F] w-full" />
+        <div className="animate-pulse bg-white bg-opacity-20 px-3 py-3 rounded-md font-semibold text-center text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F] w-full" />
     );
 };

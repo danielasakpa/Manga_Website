@@ -18,9 +18,7 @@ const Search = () => {
     console.log(isLoading)
 
     const handleSearch = () => {
-        setMangaVis(false);
         setVis(prevVis => !prevVis)
-        clearMangas()
     }
 
     const handleCloseError = () => {
@@ -80,7 +78,7 @@ const Search = () => {
 
             ) : (
                 mangas.length > 0 ? (
-                    <div className={`${mangaVis ? "block" : "hidden"} grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 justify-items-center content-center gap-4 mt-16`}>
+                    <div className={`${mangaVis ? "block" : "hidden"} grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 justify-items-center content-center gap-y-8 mt-16`}>
                         {mangas.map((manga) => (
                             <MangaCard
                                 key={manga.id}

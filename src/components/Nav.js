@@ -4,11 +4,14 @@ import DanImg from "../assets/dan.png";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useMangaContext } from '../context/MangaContext';
+import { useAuth } from '../Auth/AuthProvider';
 
 function Nav() {
     const [mangaName, setMangaName] = useState('');
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { setMangas, setLoading } = useMangaContext();
+    const { isAuthenticated } = useAuth();
+
 
     async function handleSearch() {
         setLoading(true);
@@ -80,13 +83,15 @@ function Nav() {
                         )}
                     </button>
                 </div>
-                <div className="flex items-center space-x-2 cursor-pointer hidden lg:block">
-                    <img
-                        src={DanImg}
-                        alt="Profile"
-                        className="w-10 h-10 rounded-full"
-                    />
-                </div>
+                <Link to={isAuthenticated() ? "/profile" : "/login"} >
+                    <div className="flex items-center space-x-2 cursor-pointer hidden lg:block">
+                        <img
+                            src={DanImg}
+                            alt="Profile"
+                            className="w-10 h-10 rounded-full"
+                        />
+                    </div>
+                </Link>
                 <div className="flex items-center space-x-2 cursor-pointer block lg:hidden">
                     <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-700 focus:outline-none lg:hidden">
                         {isMobileMenuOpen ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-10">

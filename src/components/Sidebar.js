@@ -18,7 +18,7 @@ const menuItems = [
 
 const generalItems = [
     { icon: <UserCircleIcon className="w-6 h-6" />, label: 'Profile', link: '#' },
-    { icon: <BookmarkSquareIcon className="w-6 h-6" />, label: 'My List', link: '#' },
+    { icon: <BookmarkSquareIcon className="w-6 h-6" />, label: 'My List', link: '/my-list' },
     { icon: <Cog6ToothIcon className="w-6 h-6" />, label: 'Settings', link: '#' },
 ];
 

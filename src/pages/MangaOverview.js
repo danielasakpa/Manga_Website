@@ -26,18 +26,19 @@ function MangaOverview() {
     useEffect(() => {
         const fetchRelatedManga = async () => {
             try {
-                const relatedMangaData = [];
+                // const relatedMangaData = [];
                 if (isCoverLoading === false) {
                     for (const relationship of mangaData?.relationships || []) {
                         if (relationship.type === 'manga') {
                             const response = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/${relationship.id}`)}`);
                             const manga = response.data.data;
-                            relatedMangaData.push(manga);
+                            // relatedMangaData.push(manga);
+                            setRelatedManga(prevList => [...prevList, manga]);
                         }
                     }
                     setLoadingRelatedManga(false)
                 }
-                setRelatedManga(relatedMangaData);
+                // setRelatedManga(relatedMangaData);
             } catch (error) {
                 console.error('Error fetching related manga:', error);
             }
@@ -64,6 +65,8 @@ function MangaOverview() {
         { label: 'follows', value: follows || 0 }
     ];
 
+
+    console.log(statistics)
     return (
         <div className='text-white w-[90%] h-[100%] mt-4 mx-auto'>
             {isCoverLoading || isStatsLoading || loadingRelatedManga || isLoading || isCoverError || isStatsError || isError ? (
@@ -75,7 +78,7 @@ function MangaOverview() {
                             <HorizontalScrollMenu>
                                 {
                                     [...Array(20)].map((_, index) => (
-                                        <div className='mr-5'>
+                                        <div key={index} className='mr-5'>
                                             <MangaCardSkeleton itemId={index} title={index} key={index} />
                                         </div>
                                     ))
@@ -89,7 +92,7 @@ function MangaOverview() {
                             <HorizontalScrollMenu>
                                 {
                                     [...Array(20)].map((_, index) => (
-                                        <div className='mr-5'>
+                                        <div key={index} className='mr-5'>
                                             <MangaCardSkeleton itemId={index} title={index} key={index} />
                                         </div>
                                     ))

@@ -54,25 +54,28 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
       orderDirection,
     };
 
-    if (!searchParams.mangaName.trim()) {
-      console.error('Manga name is empty');
-      return;
-    }
+    // if (searchParams.mangaName) {
+    //   if (!searchParams.mangaName.trim()) {
+    //     console.error('Manga name is empty');
+    //     return;
+    //   }
+    // }
 
     setLoading(true);
 
     setVis(prevVis => !prevVis);
     setMangaVis(true);
     try {
-      const tagsResponse = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/tag`)}`);
+      const tagsResponse = await axios.get(`https://api.mangadex.org/manga/tag`);
 
       if (searchParams.mangaName) {
+        console.log("searchParams", searchParams.mangaName)
         const resp = await axios({
           method: 'GET',
-          url: `https://manga-proxy-server.onrender.com/manga?url=${encodeURIComponent(`https://api.mangadex.org/manga`)}`,
+          url: `https://api.mangadex.org/manga`,
           withCredentials: false,
           params: {
-            title: searchParams.mangaName
+            title: searchParams.mangaName.trim()
           }
         });
 
@@ -82,13 +85,17 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
         return;
       }
 
-      const includedTagIDs = tagsResponse.data.data
-        .filter(tag => searchParams.includedTags.includes(tag.attributes.name.en))
-        .map(tag => tag.id);
+      const includedTagIDs = searchParams.includedTags !== []
+        ? tagsResponse.data.data
+          .filter(tag => searchParams.includedTags.includes(tag.attributes.name.en))
+          .map(tag => tag.id)
+        : [];
 
-      const excludedTagIDs = tagsResponse.data.data
-        .filter(tag => searchParams.excludedTags.includes(tag.attributes.name.en))
-        .map(tag => tag.id);
+      const excludedTagIDs = searchParams.includedTags !== []
+        ? tagsResponse.data.data
+          .filter(tag => searchParams.excludedTags.includes(tag.attributes.name.en))
+          .map(tag => tag.id)
+        : [];
 
       const finalOrderQuery = {};
 
@@ -100,9 +107,10 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
         finalOrderQuery[`order[${key}]`] = value;
       }
 
+
       const response = await axios({
         method: 'get',
-        url: `https://manga-proxy-server.onrender.com/mangas?url=https://api.mangadex.org/manga`,
+        url: `https://api.mangadex.org/manga`,
         withCredentials: false,
         params: {
           includedTags: includedTagIDs,

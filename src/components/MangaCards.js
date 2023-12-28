@@ -26,13 +26,11 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
         setPage(prevPage => prevPage + 1);
 
         if ((page * limit) <= data.total) {
-            console.log(page)
-            queryClient.prefetchQuery(['properties', page], () => fetchMangas(order, limit, includedTags, excludedTags, page));
+            queryClient.prefetchQuery([type, page], () => fetchMangas(order, includedTags, excludedTags, limit, page));
         }
     };
 
-    console.log(data)
-
+    console.log(mangaList)
     return (
         <HorizontalScrollMenu>
             {isLoading || isError ? (
@@ -42,11 +40,11 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
                     </div>
                 ))
             ) : (
-                mangaList.map((manga) => (
-                    <div className="mr-5" key={manga.id}>
+                mangaList.map((manga, i) => (
+                    <div className="mr-5" key={manga.id + i}>
                         <MangaCard
-                            itemId={manga.id}
-                            title={manga.id}
+                            itemId={manga.id + i}
+                            title={manga.id + i}
                             manga={manga}
                             setIsLastItem={setIsLastItem}
                         />

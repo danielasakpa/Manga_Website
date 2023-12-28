@@ -8,6 +8,9 @@ const CarouselImage = ({ manga }) => {
     const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = MangaCover(manga.id);
     const { data: chaptersData, isLoading: isChaptersLoading, isError: ischaptersError, error: chaptersError } = useMangaChapters(manga.id);
 
+
+    console.log(chaptersData);
+
     const [sortedChapters, setSortedChapters] = useState(null);
 
     useEffect(() => {
