@@ -26,19 +26,16 @@ function MangaOverview() {
     useEffect(() => {
         const fetchRelatedManga = async () => {
             try {
-                // const relatedMangaData = [];
                 if (isCoverLoading === false) {
                     for (const relationship of mangaData?.relationships || []) {
                         if (relationship.type === 'manga') {
                             const response = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/${relationship.id}`)}`);
                             const manga = response.data.data;
-                            // relatedMangaData.push(manga);
                             setRelatedManga(prevList => [...prevList, manga]);
                         }
                     }
                     setLoadingRelatedManga(false)
                 }
-                // setRelatedManga(relatedMangaData);
             } catch (error) {
                 console.error('Error fetching related manga:', error);
             }
