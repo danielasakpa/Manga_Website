@@ -30,7 +30,6 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
         }
     };
 
-    console.log(mangaList)
     return (
         <HorizontalScrollMenu>
             {isLoading || isError ? (

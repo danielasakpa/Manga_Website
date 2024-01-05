@@ -5,13 +5,14 @@ import { useParams, Link } from 'react-router-dom';
 
 const Manga = () => {
     let { id } = useParams();
+
     const menuItems = [
         { label: 'Overview', link: 'overview' },
         { label: 'Chapters', link: 'chapters' },
         { label: 'Recommendations', link: 'recommendations' }
     ];
     return (
-        <div className='bg-[#1F1F1F] w-full h-[max-content] px-2 pt-2 pb-8 md:p-5'>
+        <div className='bg-[#1F1F1F] w-full h-[max-content] px-2 pt-2 pb-8 md:p-5 relative'>
             <div className='flex mx-auto w-[100%] md:w-[95%] text-center text-white mt-5 '>
                 {
                     menuItems.map((item, i) => (

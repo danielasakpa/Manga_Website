@@ -6,7 +6,7 @@ import MangaCardSkeleton from './MangaCardSkeleton';
 import { Link } from "react-router-dom";
 
 
-const MangaCard = ({ manga, setIsLastItem }) => {
+const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
     const { id, attributes } = manga;
 
     const { isLastItemVisible } = useContext(VisibilityContext);

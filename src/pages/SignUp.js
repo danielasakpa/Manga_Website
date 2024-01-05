@@ -82,7 +82,8 @@ const SignUp = () => {
               placeholder="Email"
               className="peer h-11 w-full border-2 border-gray-400 rounded-lg pl-4 pr-12 text-gray-500 text-sm placeholder-transparent"
               value={email}
-              pattern={`[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+`}
+              // pattern={`[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+`}
+              pattern={`[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+`}
               required
               focused={focused}
               onBlur={() => setFocused("true")}

@@ -4,17 +4,21 @@ import { AtSymbolIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import authBackground from "../assets/authBackground.jpg";
 import googleLogo from "../assets/googleLogo.svg";
 import { useAuth } from "../Auth/AuthProvider";
+import { BallTriangle } from 'react-loader-spinner'
 
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [focused, setFocused] = useState("false");
+  const [isLoading, setisLoading] = useState(false);
 
   const { login } = useAuth();
 
   const handleLogIn = async (e) => {
     e.preventDefault();
+
+    setisLoading(true);
 
     const logInParams = {
       email,
@@ -24,6 +28,8 @@ const Login = () => {
     console.log(logInParams);
 
     await login(logInParams);
+
+    setisLoading(false);
   }
 
   return (
@@ -125,6 +131,25 @@ const Login = () => {
         className=" h-full w-full"
         alt="auth background"
       />
+      {isLoading && (
+        <>
+          <div
+            className={`flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
+          >
+            <BallTriangle
+              height="80"
+              width="80"
+              radius={5}
+              color="#ffffff"
+              ariaLabel="ball-triangle-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </div>
+          <div className={`"opacity-25 fixed inset-0 z-40 bg-black`}></div>
+        </>
+      )}
     </section>
   );
 };

@@ -1,32 +1,53 @@
+// Import statements
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { useManga } from "../utils/fetchManga"
+import { useParams, Link } from 'react-router-dom';
+import { useManga } from "../utils/fetchManga";
 import { MangaCover } from "../utils/fetchMangaCover";
 import { MangaStatistics } from "../utils/fetchMangaStatistics";
-import HorizontalScrollMenu from '../components/HorizontalScrollMenu';
-import MangaCards from '../components/MangaCards';
-import MangaCard from '../components/MangaCard';
-import MangaCardSkeleton from '../components/MangaCardSkeleton';
+import RelatedMangaSkeleton from '../components/RelatedMangaSkeleton';
+import YouMightLikeThisSkeleton from '../components/YouMightLikeThisSkeleton';
+import MangaDetailsSection from '../components/MangaDetailsSection';
+import MangaImageAndDescriptionSection from '../components/MangaImageAndDescriptionSection';
+import RelatedMangaSection from '../components/RelatedMangaSection';
+import RecommendedMangaSection from '../components/RecommendedMangaSection';
 import { MangaOverviewSkeleton } from '../components/MangaOverviewSkeleton';
+import { addManga, updateManga, getManga, deleteManga } from '../utils/readingListUtils';
+import { useAuth } from '../Auth/AuthProvider';
+import showToast from '../utils/toastUtils';
+import { XCircleIcon } from "@heroicons/react/24/outline";
+import LogIngSvg from '../assets/Login-bro.svg';
 
 function MangaOverview() {
+    // Get manga id from URL params
     let { id } = useParams();
 
+    const { isAuthenticated, token } = useAuth();
+
+    // State variables
     const [selectedReading, setSelectedReading] = useState("");
     const [relatedManga, setRelatedManga] = useState([]);
     const [loadingRelatedManga, setLoadingRelatedManga] = useState(true);
-    const [isLastItem, setIsLastItem] = useState(false);
+    const [loadingReadingList, setLoadingReadingList] = useState(false);
+    const [isInReadingList, setIsInReadingList] = useState(false);
+    const [authenticated, setAuthenticated] = useState(true);
+    const [vis, setVis] = useState(false);
 
+    // User and manga IDs with token
+    const userId = JSON.parse(localStorage.getItem('user'))?._id;
+    const mangaId = id;
+    // const token = localStorage.getItem('token');
 
-    const { data: mangaData, isLoading, isError, error } = useManga(id);
-    const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = MangaCover(id);
-    const { data: statistics, isLoading: isStatsLoading, isError: isStatsError, error: statsError } = MangaStatistics(id);
+    // Fetch manga data, cover, and statistics
+    const { data: mangaData, isLoading, isError } = useManga(id);
+    const { data: coverFilename, isLoading: isCoverLoading } = MangaCover(id);
+    const { data: statistics, isLoading: isStatsLoading } = MangaStatistics(id);
 
+    // Fetch related manga
     useEffect(() => {
         const fetchRelatedManga = async () => {
             try {
-                if (isCoverLoading === false) {
+                if (!isCoverLoading) {
                     for (const relationship of mangaData?.relationships || []) {
                         if (relationship.type === 'manga') {
                             const response = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/${relationship.id}`)}`);
@@ -34,7 +55,7 @@ function MangaOverview() {
                             setRelatedManga(prevList => [...prevList, manga]);
                         }
                     }
-                    setLoadingRelatedManga(false)
+                    setLoadingRelatedManga(false);
                 }
             } catch (error) {
                 console.error('Error fetching related manga:', error);
@@ -44,16 +65,82 @@ function MangaOverview() {
         fetchRelatedManga();
     }, [mangaData, isCoverLoading]);
 
-    const imageUrl = coverFilename || "coverFilename";
+    // Check if the manga is in the reading list
+    useEffect(() => {
 
-    const { rating, follows } = statistics || {};
+        const fetchRelatedManga = async () => {
 
-    const handleReadingSelect = (category) => {
-        setSelectedReading(category);
+            try {
+                if (userId && token) {
+                    const res = await getManga(token, userId, mangaId);
+                    const mangaInList = JSON.parse(res);
+
+                    if (mangaInList.manga.manga === mangaId) {
+                        setSelectedReading(mangaInList.manga.status);
+                        setIsInReadingList(true);
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error fetching related manga:', error);
+            }
+        }
+
+        fetchRelatedManga();
+    }, [])
+
+    // Handle selection of reading status
+    const handleReadingSelect = async (status) => {
+
+        if (!isAuthenticated()) {
+            setAuthenticated(false);
+            setVis(prevVis => !prevVis)
+            return;
+        }
+
+        try {
+            setSelectedReading(status);
+            setLoadingReadingList(true);
+
+            if (isInReadingList) {
+                if (status === "Remove form list") {
+                    await deleteManga(token, userId, mangaId, status);
+                    setIsInReadingList(false);
+                    showToast("Manga was removed from the list");
+                } else {
+                    await updateManga(token, userId, mangaId, status);
+                    setIsInReadingList(true);
+                    showToast("Manga was updated in the list");
+                }
+            } else {
+                if (status === "Remove form list") {
+                    showToast("This Manga does not exist in the list and can't be deleted");
+                } else {
+                    await addManga(token, userId, mangaId, status);
+                    setIsInReadingList(true);
+                    showToast("Manga was added to the list");
+                }
+            }
+
+            setLoadingReadingList(false);
+        } catch (error) {
+            showToast(
+                error.response?.data?.message || 'An error occurred while adding the Manga to the Reading List.',
+                "info"
+            );
+        }
     };
 
-    const myList = ['Reading', 'Completed', 'On-Hold', 'Dropped', 'Plan to Read']
+    const handleCloseMenu = () => {
+        setVis(prevVis => !prevVis)
+    };
 
+    // Manga cover URL
+    const imageUrl = coverFilename || "coverFilename";
+
+    // Manga details
+    const { rating, follows } = statistics || {};
+    const myList = ['Reading', 'Completed', 'On-Hold', 'Dropped', 'Plan to Read', 'Remove form list'];
     const mangaDetails = [
         { label: 'Status', value: mangaData?.attributes?.status || "No Status" },
         { label: 'Demographic', value: mangaData?.attributes?.publicationDemographic || "No Demographic".slice(0, 6) + "..." },
@@ -62,133 +149,50 @@ function MangaOverview() {
         { label: 'follows', value: follows || 0 }
     ];
 
-
-    console.log(statistics)
     return (
         <div className='text-white w-[90%] h-[100%] mt-4 mx-auto'>
-            {isCoverLoading || isStatsLoading || loadingRelatedManga || isLoading || isCoverError || isStatsError || isError ? (
+            {isLoading || isCoverLoading || isStatsLoading || loadingRelatedManga || isError ? (
+                // Skeleton loading UI
                 <>
                     <MangaOverviewSkeleton />
-                    <div className='bg-[#1F1F1F] mt-10'>
-                        <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
-                            <h4 className='gradient-1 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>RELATED MANGA</h4>
-                            <HorizontalScrollMenu>
-                                {
-                                    [...Array(20)].map((_, index) => (
-                                        <div key={index} className='mr-5'>
-                                            <MangaCardSkeleton itemId={index} title={index} key={index} />
-                                        </div>
-                                    ))
-                                }
-                            </HorizontalScrollMenu>
-                        </div>
-                    </div>
-                    <div className='bg-[#1F1F1F] mt-4'>
-                        <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
-                            <h4 className='gradient-2 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>YOU MIGHT LIKE THIS</h4>
-                            <HorizontalScrollMenu>
-                                {
-                                    [...Array(20)].map((_, index) => (
-                                        <div key={index} className='mr-5'>
-                                            <MangaCardSkeleton itemId={index} title={index} key={index} />
-                                        </div>
-                                    ))
-                                }
-                            </HorizontalScrollMenu>
-                        </div>
-                    </div>
+                    <RelatedMangaSkeleton />
+                    <YouMightLikeThisSkeleton />
                 </>
             ) : (
+                // Manga Overview Content
                 <>
-                    <div className='flex flex-wrap xl:flex-nowrap justify-center text-center my-4'>
-                        {mangaDetails.map((detail, index) => (
+                    <MangaDetailsSection mangaDetails={mangaDetails} />
+                    <MangaImageAndDescriptionSection
+                        imageUrl={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`}
+                        mangaData={mangaData}
+                        myList={myList}
+                        selectedReading={selectedReading}
+                        loadingReadingList={loadingReadingList}
+                        handleReadingSelect={handleReadingSelect}
+                    />
+                    <RelatedMangaSection relatedManga={relatedManga} />
+                    <RecommendedMangaSection mangaData={mangaData} />
+                    {!authenticated && (
+                        <>
                             <div
-                                key={index}
-                                className='text-[10px] md:text-[15px] px-4 md:px-7 py-2 basis-1/3 border-2 border-[#1F1F1F] font-medium tracking-[0.1em] lg:tracking-[0.2em] cursor-pointer bg-white text-[#1F1F1F]'
+                                className={`${vis ? "flex" : "hidden"}  justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
                             >
-                                {detail.value}
-                            </div>
-                        ))}
-                    </div>
-                    <div className='flex flex-col md:flex-row justify-between items-center md:items-start mt-8 md:space-x-10'>
-                        <div className='h-[300px] w-[90%] md:w-[400px] shadow-yellow rounded-md'>
-                            <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={mangaData?.attributes.title.en} className=" h-full w-full object-cover rounded-md" />
-                        </div>
-                        <div className='mt-4 md:mt-0 w-[95%] md:w-full'>
-                            <p className="mb-3 mt-5 md:mt-0 text-[14px] text-start text-white">{mangaData?.attributes.description.en ? mangaData?.attributes.description.en : mangaData?.attributes.title.en}</p>
-                            <div className='mt-6 flex justify-center flex-col'>
-                                <p className='text-[20px]'>Category</p>
-                                <div className='grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-2 mt-4 w-[100%] md:w-[100%]'>
-                                    {mangaData?.attributes.tags.slice(0, 10).map((item) => (
-                                        <div
-                                            className={`py-1 px-1 flex items-center justify-center rounded-md font-semibold text-center bg-white text-[10px] md:text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F]`}
-                                            key={item.id}
-                                        >
-                                            {item.attributes.name.en.toString()}
-                                        </div>
-                                    ))}
+                                <div className="  w-[90%] lg:w-[40%] h-[300px] border-0 rounded-lg shadow-lg relative flex flex-col justify-center items-center pt-4 bg-white outline-none focus:outline-none">
+                                    <button onClick={() => handleCloseMenu()}>
+                                        <XCircleIcon className="w-7 h-7 text-black absolute top-2 right-2" />
+                                    </button>
+                                    <img src={LogIngSvg} alt='' className='h-[150px]' />
+                                    <p className="mb-5 text-[16px] font-Kanit font-medium">Sign is required before continuing</p>
+                                    <Link to={"/login"} className='w-[60%]' >
+                                        <button className='text-white text-[13px] font-bold bg-[#1B6FA8] hover:bg-[#E40066] border-2 border-[#1F1F1F] w-[100%] px-2 py-2 mb-2 rounded'>Sign in</button>
+                                    </Link>
                                 </div>
                             </div>
-                            <div className='mt-6'>
-                                <p className='text-[20px]'>My List</p>
-                                <div className='flex flex-wrap lg:flex-nowrap mt-4 border-box'>
-                                    {/* <div className='grid grid-cols-5 gap-2 mt-4'> */}
-                                    {myList.map((item, index) => (
-                                        <button
-                                            className={`md:basis-1/5 mr-1 md:mr-2 grow my-1 px-3 py-1 rounded-md font-semibold text-center text-[10px] md:text-[13px] tracking-[0.1em] border border-[#1F1F1F]
-                                    ${selectedReading === item
-                                                    ? "bg-blue-500 text-white"
-                                                    : "bg-gray-200 text-[#1F1F1F]"
-                                                }`}
-                                            key={index}
-                                            onClick={() => handleReadingSelect(item)}
-                                        >
-                                            {item}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {
-                        relatedManga.length > 0 ?
-                            <div className='bg-[#1F1F1F] mt-10'>
-                                <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
-                                    <h4 className='gradient-1 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>RELATED MANGA</h4>
-                                    <HorizontalScrollMenu>
-                                        {relatedManga?.map((manga) => (
-                                            <div className='mr-5'>
-                                                <MangaCard
-                                                    itemId={manga.id}
-                                                    title={manga.id}
-                                                    key={manga.id}
-                                                    manga={manga}
-                                                    setIsLastItem={setIsLastItem}
-                                                />
-                                            </div>
-                                        ))
-                                        }
-                                        {isLastItem && relatedManga.length > 1 && <SeeMoreLink />}
-                                    </HorizontalScrollMenu>
-                                </div>
-                            </div> : null
-                    }
-                    <div className='bg-[#1F1F1F] mt-4'>
-                        <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
-                            <h4 className='gradient-2 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>YOU MIGHT LIKE THIS</h4>
-                            <MangaCards type={"mostViewed"} order={{ rating: 'desc', followedCount: 'desc' }} limit={10} includedTags={mangaData.attributes.tags.map(item => item.attributes.name.en)} excludedTags={['']} />
-                        </div>
-                    </div>
+                            <div className={`${vis ? "opacity-25 fixed" : "opacity-0"} inset-0 z-40 bg-black`}></div>
+                        </>
+                    )}
                 </>
             )}
-        </div>
-    )
-}
-
-const SeeMoreLink = () => {
-    return (
-        <div className="md:mr-7 flex justify-center bg-white text-black font-medium tracking-[0.3em] hover:bg-[#E40066] hover:text-white items-center cursor-pointer h-[100%] w-[100px] bottom-2 left-14">
-            <p className="text-center">See More</p>
         </div>
     );
 };

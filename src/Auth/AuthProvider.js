@@ -12,8 +12,10 @@ const AuthProvider = ({ children }) => {
     const login = async (userData) => {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/login', userData);
-            const { token } = response.data;
+            const { user, token } = response.data;
             setToken(token);
+
+            localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem('token', token);
 
             // Redirect to the previous path if available, otherwise go to the home page
@@ -26,13 +28,14 @@ const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             const response = await axios.post('http://localhost:5000/api/auth/logout');
-            
-           if(response) {
-            setToken(null);
-            localStorage.removeItem('token');
 
-            navigate('/login');
-           }
+            if (response) {
+                setToken(null);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+
+                navigate('/login');
+            }
         } catch (error) {
             console.error('An error occurred while Loging out', error);
         }

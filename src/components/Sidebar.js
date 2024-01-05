@@ -2,24 +2,22 @@ import React from 'react';
 import {
     HomeIcon,
     BookmarkSquareIcon,
-    UsersIcon,
     UserCircleIcon,
-    BellAlertIcon,
     MagnifyingGlassCircleIcon,
-    Cog6ToothIcon
+    ArrowLeftOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
 const menuItems = [
     { icon: <HomeIcon className="w-6 h-6" />, label: 'Home', link: '/' },
     { icon: <MagnifyingGlassCircleIcon className="w-6 h-6" />, label: 'Discover Comics', link: '/search' },
-    { icon: <BellAlertIcon className="w-6 h-6" />, label: 'Notifications', badge: '14', link: '#' },
+    // { icon: <BellAlertIcon className="w-6 h-6" />, label: 'Notifications', badge: '14', link: '#' },
 ];
 
 const generalItems = [
-    { icon: <UserCircleIcon className="w-6 h-6" />, label: 'Profile', link: '#' },
+    { icon: <UserCircleIcon className="w-6 h-6" />, label: 'Profile', link: '/profile' },
     { icon: <BookmarkSquareIcon className="w-6 h-6" />, label: 'My List', link: '/my-list' },
-    { icon: <Cog6ToothIcon className="w-6 h-6" />, label: 'Settings', link: '#' },
+    { icon: < ArrowLeftOnRectangleIcon className="w-6 h-6" />, label: 'Log Out', link: '#' },
 ];
 
 function Sidebar() {

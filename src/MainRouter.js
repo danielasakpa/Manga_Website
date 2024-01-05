@@ -10,7 +10,7 @@ import Recommendations from "./pages/Recommendations";
 import { useLocation, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './Auth/AuthProvider';
 import ProtectedRoute from './Auth/ProtectedRoute';
-import Protected from './pages/Protected';
+import Profile from './pages/Profile';
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import MyList from "./pages/MyList";
@@ -46,7 +46,7 @@ function MainRouter() {
             />
           </Route>
           <Route element={<ProtectedRoute />}>
-            <Route path="/protected" element={<Protected />} />
+            <Route path="/profile" element={<Profile />} />
             <Route
               path="/manga/:id/chapter/:chapterId"
               element={<MangaChapter />}
