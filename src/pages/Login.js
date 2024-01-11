@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AtSymbolIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import authBackground from "../assets/authBackground.jpg";
 import googleLogo from "../assets/googleLogo.svg";
 import { useAuth } from "../Auth/AuthProvider";
 import { BallTriangle } from 'react-loader-spinner'
+import showToast from '../utils/toastUtils';
 
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [focused, setFocused] = useState("false");
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useAuth();
 
   const handleLogIn = async (e) => {
     e.preventDefault();
 
-    setisLoading(true);
+    setIsLoading(true);
 
     const logInParams = {
       email,
@@ -27,9 +27,17 @@ const Login = () => {
 
     console.log(logInParams);
 
-    await login(logInParams);
 
-    setisLoading(false);
+
+    try {
+
+      await login(logInParams);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      // Handle error
+      showToast(`Error Logging user In`, "error");
+    };
   }
 
   return (
@@ -47,11 +55,11 @@ const Login = () => {
 
         <form action="">
           {/* Email Input */}
-          <div className="relative mb-16">
+          <div className="relative mb-5">
             <input
               type="text"
               placeholder="Email"
-              className="peer h-11 w-full border-2 border-gray-400 rounded-lg pl-4 pr-12 text-gray-500 text-sm placeholder-transparent"
+              className="peer h-full w-full rounded-md border-2 border-gray-500 !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
               value={email}
               pattern={`[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+`}
               required
@@ -59,18 +67,18 @@ const Login = () => {
               onBlur={() => setFocused("true")}
               onChange={(e) => setEmail(e.target.value)}
             />
+            <span class="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Username should be 3-16 characters and shouldn't include any special character!</span>
             <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
               Email
             </label>
-            <AtSymbolIcon className="h-5 w-5 absolute top-1/2 right-3 -translate-y-1/2 text-gray-500" />
           </div>
 
           {/* Password Input */}
-          <div className="relative mb-16">
+          <div className="relative mb-5">
             <input
               type="password"
               placeholder="Password"
-              className="peer h-11 w-full border-2 border-gray-400 rounded-lg pl-4 pr-12 text-gray-500 text-sm placeholder-transparent"
+              className="peer h-full w-full rounded-md border-2 border-gray-500 !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
               value={password}
               required
               onChange={(e) => setPassword(e.target.value)}
@@ -78,8 +86,6 @@ const Login = () => {
             <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
               Password
             </label>
-
-            <LockClosedIcon className="h-5 w-5 absolute top-1/2 right-3 -translate-y-1/2 text-gray-500" />
           </div>
 
           {/* Checkbox input */}
@@ -95,7 +101,7 @@ const Login = () => {
 
           {/* Buttons */}
           <button
-            className="h-11 w-full  text-center font-semibold text-white bg-[#1B6FA8] hover:bg-[#155580] rounded-lg  mb-5"
+            className="h-11 w-full text-center font-semibold text-white bg-[#1B6FA8] hover:bg-[#155580] rounded-lg  mb-5"
             onClick={handleLogIn}
           >
             Log In

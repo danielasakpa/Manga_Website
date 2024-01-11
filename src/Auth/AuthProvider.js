@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
 
     const login = async (userData) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', userData);
+            const response = await axios.post('https://manga-server-luxr.onrender.com/api/auth/login', userData);
             const { user, token } = response.data;
             setToken(token);
 
@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/logout');
+            const response = await axios.post('https://manga-server-luxr.onrender.com/api/auth/logout');
 
             if (response) {
                 setToken(null);

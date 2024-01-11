@@ -41,16 +41,16 @@ function MainRouter() {
             <Route path="/manga/:id/overview" element={<MangaOverview />} />
             <Route path="/manga/:id/chapters" element={<MangaChapters />} />
             <Route
+              path="/manga/:id/chapter/:chapterId"
+              element={<MangaChapter />}
+            />
+            <Route
               path="/manga/:id/recommendations"
               element={<Recommendations />}
             />
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
-            <Route
-              path="/manga/:id/chapter/:chapterId"
-              element={<MangaChapter />}
-            />
           </Route>
           <Route path="*" element={<Home />} />
         </Route>

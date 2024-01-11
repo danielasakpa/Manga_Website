@@ -23,11 +23,11 @@ const MangaChapterSkeleton = () => {
                     Next Chap
                 </div>
             </div>
-            <div className="mt-7">
+            <div className="mt-7 w-full flex flex-col justify-center items-center">
                 {[...Array(10)].map((_, index) => (
                     <div
                         key={index}
-                        className="w-full h-[500px] bg-gray-200 animate-pulse mb-3"
+                        className="w-[90%] lg:w-[70%] h-[800px] bg-gray-200 animate-pulse mb-3"
                     />
                 ))}
             </div>

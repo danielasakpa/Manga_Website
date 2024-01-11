@@ -44,7 +44,7 @@ function MangaChapters() {
     });
 
     return (
-        <div className="text-white h-[100%]">
+        <div className={`${chaptersData.data.length < 1 ? "h-[100vh]" : "h-[100%]"} text-white `}>
             {
                 chaptersData.data.length < 1 ?
                     <div className="flex justify-center items-center h-[90%] mt-16 px-10">

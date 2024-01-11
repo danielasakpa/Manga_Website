@@ -7,6 +7,7 @@ import {
     ArrowLeftOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../Auth/AuthProvider';
 
 const menuItems = [
     { icon: <HomeIcon className="w-6 h-6" />, label: 'Home', link: '/' },
@@ -21,6 +22,9 @@ const generalItems = [
 ];
 
 function Sidebar() {
+
+    const { logout } = useAuth();
+
     return (
         <aside className=" sticky top-[80px] h-[calc(100vh-80px)] hidden lg:block overflow-y-auto p-5 w-1/5 p-4 shadow-xl text-white text-left bg-[#1B6FA8]">
             <div className="mt-10">
@@ -48,7 +52,11 @@ function Sidebar() {
                 </div>
                 <div className="pl-2 space-y-6">
                     {generalItems.map((item, index) => (
-                        <Link to={item.link} key={index} className="flex items-center space-x-2 py-2 px-2 rounded-md hover:bg-[#F4B333] cursor-pointer">
+                        <Link
+                            to={item.link}
+                            key={index}
+                            onClick={item.label === "Log Out" && logout}
+                            className="flex items-center space-x-2 py-2 px-2 rounded-md hover:bg-[#F4B333] cursor-pointer">
                             {item.icon}
                             <span className='g:text-[15px] text-[17px]'>{item.label}</span>
                         </Link>

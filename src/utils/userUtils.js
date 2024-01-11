@@ -3,7 +3,7 @@ import axios from 'axios';
 // Utility function to get all users
 export const getAllUsers = async () => {
     try {
-        const response = await axios.get('/users');
+        const response = await axios.get('https://manga-server-luxr.onrender.com/api/user');
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while fetching users.');
@@ -13,7 +13,7 @@ export const getAllUsers = async () => {
 // Utility function to get one user by ID
 export const getOneUser = async (id) => {
     try {
-        const response = await axios.get(`/users/${id}`);
+        const response = await axios.get(`https://manga-server-luxr.onrender.com/api/user/${id}`);
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while fetching the user.');
@@ -23,7 +23,7 @@ export const getOneUser = async (id) => {
 // Utility function to create a user
 export const createUser = async (userData) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/user', userData);
+        const response = await axios.post('https://manga-server-luxr.onrender.com/api/user', userData);
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while creating the user.');
@@ -31,9 +31,19 @@ export const createUser = async (userData) => {
 };
 
 // Utility function to update a user by ID
-export const updateUser = async (id, userData) => {
+export const updateUser = async (userId, userData, token) => {
+
     try {
-        const response = await axios.put(`/users/${id}`, userData);
+        const response = await axios({
+            method: 'put',
+            url: `https://manga-server-luxr.onrender.com/api/user/${userId}`,
+            headers: {
+                Authorization: token,
+                'Content-Type': 'application/json',
+            },
+            data: userData
+        });
+
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while updating the user.');
@@ -41,9 +51,16 @@ export const updateUser = async (id, userData) => {
 };
 
 // Utility function to delete a user by ID
-export const deleteUser = async (id) => {
+export const deleteUser = async (userId, token) => {
     try {
-        const response = await axios.delete(`/users/${id}`);
+        const response = await axios({
+            method: 'delete',
+            url: `https://manga-server-luxr.onrender.com/api/user/${userId}`,
+            headers: {
+                Authorization: token,
+                'Content-Type': 'application/json',
+            },
+        });
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while deleting the user.');
