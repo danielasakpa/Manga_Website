@@ -44,7 +44,7 @@ const SignUp = () => {
       showToast(`User was successfully Created`);
     } catch (error) {
       setIsLoading(false);
-      showToast(`Error Creating New user`, "error");
+      showToast(error.message, "error");
     }
   }
 

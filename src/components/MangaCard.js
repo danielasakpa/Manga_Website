@@ -35,17 +35,12 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
     const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = MangaCover(id);
     const { data: statistics, isLoading: isStatsLoading, isError: isStatsError, error: statsError } = MangaStatistics(id);
 
-    if (isStatsLoading) {
+    if (isStatsLoading || isCoverError || isStatsError) {
         return (
             <MangaCardSkeleton />
         );
     }
 
-    if (isCoverError || isStatsError) {
-        return (
-            <MangaCardSkeleton />
-        );
-    }
 
     const imageUrl = coverFilename;
 

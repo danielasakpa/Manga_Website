@@ -35,7 +35,7 @@ const Search = () => {
                     <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 ml-[10px]" />
                 </button>
             </div>
-            <div className={`${vis ? "block" : "hidden"} inset-0 py-20 bg-[#000] z-20 absolute inset-0 overflow-y-scroll`}>
+            <div className={`${vis ? "block" : "hidden"} inset-0 py-20 bg-[#000] z-10 absolute inset-0 overflow-y-scroll`}>
                 <SearchComponent setMangas={setMangas} setVis={setVis} setMangaVis={setMangaVis} handleErrorResponse={handleErrorResponse} setErrorVis={setErrorVis} setLoading={setLoading} />
             </div>
             {isLoading ? (

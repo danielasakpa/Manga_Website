@@ -38,9 +38,10 @@ const Login = () => {
       await login(logInParams);
       setIsLoading(false);
     } catch (error) {
+      console.log("error", error)
       setIsLoading(false);
       // Handle error
-      showToast(`Error Logging user In`, "error");
+      showToast(error.message, "error");
     };
   }
 

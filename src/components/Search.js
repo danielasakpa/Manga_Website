@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { XCircleIcon } from "@heroicons/react/24/outline";
+import showToast from '../utils/toastUtils';
 
 const categories = [
   "Action",
@@ -117,7 +118,7 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
         handleErrorResponse(error.code);
       } else {
         // Handle other types of errors here
-        console.error('Unexpected error:', error.message);
+        showToast(error.message, "error");
       }
     }
     // return response.data.data;

@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import showToast from '../utils/toastUtils';
 
 const AuthContext = createContext();
 
@@ -21,7 +22,7 @@ const AuthProvider = ({ children }) => {
             // Redirect to the previous path if available, otherwise go to the home page
             navigate(-1 || '/');
         } catch (error) {
-            console.error('Login failed', error);
+            showToast('Login failed', "error");
         }
     };
 
@@ -37,7 +38,7 @@ const AuthProvider = ({ children }) => {
                 navigate('/login');
             }
         } catch (error) {
-            console.error('An error occurred while Loging out', error);
+            showToast('An error occurred while Loging out', "error");
         }
 
     };

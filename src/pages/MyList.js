@@ -52,7 +52,7 @@ function MyList() {
                 setReadingList(updatedList.readingList.mangas.reverse());
             }
         } catch (error) {
-            console.error('Error updating reading list:', error);
+            showToast(error.message, "error");
         }
     };
 

@@ -48,7 +48,7 @@ const Profile = () => {
         } catch (error) {
             setIsLoading(false);
             // Handle error
-            showToast(`Error deleting user`, "error");
+            showToast(error.message, "error");
         };
     }
 

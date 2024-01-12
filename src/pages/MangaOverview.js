@@ -58,7 +58,7 @@ function MangaOverview() {
                     setLoadingRelatedManga(false);
                 }
             } catch (error) {
-                console.error('Error fetching related manga:', error);
+                showToast(error.message, "error");
             }
         };
 
@@ -68,7 +68,7 @@ function MangaOverview() {
     // Check if the manga is in the reading list
     useEffect(() => {
 
-        const fetchRelatedManga = async () => {
+        const fetchMangaInList = async () => {
 
             try {
                 if (userId && token) {
@@ -82,11 +82,11 @@ function MangaOverview() {
                 }
 
             } catch (error) {
-                console.error('Error fetching related manga:', error);
+                showToast(error.message, "error");
             }
         }
 
-        fetchRelatedManga();
+        fetchMangaInList();
     }, [])
 
     // Handle selection of reading status
