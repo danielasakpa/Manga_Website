@@ -16,7 +16,7 @@ const MangaStatusButtons = ({ myList, selectedReading, handleReadingSelect, load
                                     : "bg-gray-200 text-[#1F1F1F]"
                             }`}
                         key={index}
-                        disabled={loadingReadingList}
+                        disabled={loadingReadingList || selectedReading === item}
                         onClick={() => handleReadingSelect(item)}
                     >
                         {loadingReadingList && selectedReading === item ? (
