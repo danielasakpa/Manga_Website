@@ -55,7 +55,7 @@ const Profile = () => {
 
     return (
         <>
-            <div className={`${isLoading ? "bg-black h-[100vh]" : "bg-white h-[100%]"} w-full  flex justify-center items-center relative`}>
+            <div className={`${isLoading ? "bg-black" : "bg-white"} w-full h-[100vh] flex justify-center items-center relative`}>
                 {
                     isLoading ?
                         <div className="popOut flex items-center justify-center">
@@ -75,7 +75,7 @@ const Profile = () => {
                                 <p className="text-[25px] font-medium">{user.username}</p>
                                 <p className="text-gray-600">{user.email}</p>
                             </div>
-                            <div className="flex space-x-4">
+                            <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                                 <button
                                     className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                                     onClick={() => handleEditClick("Edit User")}

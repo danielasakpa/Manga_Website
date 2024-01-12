@@ -13,6 +13,7 @@ function MyList() {
 
     const [readingList, setReadingList] = useState([]);
     const [isLoadingList, setIsLoadingList] = useState(false);
+    const [error, setError] = useState("");
 
     const userId = JSON.parse(localStorage.getItem('user'))?._id;
 
@@ -35,7 +36,8 @@ function MyList() {
                 }
             } catch (error) {
                 setIsLoadingList(false);
-                showToast(`Reading list not found`, "error");
+                setError(error.message)
+                showToast(error.message, "error");
             }
         }
 
@@ -54,12 +56,9 @@ function MyList() {
         }
     };
 
-    console.log(isAuthenticated())
-
-
     return (
         <>
-            <div className={`${isLoadingList || Object.keys(readingList).length < 1 || !isAuthenticated() ? "h-[100vh]" : "h-[100%]"}  bg-[#1F1F1F] w-full relative`}>
+            <div className={`h-[100vh] pt-5 my-list bg-[#1F1F1F] overflow-y-scroll w-full relative`}>
                 {
                     isLoadingList ?
                         <div className="popOut flex items-center justify-center">
@@ -79,7 +78,11 @@ function MyList() {
                                 isAuthenticated() ?
                                     Object.keys(readingList).length < 1 ?
                                         <div className='w-full h-full flex justify-center items-center'>
-                                            <h1 className='text-white text-[30px]'>User has no reading list</h1>
+                                            <h1 className='text-white text-[15px] md:text-[30px]'>
+                                                {
+                                                    error ? error : "User has no reading list"
+                                                }
+                                            </h1>
                                         </div>
                                         :
                                         readingList.map(manga => (

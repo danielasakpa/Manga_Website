@@ -11,7 +11,6 @@ const Carousel = () => {
     const type = "mangaCarousel"
     const limit = 5;
     const order = {
-        year: 'desc',
         followedCount: 'desc'
     }
     const includedTags = ['Action', 'Shounen', "Thriller"];

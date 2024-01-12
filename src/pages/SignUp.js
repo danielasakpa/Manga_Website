@@ -37,9 +37,6 @@ const SignUp = () => {
       password
     }
 
-    console.log(signUpParams)
-
-
     try {
       await createUser(signUpParams);
       setIsLoading(false);

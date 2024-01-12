@@ -44,7 +44,7 @@ const EditProfileForm = ({ user, token, setIsEdit, type, setNewUser, setIsLoadin
 
 
     return (
-        <form className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+        <form className="w-[90%] md:w-full max-w-md bg-white rounded-lg shadow-lg p-6">
             <div className="flex justify-end mb-4">
                 <button onClick={handleCloseMenu}>
                     <XCircleIcon className="w-7 h-7 text-black" />

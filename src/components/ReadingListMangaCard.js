@@ -4,8 +4,9 @@ import { MangaStatistics } from "../utils/fetchMangaStatistics";
 import { useManga } from "../utils/fetchManga";
 import { useAuth } from '../Auth/AuthProvider';
 import { addManga, updateManga, deleteManga, getManga } from '../utils/readingListUtils';
+import ReadingListMangaCardSkeleton from './ReadingListMangaCardSkeleton';
 import showToast from '../utils/toastUtils';
-import { Circles } from 'react-loader-spinner'
+import { Circles } from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
 
 function ReadingListMangaCard({ manga, updateReadingList }) {
@@ -75,11 +76,7 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
 
     if (isMangaLoading || isCoverLoading || isStatsLoading || isMangaError || isCoverError || isStatsError) {
         // Handle loading and error states
-        return (
-            <div>
-                {/* Add loading or error UI */}
-            </div>
-        );
+        return <ReadingListMangaCardSkeleton />;
     }
 
     const imageUrl = coverFilename;
@@ -108,19 +105,54 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
             </div>
             <div className="ml-4 flex flex-col">
                 <Link to={`/manga/${manga.manga}/overview`} className="hover:underline hover:underline-offset-1 hover:decoration-blue-500" >
-                    <h2 className="text-xl font-semibold text-white">{title}</h2>
+                    <h2 className="text-[16px] lg:text-xl font-semibold text-white">{title}</h2>
                 </Link>
                 <p className="text-gray-500">{mangaData.attributes.status}</p>
-                <div className="flex items-center mt-2 text-white">
-                    <p className="mr-4">Rating: <span className='text-gray-500'>{rating?.average?.toFixed(2)}</span></p>
-                    <p>Follows:  <span className='text-gray-500'>{follows.toLocaleString()}</span></p>
+                <div className="flex items-center my-2 text-white">
+                    <p className="mr-4 text-[13px]">Rating: <span className='text-gray-500'>{rating?.average?.toFixed(2)}</span></p>
+                    <p className='text-[13px]'>Follows:  <span className='text-gray-500'>{follows.toLocaleString()}</span></p>
                 </div>
                 {/* Reading list status buttons */}
                 <div className="flex mt-2">
+                    {/* Render buttons or select based on screen width */}
+                    {
+                        <select
+                            className="block md:hidden px-2 py-1 rounded bg-white text-[13px] text-gray-500"
+                            value={selectedReading}
+                            onChange={(e) => handleReadingSelect(e.target.value)}
+                            disabled={loadingReadingList}
+                        >
+                            {statusButtons.map((status) => (
+                                <option key={status} value={status}>
+                                    {loadingReadingList && selectedReading === status ? (
+                                        <span>
+                                            <Circles
+                                                height="20"
+                                                width="20"
+                                                color="#000"
+                                                ariaLabel="circles-loading"
+                                                wrapperStyle={{}}
+                                                wrapperClass=""
+                                                visible={true}
+                                            />
+                                        </span>
+                                    ) : (
+                                        status
+                                    )}
+                                </option>
+                            ))}
+                            {isInReadingList && (
+                                <option value="Remove from list">Remove from list</option>
+                            )}
+                        </select>
+                    }
+
                     {statusButtons.map((status) => (
                         <button
                             key={status}
-                            className={`flex items-center justify-center px-1 py-1 mr-2 w-[100px] h-[30px] rounded ${selectedReading === status ? 'bg-blue-500 text-white' : 'bg-white text-[13px] text-gray-500'
+                            className={`hidden md:block flex items-center justify-center px-1 py-1 mr-2 w-[100px] h-[30px] rounded ${selectedReading === status
+                                ? 'bg-blue-500 text-white'
+                                : 'bg-white text-[13px] text-gray-500'
                                 }`}
                             onClick={() => handleReadingSelect(status)}
                             disabled={loadingReadingList}
@@ -135,35 +167,37 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                                     wrapperClass=""
                                     visible={true}
                                 />
-                            )
-                                :
+                            ) : (
                                 status
-                            }
+                            )}
                         </button>
                     ))}
-                    {isInReadingList && (
-                        <button
-                            className={`px-2 py-1 rounded ${selectedReading === "Remove from list" ? 'bg-red-500 text-white' : 'bg-white text-[13px] text-red-500'
-                                }`}
-                            onClick={() => handleReadingSelect("Remove from list")}
-                            disabled={loadingReadingList}
-                        >
-                            {loadingReadingList && selectedReading === "Remove from list" ? (
-                                <Circles
-                                    height="35"
-                                    width="35"
-                                    color="#ffffff"
-                                    ariaLabel="circles-loading"
-                                    wrapperStyle={{}}
-                                    wrapperClass=""
-                                    visible={true}
-                                />
-                            )
-                                :
-                                "Remove from list"
-                            }
-                        </button>
-                    )}
+                    {/* Render the "Remove from list" button for mobile */}
+                    {
+                        isInReadingList && (
+                            <button
+                                className={`hidden md:block px-2 py-1 rounded ${selectedReading === 'Remove from list'
+                                    ? 'bg-red-500 text-white'
+                                    : 'bg-white text-[13px] text-red-500'
+                                    }`}
+                                onClick={() => handleReadingSelect('Remove from list')}
+                                disabled={loadingReadingList}
+                            >
+                                {loadingReadingList && selectedReading === 'Remove from list' ? (
+                                    <Circles
+                                        height="35"
+                                        width="35"
+                                        color="#ffffff"
+                                        ariaLabel="circles-loading"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                        visible={true}
+                                    />
+                                ) : (
+                                    'Remove from list'
+                                )}
+                            </button>
+                        )}
                 </div>
             </div>
         </div >

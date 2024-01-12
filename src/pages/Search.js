@@ -13,9 +13,6 @@ const Search = () => {
     const [errorVis, setErrorVis] = useState(false);
     const { error, handleErrorResponse, clearError } = useErrorHandler();
 
-    console.log(mangas);
-    console.log(isLoading)
-
     const handleSearch = () => {
         setVis(prevVis => !prevVis)
     }
@@ -23,8 +20,6 @@ const Search = () => {
     const handleCloseError = () => {
         setErrorVis(false)
     };
-
-    console.log(errorVis)
 
     return (
         <div className='bg-[#1F1F1F] px-5 py-5 h-[max-content] relative overflow-hidden'>

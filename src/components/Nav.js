@@ -10,7 +10,7 @@ function Nav() {
     const [mangaName, setMangaName] = useState('');
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { setMangas, setLoading } = useMangaContext();
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
 
 
     async function handleSearch() {
@@ -108,7 +108,7 @@ function Nav() {
             {isMobileMenuOpen && (
                 <div className="lg:hidden absolute top-20 right-0 bg-white w-full p-4 shadow-lg rounded-md">
                     <div className="flex flex-col space-y-4">
-                        <Link to="/profile" className='flex  items-center'>
+                        <Link to={isAuthenticated() ? "/profile" : "/login"} className='flex  items-center' >
                             <img
                                 src={DanImg}
                                 alt="Profile"
@@ -116,11 +116,15 @@ function Nav() {
                             />
                             <p className='ml-[5px]'>Profile</p>
                         </Link>
+                        <Link to="/" className="text-gray-700 hover:text-gray-900">Home</Link>
                         <Link to="/search" className="text-gray-700 hover:text-gray-900">Discover Comics</Link>
-                        <Link to="/list" className="text-gray-700 hover:text-gray-900">My List</Link>
-                        <Link to="/notifications" className="text-gray-700 hover:text-gray-900">Notifications</Link>
-                        <Link to="/settings" className="text-gray-700 hover:text-gray-900">Settings</Link>
-                        <Link to="/logout" className="text-gray-700 hover:text-gray-900">Logout</Link>
+                        <Link to="/my-list" className="text-gray-700 hover:text-gray-900">My List</Link>
+                        <Link
+                            to="#"
+                            onClick={logout}
+                            className="text-gray-700 hover:text-gray-900">
+                            Logout
+                        </Link>
                     </div>
                 </div>
             )}

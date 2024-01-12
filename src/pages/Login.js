@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import authBackground from "../assets/authBackground.jpg";
 import googleLogo from "../assets/googleLogo.svg";
 import { useAuth } from "../Auth/AuthProvider";
@@ -13,7 +13,15 @@ const Login = () => {
   const [focused, setFocused] = useState("false");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const { login, token } = useAuth();
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, [])
 
   const handleLogIn = async (e) => {
     e.preventDefault();
@@ -24,10 +32,6 @@ const Login = () => {
       email,
       password
     }
-
-    console.log(logInParams);
-
-
 
     try {
 
