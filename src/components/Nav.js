@@ -12,6 +12,7 @@ function Nav() {
     const { setMangas, setLoading } = useMangaContext();
     const { isAuthenticated, logout } = useAuth();
 
+    const username = JSON.parse(localStorage.getItem('user'))?.username;
 
     async function handleSearch() {
         setLoading(true);
@@ -43,7 +44,7 @@ function Nav() {
             </div>
 
             <div className='flex items-center justify-between space-x-2 lg:space-x-5'>
-                <div className='hidden lg:block'>
+                <div className='hidden lg:block mr-[20px]'>
                     <div className="flex items-center overflow-hidden border border-gray-300 rounded-lg drop-shadow-x">
                         <div className="relative">
                             <input
@@ -73,7 +74,7 @@ function Nav() {
                     Search
                     <MagnifyingGlassIcon className="w-4 h-4 text-black ml-[5px]" />
                 </Link>
-                <div className="relative hidden lg:block">
+                {/* <div className="relative hidden lg:block">
                     <button className="relative flex items-center justify-center bg-transparent border-none focus:outline-none">
                         <BellAlertIcon className="md:w-10 md:h-10 w-5 h-5 text-gray-400" />
                         {notificationCount > 0 && (
@@ -82,14 +83,18 @@ function Nav() {
                             </span>
                         )}
                     </button>
-                </div>
+                </div> */}
                 <Link to={isAuthenticated() ? "/profile" : "/login"} >
                     <div className="flex items-center space-x-2 cursor-pointer hidden lg:block">
-                        <img
-                            src={DanImg}
-                            alt="Profile"
-                            className="w-10 h-10 rounded-full"
-                        />
+                        <div
+                            className={`w-12 h-12 ${username ? "text-[35px]" : "text-[10px]"}  font-Roboto font-bold text-white rounded-full bg-gray-400 flex justify-center items-center`}
+                        >
+                            <span>
+                                {
+                                    username ? username.split("")[0] : "No User"
+                                }
+                            </span>
+                        </div>
                     </div>
                 </Link>
                 <div className="flex items-center space-x-2 cursor-pointer block lg:hidden">

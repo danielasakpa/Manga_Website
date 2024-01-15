@@ -5,7 +5,7 @@ import MangaCardSkeleton from './MangaCardSkeleton';
 import { useMangasFetcher } from '../utils/fetchMangas';
 import HorizontalScrollMenu from './HorizontalScrollMenu';
 import { fetchMangas } from '../utils/fetchMangas';
-import { Circles } from 'react-loader-spinner'
+import { Oval } from 'react-loader-spinner'
 
 const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
     const queryClient = useQueryClient();
@@ -68,14 +68,14 @@ const SeeMoreLink = ({ onClick, isLoadingNewMangas }) => {
         >
             {
                 isLoadingNewMangas ?
-                    <Circles
-                        height="20"
-                        width="20"
-                        color="#ffffff"
-                        ariaLabel="circles-loading"
+                    <Oval
+                        visible={true}
+                        height="30"
+                        width="30"
+                        color="#000000"
+                        ariaLabel="oval-loading"
                         wrapperStyle={{}}
                         wrapperClass=""
-                        visible={true}
                     />
                     :
                     <p className="text-center">See More</p>

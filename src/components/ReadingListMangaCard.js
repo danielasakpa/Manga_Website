@@ -117,7 +117,7 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                     {/* Render buttons or select based on screen width */}
                     {
                         <select
-                            className="block md:hidden px-2 py-1 rounded bg-white text-[13px] text-gray-500"
+                            className={`block md:hidden px-2 py-1 rounded bg-white text-[13px] ${loadingReadingList ? "text-[#FF004D]" : "text-gray-500"}`}
                             value={selectedReading}
                             onChange={(e) => handleReadingSelect(e.target.value)}
                             disabled={loadingReadingList}
@@ -126,15 +126,7 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                                 <option key={status} value={status}>
                                     {loadingReadingList && selectedReading === status ? (
                                         <span>
-                                            <Circles
-                                                height="20"
-                                                width="20"
-                                                color="#000"
-                                                ariaLabel="circles-loading"
-                                                wrapperStyle={{}}
-                                                wrapperClass=""
-                                                visible={true}
-                                            />
+                                            Loading...
                                         </span>
                                     ) : (
                                         status
@@ -150,9 +142,9 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                     {statusButtons.map((status) => (
                         <button
                             key={status}
-                            className={`hidden md:block flex items-center justify-center px-1 py-1 mr-2 w-[100px] h-[30px] rounded ${selectedReading === status
+                            className={`hidden md:flex items-center justify-center text-[12px] px-1 py-1 mr-2 w-[100px] h-[30px] rounded ${selectedReading === status
                                 ? 'bg-blue-500 text-white'
-                                : 'bg-white text-[13px] text-gray-500'
+                                : 'bg-white text-gray-500'
                                 }`}
                             onClick={() => handleReadingSelect(status)}
                             disabled={loadingReadingList}
@@ -176,7 +168,7 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                     {
                         isInReadingList && (
                             <button
-                                className={`hidden md:block px-2 py-1 rounded ${selectedReading === 'Remove from list'
+                                className={`flex justify-center items-center hidden md:block px-2 py-1 rounded ${selectedReading === 'Remove from list'
                                     ? 'bg-red-500 text-white'
                                     : 'bg-white text-[13px] text-red-500'
                                     }`}

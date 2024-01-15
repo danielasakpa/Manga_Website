@@ -27,20 +27,11 @@ const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
-        try {
-            const response = await axios.post('https://manga-server-luxr.onrender.com/api/auth/logout');
+        setToken(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
 
-            if (response) {
-                setToken(null);
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-
-                navigate('/login');
-            }
-        } catch (error) {
-            showToast('An error occurred while Loging out', "error");
-        }
-
+        navigate('/login');
     };
 
     const isAuthenticated = () => !!token;

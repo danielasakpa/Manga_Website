@@ -46,7 +46,7 @@ const CarouselImage = ({ manga }) => {
                     <CarouselImageSkeleton />
                     :
                     <div
-                        className="w-full flex-shrink-0 relative flex justify-left pt-[100px] lg:pt-[100px] xl:pt-[70px] pl-2 md:pl-4 pr-4 lg:pr-0 lg:pl-[70px] xl:pl-[120px] bg-gray-600 md:hover:bg-cover cursor-pointer md:hover:bg-top bg-contain bg-center bg-no-repeat"
+                        className="w-full flex-shrink-0 relative flex justify-left pt-[100px] lg:pt-[100px] xl:pt-[70px] pl-2 md:pl-4 pr-4 lg:pr-0 lg:pl-[70px] xl:pl-[120px] bg-gray-600 md:hover:bg-cover cursor-pointer md:hover:bg-top bg-cover md:bg-contain bg-top md:bg-center bg-no-repeat"
                         style={{
                             backgroundImage: `url(https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${manga.id}/${imageUrl}`)})`,
                         }}

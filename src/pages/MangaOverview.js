@@ -67,10 +67,9 @@ function MangaOverview() {
 
     // Check if the manga is in the reading list
     useEffect(() => {
-
         const fetchMangaInList = async () => {
-
             try {
+
                 if (userId && token) {
                     const res = await getManga(token, userId, mangaId);
                     const mangaInList = JSON.parse(res);
@@ -82,12 +81,12 @@ function MangaOverview() {
                 }
 
             } catch (error) {
-                showToast(error.message, "error");
+                // showToast(error.message, "error");
             }
         }
 
         fetchMangaInList();
-    }, [])
+    }, [mangaId, token, userId]);
 
     // Handle selection of reading status
     const handleReadingSelect = async (status) => {
