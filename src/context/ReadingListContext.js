@@ -45,6 +45,8 @@ export const ReadingListProvider = ({ children }) => {
 
     const updateManga = async (token, userId, mangaId, status) => {
         try {
+            console.log("mangaId", mangaId)
+
             const response = await updateMangaUtil(token, userId, mangaId, status);
             const updatedManga = JSON.parse(response).manga;
             const updatedList = readingList.map((manga) =>

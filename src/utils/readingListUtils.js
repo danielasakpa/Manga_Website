@@ -5,7 +5,7 @@ export const addManga = async (token, userId, mangaId, status) => {
     try {
         const response = await axios({
             method: 'post',
-            url: `https://manga-proxy-server.onrender.com/api/readingList/${userId}/add-manga/${mangaId}`,
+            url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}/add-manga/${mangaId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const updateManga = async (token, userId, mangaId, status) => {
 
         const response = await axios({
             method: 'put',
-            url: `https://manga-proxy-server.onrender.com/api/readingList/${userId}/update-manga/${mangaId}`,
+            url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}/update-manga/${mangaId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
