@@ -3,7 +3,7 @@ import { MangaCover } from "../utils/fetchMangaCover";
 import { MangaStatistics } from "../utils/fetchMangaStatistics";
 import { useManga } from "../utils/fetchManga";
 import { useAuth } from '../Auth/AuthProvider';
-import { addManga, updateManga, deleteManga, getManga } from '../utils/readingListUtils';
+import { useReadingList } from '../context/ReadingListContext';
 import ReadingListMangaCardSkeleton from './ReadingListMangaCardSkeleton';
 import showToast from '../utils/toastUtils';
 import { Circles } from 'react-loader-spinner';
@@ -16,31 +16,27 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
 
     const { isAuthenticated, token } = useAuth();
 
+    const { addManga, updateManga, getManga, deleteManga } = useReadingList();
     const [selectedReading, setSelectedReading] = useState("");
     const [isInReadingList, setIsInReadingList] = useState(false);
     const [loadingReadingList, setLoadingReadingList] = useState(false);
 
-    const userId = JSON.parse(localStorage.getItem('user'))?._id;
+    const userId = localStorage.getItem("userId");
 
     useEffect(() => {
         const fetchReadingStatus = async () => {
-            try {
-                if (isAuthenticated() && token) {
-                    const res = await getManga(token, userId, manga.manga);
-                    const mangaInList = JSON.parse(res);
+            if (isAuthenticated() && token) {
+                const mangaInList = await getManga(token, userId, manga.manga);
 
-                    if (mangaInList.manga.manga === manga.manga) {
-                        setSelectedReading(mangaInList.manga.status);
-                        setIsInReadingList(true);
-                    }
+                if (mangaInList?.manga.manga === manga.manga) {
+                    setSelectedReading(mangaInList.manga.status);
+                    setIsInReadingList(true);
                 }
-            } catch (error) {
-                console.error('Error fetching reading status:', error);
             }
         };
 
         fetchReadingStatus();
-    }, [isAuthenticated, token, manga.manga, userId]);
+    }, [getManga, isAuthenticated, token, manga.manga, userId]);
 
     const handleReadingSelect = async (status) => {
         try {
@@ -52,20 +48,16 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                 if (status === "Remove from list") {
                     await deleteManga(token, userId, manga.manga, status);
                     setIsInReadingList(false);
-                    showToast("Manga was removed from the list");
                 } else {
                     await updateManga(token, userId, manga.manga, status);
                     setIsInReadingList(true);
-                    showToast("Manga was updated in the list");
                 }
             } else {
                 await addManga(token, userId, manga.manga, status);
                 setIsInReadingList(true);
-                showToast("Manga was added to the list");
             }
 
             setLoadingReadingList(false);
-            updateReadingList()
         } catch (error) {
             showToast(
                 error.response?.data?.message || 'An error occurred while updating the reading list status.',

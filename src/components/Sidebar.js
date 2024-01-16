@@ -53,7 +53,7 @@ function Sidebar() {
                 <div className="pl-2 space-y-6">
                     {generalItems.map((item, index) => (
                         <Link
-                            to={item.link}
+                            to={item.label === "Log Out" ? "/login" : item.link}
                             key={index}
                             onClick={item.label === "Log Out" && logout}
                             className="flex items-center space-x-2 py-2 px-2 rounded-md hover:bg-[#F4B333] cursor-pointer">

@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { getReadingList } from '../utils/readingListUtils';
 import { useAuth } from '../Auth/AuthProvider';
 import ReadingListMangaCard from '../components/ReadingListMangaCard';
 import { Circles } from 'react-loader-spinner'
 import showToast from '../utils/toastUtils';
 import LogIngSvg from '../assets/Login-bro.svg';
 import { Link } from 'react-router-dom';
+import { useReadingList } from '../context/ReadingListContext';
 
 function MyList() {
 
-    const { isAuthenticated, token } = useAuth();
+    const { isAuthenticated, token, error } = useAuth();
 
-    const [readingList, setReadingList] = useState([]);
+    const { readingList, getReadingList, setReadingList } = useReadingList();
     const [isLoadingList, setIsLoadingList] = useState(false);
-    const [error, setError] = useState("");
 
-    const userId = JSON.parse(localStorage.getItem('user'))?._id;
+    const userId = localStorage.getItem("userId");
 
     useEffect(() => {
 
-        const fetchRelatedManga = async () => {
+        const fetchReadingList = async () => {
 
             try {
                 if (isAuthenticated()) {
@@ -36,25 +35,12 @@ function MyList() {
                 }
             } catch (error) {
                 setIsLoadingList(false);
-                setError(error.message)
-                showToast(error.message, "error");
             }
         }
 
-        fetchRelatedManga();
+        fetchReadingList();
     }, [])
 
-    const updateReadingList = async () => {
-        try {
-            const res = await getReadingList(token, userId);
-            const updatedList = JSON.parse(res);
-            if (updatedList) {
-                setReadingList(updatedList.readingList.mangas.reverse());
-            }
-        } catch (error) {
-            showToast(error.message, "error");
-        }
-    };
 
     return (
         <>
@@ -85,8 +71,8 @@ function MyList() {
                                             </h1>
                                         </div>
                                         :
-                                        readingList.map(manga => (
-                                            <ReadingListMangaCard key={manga.manga} manga={manga} updateReadingList={updateReadingList} />
+                                        readingList.reverse().map(manga => (
+                                            <ReadingListMangaCard key={manga.manga} manga={manga} />
                                         ))
                                     :
                                     <div className='w-full h-full flex justify-center items-center'>

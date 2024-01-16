@@ -5,7 +5,7 @@ export const addManga = async (token, userId, mangaId, status) => {
     try {
         const response = await axios({
             method: 'post',
-            url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}/add-manga/${mangaId}`,
+            url: `https://manga-proxy-server.onrender.com/api/readingList/${userId}/add-manga/${mangaId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const updateManga = async (token, userId, mangaId, status) => {
 
         const response = await axios({
             method: 'put',
-            url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}/update-manga/${mangaId}`,
+            url: `https://manga-proxy-server.onrender.com/api/readingList/${userId}/update-manga/${mangaId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
@@ -42,9 +42,6 @@ export const updateManga = async (token, userId, mangaId, status) => {
 // Utility function to get one user by ID
 export const getManga = async (token, userId, mangaId) => {
     try {
-
-        console.log("token", token)
-
         const response = await axios(
             {
                 method: 'get',
@@ -61,7 +58,7 @@ export const getManga = async (token, userId, mangaId) => {
 };
 
 // Utility function to get Reading List by ID
-export const getReadingList = async (token, userId, mangaId) => {
+export const getReadingList = async (token, userId) => {
     try {
         const response = await axios(
             {

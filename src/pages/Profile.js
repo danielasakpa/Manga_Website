@@ -1,6 +1,7 @@
 // Protected.js
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Auth/AuthProvider';
+import { useUser } from '../context/UserContext';
 import EditProfileForm from '../components/EditProfileForm';
 import { Circles } from 'react-loader-spinner'
 import { deleteUser } from '../utils/userUtils';
@@ -10,20 +11,11 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
     const { logout, token } = useAuth();
 
+    const { user, loading, setUser, setLoading } = useUser();
+
     const navigate = useNavigate();
 
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
     const [isEdit, setIsEdit] = useState({ condition: false, type: "" });
-    const [newUser, setNewUser] = useState(user);
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        if (Object.keys(newUser).length > 0) {
-            localStorage.setItem('user', JSON.stringify(newUser));
-        }
-
-        setUser(JSON.parse(localStorage.getItem("user")))
-    }, [newUser])
 
     const handleEditClick = (type) => {
         setIsEdit({ condition: true, type });
@@ -36,17 +28,17 @@ const Profile = () => {
     const handleDeleteClick = async (e) => {
         e.preventDefault();
 
-        setIsLoading(true);
+        setLoading(true);
 
         try {
 
             await deleteUser(user._id, token);
             logout();
-            setIsLoading(false);
+            setLoading(false);
             navigate('/login');
             showToast("User was successfully Deleted");
         } catch (error) {
-            setIsLoading(false);
+            setLoading(false);
             // Handle error
             showToast(error.message, "error");
         };
@@ -55,9 +47,9 @@ const Profile = () => {
 
     return (
         <>
-            <div className={`${isLoading ? "bg-black" : "bg-white"} w-full h-[100vh] flex justify-center items-center relative`}>
+            <div className={`${loading ? "bg-black" : "bg-white"} w-full h-[100vh] flex justify-center items-center relative`}>
                 {
-                    isLoading ?
+                    loading ?
                         <div className="popOut flex items-center justify-center">
                             <Circles
                                 height="35"
@@ -72,8 +64,8 @@ const Profile = () => {
                         <div>
                             <h2 className="text-3xl font-semibold mb-4">User Profile Page</h2>
                             <div className="mb-4">
-                                <p className="text-[25px] font-medium">{user.username}</p>
-                                <p className="text-gray-600">{user.email}</p>
+                                <p className="text-[25px] font-medium">{user?.username}</p>
+                                <p className="text-gray-600">{user?.email}</p>
                             </div>
                             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                                 <button
@@ -106,7 +98,7 @@ const Profile = () => {
                             {isEdit.condition && (
                                 <>
                                     <div className="fixed inset-0 flex items-center justify-center z-50">
-                                        <EditProfileForm user={user} token={token} setIsEdit={setIsEdit} type={isEdit.type} setNewUser={setNewUser} setIsLoading={setIsLoading} />
+                                        <EditProfileForm user={user} token={token} setIsEdit={setIsEdit} type={isEdit.type} setUser={setUser} setLoading={setLoading} />
                                     </div>
                                     <div className={`${isEdit.condition ? "opacity-25 fixed" : "opacity-0"} inset-0 z-40 bg-black`}></div>
                                 </>

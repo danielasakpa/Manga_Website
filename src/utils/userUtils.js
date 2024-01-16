@@ -11,9 +11,17 @@ export const getAllUsers = async () => {
 };
 
 // Utility function to get one user by ID
-export const getOneUser = async (id) => {
+export const getOneUser = async (userId, token) => {
     try {
-        const response = await axios.get(`https://manga-server-luxr.onrender.com/api/user/${id}`);
+        const response = await axios({
+            method: 'GET',
+            url: `https://manga-server-luxr.onrender.com/api/user/${userId}`,
+            headers: {
+                Authorization: token,
+                'Content-Type': 'application/json',
+            },
+        });
+
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while fetching the user.');

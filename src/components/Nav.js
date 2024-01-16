@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { MagnifyingGlassIcon, BellAlertIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import DanImg from "../assets/dan.png";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useMangaContext } from '../context/MangaContext';
 import { useAuth } from '../Auth/AuthProvider';
+import { useUser } from '../context/UserContext';
 
 function Nav() {
     const [mangaName, setMangaName] = useState('');
@@ -12,7 +13,7 @@ function Nav() {
     const { setMangas, setLoading } = useMangaContext();
     const { isAuthenticated, logout } = useAuth();
 
-    const username = JSON.parse(localStorage.getItem('user'))?.username;
+    const { user, loading } = useUser();
 
     async function handleSearch() {
         setLoading(true);
@@ -49,14 +50,11 @@ function Nav() {
                         <div className="relative">
                             <input
                                 type="text"
-                                placeholder="Search"
+                                placeholder="Mange Name"
                                 value={mangaName}
                                 onChange={(e) => setMangaName(e.target.value)}
                                 className=" bg-white border-r-2 border-gray-300 px-4 py-2 h-[50px] w-[400px] focus:outline-none"
                             />
-                            <div className="absolute right-3 top-4">
-                                <MagnifyingGlassIcon className="w-5 h-5 text-gray-400" />
-                            </div>
                         </div>
                         <Link
                             to='/search'
@@ -74,27 +72,26 @@ function Nav() {
                     Search
                     <MagnifyingGlassIcon className="w-4 h-4 text-black ml-[5px]" />
                 </Link>
-                {/* <div className="relative hidden lg:block">
-                    <button className="relative flex items-center justify-center bg-transparent border-none focus:outline-none">
-                        <BellAlertIcon className="md:w-10 md:h-10 w-5 h-5 text-gray-400" />
-                        {notificationCount > 0 && (
-                            <span className="absolute px-1 py-1 text-xs text-white bg-red-500 rounded-full -top-1 -right-0">
-                                {notificationCount}
-                            </span>
-                        )}
-                    </button>
-                </div> */}
                 <Link to={isAuthenticated() ? "/profile" : "/login"} >
                     <div className="flex items-center space-x-2 cursor-pointer hidden lg:block">
-                        <div
-                            className={`w-12 h-12 ${username ? "text-[35px]" : "text-[10px]"}  font-Roboto font-bold text-white rounded-full bg-gray-400 flex justify-center items-center`}
-                        >
-                            <span>
-                                {
-                                    username ? username.split("")[0] : "No User"
-                                }
-                            </span>
-                        </div>
+                        {
+                            loading && !user ?
+                                <div
+                                    className={`w-12 h-12 font-Roboto font-bold text-white rounded-full bg-gray-400 animate-pulse`}
+                                >
+
+                                </div>
+                                :
+                                <div
+                                    className={`w-12 h-12 ${user?.username ? "text-[35px]" : "text-[10px]"}  font-Roboto font-bold text-white rounded-full bg-gray-400 flex justify-center items-center`}
+                                >
+                                    <span>
+                                        {
+                                            user?.username ? user?.username.split("")[0] : "No User"
+                                        }
+                                    </span>
+                                </div>
+                        }
                     </div>
                 </Link>
                 <div className="flex items-center space-x-2 cursor-pointer block lg:hidden">

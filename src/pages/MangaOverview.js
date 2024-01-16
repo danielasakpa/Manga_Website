@@ -12,8 +12,8 @@ import MangaImageAndDescriptionSection from '../components/MangaImageAndDescript
 import RelatedMangaSection from '../components/RelatedMangaSection';
 import RecommendedMangaSection from '../components/RecommendedMangaSection';
 import { MangaOverviewSkeleton } from '../components/MangaOverviewSkeleton';
-import { addManga, updateManga, getManga, deleteManga } from '../utils/readingListUtils';
 import { useAuth } from '../Auth/AuthProvider';
+import { useReadingList } from '../context/ReadingListContext';
 import showToast from '../utils/toastUtils';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import LogIngSvg from '../assets/Login-bro.svg';
@@ -24,7 +24,7 @@ function MangaOverview() {
 
     const { isAuthenticated, token } = useAuth();
 
-    // State variables
+    const { addManga, updateManga, getManga, deleteManga } = useReadingList();
     const [selectedReading, setSelectedReading] = useState("");
     const [relatedManga, setRelatedManga] = useState([]);
     const [loadingRelatedManga, setLoadingRelatedManga] = useState(true);
@@ -34,9 +34,8 @@ function MangaOverview() {
     const [vis, setVis] = useState(false);
 
     // User and manga IDs with token
-    const userId = JSON.parse(localStorage.getItem('user'))?._id;
+    const userId = localStorage.getItem("userId");
     const mangaId = id;
-    // const token = localStorage.getItem('token');
 
     // Fetch manga data, cover, and statistics
     const { data: mangaData, isLoading, isError } = useManga(id);
@@ -68,25 +67,18 @@ function MangaOverview() {
     // Check if the manga is in the reading list
     useEffect(() => {
         const fetchMangaInList = async () => {
-            try {
+            if (userId && token) {
+                const mangaInList = await getManga(token, userId, mangaId);
 
-                if (userId && token) {
-                    const res = await getManga(token, userId, mangaId);
-                    const mangaInList = JSON.parse(res);
-
-                    if (mangaInList.manga.manga === mangaId) {
-                        setSelectedReading(mangaInList.manga.status);
-                        setIsInReadingList(true);
-                    }
+                if (mangaInList?.manga.manga === mangaId) {
+                    setSelectedReading(mangaInList.manga.status);
+                    setIsInReadingList(true);
                 }
-
-            } catch (error) {
-                // showToast(error.message, "error");
             }
         }
 
         fetchMangaInList();
-    }, [mangaId, token, userId]);
+    }, [getManga, mangaId, token, userId]);
 
     // Handle selection of reading status
     const handleReadingSelect = async (status) => {
@@ -105,11 +97,10 @@ function MangaOverview() {
                 if (status === "Remove form list") {
                     await deleteManga(token, userId, mangaId, status);
                     setIsInReadingList(false);
-                    showToast("Manga was removed from the list");
+                    setSelectedReading("");
                 } else {
                     await updateManga(token, userId, mangaId, status);
                     setIsInReadingList(true);
-                    showToast("Manga was updated in the list");
                 }
             } else {
                 if (status === "Remove form list") {
@@ -117,12 +108,12 @@ function MangaOverview() {
                 } else {
                     await addManga(token, userId, mangaId, status);
                     setIsInReadingList(true);
-                    showToast("Manga was added to the list");
                 }
             }
 
             setLoadingReadingList(false);
         } catch (error) {
+            setLoadingReadingList(false)
             showToast(
                 error.response?.data?.message || 'An error occurred while adding the Manga to the Reading List.',
                 "info"

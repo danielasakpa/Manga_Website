@@ -13,10 +13,10 @@ const AuthProvider = ({ children }) => {
     const login = async (userData) => {
         try {
             const response = await axios.post('https://manga-server-luxr.onrender.com/api/auth/login', userData);
-            const { user, token } = response.data;
+            const { userId, token } = response.data;
             setToken(token);
 
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('userId', userId);
             localStorage.setItem('token', token);
 
             // Redirect to the previous path if available, otherwise go to the home page
@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
     const logout = async () => {
         setToken(null);
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.removeItem('userId');
 
         navigate('/login');
     };

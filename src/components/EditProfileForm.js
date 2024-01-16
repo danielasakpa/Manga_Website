@@ -3,7 +3,7 @@ import { updateUser } from '../utils/userUtils';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import showToast from '../utils/toastUtils';
 
-const EditProfileForm = ({ user, token, setIsEdit, type, setNewUser, setIsLoading }) => {
+const EditProfileForm = ({ user, token, setIsEdit, type, setUser, setLoading }) => {
 
     const [username, setUserName] = useState(user.username);
     const [email, setEmail] = useState(user.email);
@@ -14,7 +14,7 @@ const EditProfileForm = ({ user, token, setIsEdit, type, setNewUser, setIsLoadin
     const handleEditUser = async (e, type) => {
         e.preventDefault();
 
-        setIsLoading(true);
+        setLoading(true);
 
         setIsEdit(false);
 
@@ -27,11 +27,11 @@ const EditProfileForm = ({ user, token, setIsEdit, type, setNewUser, setIsLoadin
         try {
 
             const userData = await updateUser(user._id, editUserParams, token);
-            setNewUser(userData);
-            setIsLoading(false);
+            setUser(userData);
+            setLoading(false);
             type === "Edit User" ? showToast("User Data successfully updated") : showToast("User Password successfully updated");
         } catch (error) {
-            setIsLoading(false);
+            setLoading(false);
             // Handle error
             showToast(`Error updating user`, "error");
         }
