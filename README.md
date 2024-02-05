@@ -2,6 +2,13 @@
 
 Welcome to **YUKI MANGA**, a comprehensive manga exploration platform developed with React, Tailwind CSS, MangaDex API, Node.js, Express.js, and MongoDB. This project was an exciting journey that involved overcoming challenges, implementing innovative solutions, and leveraging cutting-edge technologies.
 
+## Screenshots
+<br/>
+
+<p align="center">
+  <img src="https://i.ibb.co/7Y2K6jw/Firefox-Screenshot-2024-01-11-T09-58-20-097-Z.png" alt="Alt Text">
+</p>
+
 ## Table of Contents
 
 - [Overview](#overview)
