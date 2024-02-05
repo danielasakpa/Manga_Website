@@ -1,71 +1,161 @@
-# Getting Started with Create React App
+# YUKI MANGA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to **YUKI MANGA**, a comprehensive manga exploration platform developed with React, Tailwind CSS, MangaDex API, Node.js, Express.js, and MongoDB. This project was an exciting journey that involved overcoming challenges, implementing innovative solutions, and leveraging cutting-edge technologies.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [What You Can Do](#what-you-can-do)
+- [Project Structure](#project-structure)
+- [Learning Along the Way](#learning-along-the-way)
+- [Repository Structure](#repository-structure)
+- [Getting Started](#getting-started)
+- [Explore API Documentation](#explore-api-documentation)
+- [Explore Proxy Server](#explore-proxy-server)
+- [Explore Auth Server](#explore-auth-server)
+- [Contributing](#contributing)
+- [License](#license)
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**YUKI MANGA** is your ultimate destination for immersive manga exploration! Discover, read, and manage your favorite manga seamlessly with this cutting-edge Manga App. Developed with a tech stack that includes React for the frontend, Tailwind CSS for styling, and Node.js and Express.js for the backend, this project is designed to offer a visually captivating and feature-rich experience for manga enthusiasts.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+- **React:** A JavaScript library for building user interfaces. The entire frontend of **YUKI MANGA** is built with React, enabling a dynamic and responsive user interface.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Tailwind CSS:** A utility-first CSS framework used for styling. Tailwind CSS allowed for quick and consistent styling across the application.
 
-### `npm run build`
+- **MangaDex API:** The backbone of the manga content. The application leverages the MangaDex API to fetch and display manga information.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Node.js and Express.js:** The backend is powered by Node.js, with Express.js providing a robust and flexible web application framework.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!git push -f origin branch_name
+- **MongoDB:** A NoSQL database used for storing user data and reading lists. MongoDB's flexibility and scalability make it an ideal choice for this project.
 
+## What You Can Do
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Discover Manga:** Explore a vast collection of manga from various genres.
 
-### `npm run eject`
+- **Read Manga:** Immerse yourself in an unparalleled reading experience with a user-friendly reader.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Manage Reading List:** Create and organize your reading list. Keep track of manga you're currently reading and those on your wishlist.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Secure Account:** User authentication ensures the security of your account and reading preferences.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The project is organized into different modules, each serving a specific purpose:
 
-## Learn More
+- **Frontend:** The user interface built with React and styled with Tailwind CSS.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Backend:** Node.js and Express.js server handling user authentication, user data management, and reading list operations.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Proxy Server:** A custom Node.js proxy server that I built to handle requests to the MangaDex API. This server helps manage API calls and ensures a smooth experience for users.
 
-### Code Splitting
+## Learning Along the Way
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Challenges Faced
 
-### Analyzing the Bundle Size
+1. **API Request Handling:** Managing requests to the MangaDex API efficiently was a challenge. I addressed this by creating a custom proxy server to handle API requests, reducing latency and improving performance.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+2. **User Authentication:** Implementing a secure user authentication system required careful consideration. The separate server dedicated to user authentication and data management helped centralize these processes.
 
-### Making a Progressive Web App
+### Solutions Implemented
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. **Proxy Server:** The custom proxy server acts as a middleware between the frontend and the MangaDex API, enhancing the overall performance and reliability of the application.
 
-### Advanced Configuration
+2. **Separate Auth Server:** Isolating user authentication and data management into a separate server improved the project's maintainability and security.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Repository Structure
 
-### Deployment
+- **[YUKI MANGA](https://github.com/danielasakpa/Yuki-Manga):** The main repository for the YUKI MANGA project.
+- **[Auth Server](https://github.com/danielasakpa/Auth-Server):** Repository for the user authentication and data management server.
+- **[Proxy Server](https://github.com/danielasakpa/MangaDex-Proxy-Server):** Repository for the custom proxy server handling requests to the MangaDex API.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Getting Started
 
-### `npm run build` fails to minify
+1. **Clone the repositories:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    ```bash
+    git clone https://github.com/danielasakpa/Yuki-Manga.git
+    git clone https://github.com/danielasakpa/Auth-Server.git
+    git clone https://github.com/danielasakpa/MangaDex-Proxy-Server.git
+    ```
+
+2. **Install dependencies:**
+
+    Navigate to each repository and run:
+
+    ```bash
+    npm install
+    ```
+
+3. **Set up environment variables:**
+
+    Create a `.env` file in the Auth Server repository with the necessary environment variables:
+
+    ```env
+    # Example .env content for Auth Server
+    MONGO_URI=<your-mongodb-uri>
+    JWT_SECRET=<your-secret-key>
+    ```
+
+4. **Run the applications:**
+
+    - **Auth Server:**
+
+        ```bash
+        cd Auth-Server
+        npm start
+        ```
+
+        The server runs on port 5000 if the `PORT` environment variable is not provided.
+
+    - **Proxy Server:**
+
+        ```bash
+        cd MangaDex-Proxy-Server
+        npm start
+        ```
+
+        The server runs on port 4000 if the `PORT` environment variable is not provided.
+
+    - **YUKI MANGA (React Frontend):**
+
+        ```bash
+        cd Yuki-Manga
+        npm start
+        ```
+
+        The React frontend runs on port 3000.
+
+5. **Explore and Contribute:**
+
+    Feel free to explore the app and contribute to its development. If you encounter any issues or have suggestions, please open an [issue](https://github.com/danielasakpa/Yuki-Manga/issues).
+
+## Explore API Documentation
+
+Explore the [MangaDex API documentation](https://api.mangadex.org/docs/) for more details on integrating and working with the MangaDex API.
+
+## Explore Proxy Server
+
+Explore the [Proxy Server repository](https://github.com/danielasakpa/MangaDex-Proxy-Server) to understand the custom proxy server's inner workings and contribute to its development.
+
+## Explore Auth Server
+
+Explore the [Auth Server repository](https://github.com/danielasakpa/Auth-Server) for insights into the user authentication and data management server and contribute to its enhancement.
+
+## Contributing
+
+If you'd like to contribute to **YUKI MANGA**, please follow these guidelines:
+
+1. Fork the repository and create a new branch.
+2. Make your changes and test thoroughly.
+3. Ensure your code follows the project's coding standards.
+4. Create a pull request with a clear description of your changes.
+5. Participate in discussions and address feedback.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
