@@ -1,5 +1,12 @@
 # YUKI MANGA
 
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![React](https://img.shields.io/badge/React-17.0.2-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-Latest-blueviolet)
+![Node.js](https://img.shields.io/badge/Node.js-Latest-green)
+![Express.js](https://img.shields.io/badge/Express.js-Latest-green)
+![MongoDB](https://img.shields.io/badge/MongoDB-Latest-brightgreen)
+
 Welcome to **YUKI MANGA**, a comprehensive manga exploration platform developed with React, Tailwind CSS, MangaDex API, Node.js, Express.js, and MongoDB. This project was an exciting journey that involved overcoming challenges, implementing innovative solutions, and leveraging cutting-edge technologies.
 
 ## Screenshots
