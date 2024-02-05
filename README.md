@@ -13,7 +13,7 @@ Welcome to **YUKI MANGA**, a comprehensive manga exploration platform developed 
 - [Getting Started](#getting-started)
 - [Explore API Documentation](#explore-api-documentation)
 - [Explore Proxy Server](#explore-proxy-server)
-- [Explore Auth Server](#explore-auth-server)
+- [Explore Manga Server](#explore-auth-server)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -65,22 +65,22 @@ The project is organized into different modules, each serving a specific purpose
 
 1. **Proxy Server:** The custom proxy server acts as a middleware between the frontend and the MangaDex API, enhancing the overall performance and reliability of the application.
 
-2. **Separate Auth Server:** Isolating user authentication and data management into a separate server improved the project's maintainability and security.
+2. **Separate Manga Server:** Isolating user authentication and data management into a separate server improved the project's maintainability and security.
 
 ## Repository Structure
 
-- **[YUKI MANGA](https://github.com/danielasakpa/Yuki-Manga):** The main repository for the YUKI MANGA project.
-- **[Auth Server](https://github.com/danielasakpa/Auth-Server):** Repository for the user authentication and data management server.
-- **[Proxy Server](https://github.com/danielasakpa/MangaDex-Proxy-Server):** Repository for the custom proxy server handling requests to the MangaDex API.
+- **[YUKI MANGA](https://github.com/danielasakpa/Manga_Website):** The main repository for the YUKI MANGA project.
+- **[Manga Server](https://github.com/danielasakpa/manga-server):** Repository for the user authentication and data management server.
+- **[Proxy Server](https://github.com/danielasakpa/proxy-server):** Repository for the custom proxy server handling requests to the MangaDex API.
 
 ## Getting Started
 
 1. **Clone the repositories:**
 
     ```bash
-    git clone https://github.com/danielasakpa/Yuki-Manga.git
-    git clone https://github.com/danielasakpa/Auth-Server.git
-    git clone https://github.com/danielasakpa/MangaDex-Proxy-Server.git
+    git clone https://github.com/danielasakpa/Manga_Website.git
+    git clone https://github.com/danielasakpa/manga-server.git
+    git clone https://github.com/danielasakpa/proxy-server.git
     ```
 
 2. **Install dependencies:**
@@ -93,20 +93,20 @@ The project is organized into different modules, each serving a specific purpose
 
 3. **Set up environment variables:**
 
-    Create a `.env` file in the Auth Server repository with the necessary environment variables:
+    Create a `.env` file in the Manga Server repository with the necessary environment variables:
 
     ```env
-    # Example .env content for Auth Server
+    # Example .env content for manga-server
     MONGO_URI=<your-mongodb-uri>
     JWT_SECRET=<your-secret-key>
     ```
 
 4. **Run the applications:**
 
-    - **Auth Server:**
+    - **Manga Server:**
 
         ```bash
-        cd Auth-Server
+        cd manga-server
         npm start
         ```
 
@@ -115,7 +115,7 @@ The project is organized into different modules, each serving a specific purpose
     - **Proxy Server:**
 
         ```bash
-        cd MangaDex-Proxy-Server
+        cd proxy-server
         npm start
         ```
 
@@ -124,7 +124,7 @@ The project is organized into different modules, each serving a specific purpose
     - **YUKI MANGA (React Frontend):**
 
         ```bash
-        cd Yuki-Manga
+        cd Manga_Website
         npm start
         ```
 
@@ -132,7 +132,7 @@ The project is organized into different modules, each serving a specific purpose
 
 5. **Explore and Contribute:**
 
-    Feel free to explore the app and contribute to its development. If you encounter any issues or have suggestions, please open an [issue](https://github.com/danielasakpa/Yuki-Manga/issues).
+    Feel free to explore the app and contribute to its development. If you encounter any issues or have suggestions, please open an [issue](https://github.com/danielasakpa/Manga_Website/issues).
 
 ## Explore API Documentation
 
@@ -140,11 +140,11 @@ Explore the [MangaDex API documentation](https://api.mangadex.org/docs/) for mor
 
 ## Explore Proxy Server
 
-Explore the [Proxy Server repository](https://github.com/danielasakpa/MangaDex-Proxy-Server) to understand the custom proxy server's inner workings and contribute to its development.
+Explore the [Proxy Server repository](https://github.com/danielasakpa/proxy-server) to understand the custom proxy server's inner workings and contribute to its development.
 
-## Explore Auth Server
+## Explore Manga Server
 
-Explore the [Auth Server repository](https://github.com/danielasakpa/Auth-Server) for insights into the user authentication and data management server and contribute to its enhancement.
+Explore the [Manga Server repository](https://github.com/danielasakpa/manga-server) for insights into the user authentication and data management server and contribute to its enhancement.
 
 ## Contributing
 
