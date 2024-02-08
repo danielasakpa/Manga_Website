@@ -42,6 +42,8 @@ function MangaOverview() {
     const { data: coverFilename, isLoading: isCoverLoading } = MangaCover(id);
     const { data: statistics, isLoading: isStatsLoading } = MangaStatistics(id);
 
+    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
+
     // Fetch related manga
     useEffect(() => {
         const fetchRelatedManga = async () => {
@@ -49,7 +51,7 @@ function MangaOverview() {
                 if (!isCoverLoading) {
                     for (const relationship of mangaData?.relationships || []) {
                         if (relationship.type === 'manga') {
-                            const response = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/${relationship.id}`)}`);
+                            const response = await axios.get(`${PROXY_SERVER_URL}/api/manga/${relationship.id}`);
                             const manga = response.data.data;
                             setRelatedManga(prevList => [...prevList, manga]);
                         }
@@ -153,7 +155,7 @@ function MangaOverview() {
                 <>
                     <MangaDetailsSection mangaDetails={mangaDetails} />
                     <MangaImageAndDescriptionSection
-                        imageUrl={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`}
+                        imageUrl={`${PROXY_SERVER_URL}/image/covers/${id}/${imageUrl}`}
                         mangaData={mangaData}
                         myList={myList}
                         selectedReading={selectedReading}

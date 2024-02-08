@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'Roboto': ["Roboto"],
+        'Roboto': ["DM Sans"],
         "Bebas": ["Bebas Neue"],
         "Kanit": ["Kanit"]
       },

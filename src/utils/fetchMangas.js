@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+
+const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
+
 export async function fetchMangas(order, limit, includedTags, excludedTags, page) {
     const tagsResponse = await axios({
         method: 'get',
-        url: `https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/tag`)}`,
+        url: `${PROXY_SERVER_URL}/api/manga/tag`,
         withCredentials: false,
     });
 
@@ -24,7 +27,7 @@ export async function fetchMangas(order, limit, includedTags, excludedTags, page
 
     const response = await axios({
         method: 'get',
-        url: `https://manga-proxy-server.onrender.com/mangas?url=https://api.mangadex.org/manga`,
+        url: `${PROXY_SERVER_URL}/api/manga`,
         withCredentials: false,
         params: {
             includedTags: includedTagIDs,

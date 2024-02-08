@@ -33,14 +33,9 @@ function Sidebar() {
                 </div>
                 <div className="pl-2 space-y-6">
                     {menuItems.map((item, index) => (
-                        <Link to={item.link} key={index} className="flex items-center space-x-2 py-2 px-2 rounded-md hover:bg-[#F4B333] cursor-pointer">
-                            {item.icon}
-                            <span className='lg:text-[15px] text-[17px]'>{item.label}</span>
-                            {/* {item.badge && (
-                                <span className="ml-auto flex items-center justify-center rounded-full bg-[#E40066] text-white lg:text-[0.65rem] text-xs w-5 h-5 p-2">
-                                    {item.badge}
-                                </span>
-                            )} */}
+                        <Link to={item.link} key={index} className="link-item flex items-center space-x-2 py-2 px-2 rounded-md cursor-pointer hover:text-white">
+                            <span className='z-20'>{item.icon}</span>
+                            <span className='lg:text-[15px] text-[17px] z-20'>{item.label}</span>
                         </Link>
 
                     ))}
@@ -56,9 +51,9 @@ function Sidebar() {
                             to={item.label === "Log Out" ? "/login" : item.link}
                             key={index}
                             onClick={item.label === "Log Out" && logout}
-                            className="flex items-center space-x-2 py-2 px-2 rounded-md hover:bg-[#F4B333] cursor-pointer">
-                            {item.icon}
-                            <span className='g:text-[15px] text-[17px]'>{item.label}</span>
+                            className="link-item flex items-center space-x-2 py-2 px-2 rounded-md cursor-pointer hover:text-white">
+                            <span className='z-20'>{item.icon}</span>
+                            <span className='g:text-[15px] text-[17px] z-20'>{item.label}</span>
                         </Link>
                     ))}
                 </div>

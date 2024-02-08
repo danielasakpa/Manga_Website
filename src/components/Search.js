@@ -18,10 +18,6 @@ const categories = [
   "Historical",
   "Psychological",
   "School Life",
-  "Shounen",
-  "Shoujo",
-  "Seinen",
-  "Josei",
 ];
 
 const statuses = ["Ongoing", "Completed"];
@@ -36,6 +32,8 @@ const orderDirections = [
   { label: "Ascending", value: "asc" },
   { label: "Descending", value: "desc" },
 ];
+
+const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
 const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handleErrorResponse }) => {
   const [mangaName, setMangaName] = useState('');
@@ -60,12 +58,12 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
     setVis(prevVis => !prevVis);
     setMangaVis(true);
     try {
-      const tagsResponse = await axios.get(`https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/tag`)}`);
+      const tagsResponse = await axios.get(`${PROXY_SERVER_URL}/api/manga/tag`);
 
       if (searchParams.mangaName.trim()) {
         const resp = await axios({
           method: 'GET',
-          url: `https://manga-proxy-server.onrender.com/manga?url=${encodeURIComponent(`https://api.mangadex.org/manga`)}`,
+          url: `${PROXY_SERVER_URL}/api/manga`,
           withCredentials: false,
           params: {
             title: searchParams.mangaName.trim()
@@ -98,7 +96,7 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
 
       const response = await axios({
         method: 'get',
-        url: `https://manga-proxy-server.onrender.com/mangas?url=https://api.mangadex.org/manga`,
+        url: `${PROXY_SERVER_URL}/api/manga`,
         withCredentials: false,
         params: {
           includedTags: includedTagIDs,

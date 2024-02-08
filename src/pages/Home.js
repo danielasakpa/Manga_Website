@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useMangaContext } from '../context/MangaContext';
 import MangaSlider from '../components/MangaSlider';
 import MangaCards from '../components/MangaCards';
+import showToast from '../utils/toastUtils';
+import { useNavigate } from 'react-router-dom';
+import { BallTriangle } from 'react-loader-spinner'
 
-function Home() {
+const Home = () => {
 
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const { setMangas, isLoading, setLoading } = useMangaContext();
+    const [tags, setTags] = useState([]);
+    const [categoryButtonClicked, setCategoryButtonClicked] = useState(false); // New state variable
+
+    const navigate = useNavigate();
+
+    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
     const categories = [
         "Action",
@@ -12,6 +23,7 @@ function Home() {
         "Comedy",
         "Drama",
         "Fantasy",
+        "Isekai",
         "Horror",
         "Romance",
         "Sci-Fi",
@@ -21,15 +33,68 @@ function Home() {
         "Historical",
         "Psychological",
         "School Life",
-        "Shounen",
-        "Shoujo",
-        "Seinen",
-        "Josei",
+        "Magic",
+        "Mecha"
     ];
 
+    useEffect(() => {
+        if (categoryButtonClicked) {
+            handelSearch();
+            setCategoryButtonClicked(false);
+        }
+    }, [tags, categoryButtonClicked]);
+
+    const handelSearch = async () => {
+
+        const searchParams = {
+            includedTags: tags,
+        };
+
+        setLoading(true);
+
+        try {
+            const tagsResponse = await axios({
+                method: 'get',
+                url: `${PROXY_SERVER_URL}/api/manga/tag`,
+                withCredentials: false,
+            });
+
+            const includedTagIDs = tagsResponse.data.data
+                .filter(tag => searchParams.includedTags.includes(tag.attributes.name.en))
+                .map(tag => tag.id);
+
+            const finalOrderQuery = {};
+
+            for (const [key, value] of Object.entries({ rating: 'desc' })) {
+                finalOrderQuery[`order[${key}]`] = value;
+            }
+
+            const response = await axios({
+                method: 'get',
+                url: `${PROXY_SERVER_URL}/api/manga`,
+                withCredentials: false,
+                params: {
+                    includedTags: includedTagIDs,
+                    ...finalOrderQuery,
+                    limit: 30,
+                },
+            });
+
+            setMangas(response.data.data);
+        } catch (error) {
+            setLoading(false);
+            showToast(error.message, "error");
+        } finally {
+            setLoading(false);
+            navigate("/search");
+        }
+    }
+
     const handleCategorySelect = (category) => {
-        setSelectedCategory(category);
-    };
+        setTags([category]);
+        setCategoryButtonClicked(true);
+    }
+
 
     return (
         <div className='w-full'>
@@ -45,10 +110,7 @@ function Home() {
                             <button
                                 key={index}
                                 className={`px-2 md:px-6 py-2 text-[11px] md:text-[20px] rounded-md font-semibold tracking-[0.2em] border border-[#1F1F1F] text-[##1F1F1F]
-                                ${selectedCategory === category
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-gray-200 text-[#1F1F1F]"
-                                    }`}
+                                        bg-gray-200 text-[#1F1F1F]`}
                                 onClick={() => handleCategorySelect(category)}
                             >
                                 {category}
@@ -71,7 +133,25 @@ function Home() {
                     <MangaCards type={"recentlyAdded"} order={{ year: 'desc' }} limit={10} includedTags={[]} excludedTags={[]} />
                 </div>
             </div>
-
+            {isLoading && (
+                <>
+                    <div
+                        className={`flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
+                    >
+                        <BallTriangle
+                            height="80"
+                            width="80"
+                            radius={5}
+                            color="#ffffff"
+                            ariaLabel="ball-triangle-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                        />
+                    </div>
+                    <div className={`"opacity-25 fixed inset-0 z-40 bg-black`}></div>
+                </>
+            )}
         </div>
     )
 }

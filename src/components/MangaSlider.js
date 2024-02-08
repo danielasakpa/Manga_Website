@@ -59,13 +59,13 @@ const Carousel = () => {
                         </div>
                         <div className="flex space-x-4">
                             <button
-                                className="text-white text-[18px] bg-[#1B6FA8] p-2 rounded-full focus:outline-none h-10 w-10 flex items-center justify-center"
+                                className="text-white text-[18px] bg-[#1B6FA8] border border-[#1F1F1F] hover:bg-[#E40066] hover:text-white p-2 rounded-full focus:outline-none h-10 w-10 flex items-center justify-center"
                                 onClick={() => handleArrow("l")}
                             >
                                 <span>&lt;</span>
                             </button>
                             <button
-                                className="text-white text-[18px]  bg-[#1B6FA8] p-2 rounded-full focus:outline-none h-10 w-10 flex items-center justify-center"
+                                className="text-white text-[18px]  bg-[#1B6FA8] border border-[#1F1F1F] hover:bg-[#E40066] hover:text-white p-2 rounded-full focus:outline-none h-10 w-10 flex items-center justify-center"
                                 onClick={() => handleArrow("r")}
                             >
                                 &gt;

@@ -36,7 +36,7 @@ export const ReadingListProvider = ({ children }) => {
     const addManga = async (token, userId, mangaId, status) => {
         try {
             const response = await addMangaUtil(token, userId, mangaId, status);
-            setReadingList([...readingList, response.manga]);
+            setReadingList([response.manga, ...readingList]);
             showToast("Manga was added to the list");
         } catch (error) {
             console.error('Error adding manga to reading list:', error.message);

@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com'; // Replace with your actual proxy server URL
+
 async function fetchMangaDetails(mangaId) {
     const response = await axios({
         method: 'get',
-        url: `https://manga-proxy-server.onrender.com/api?url=${encodeURIComponent(`https://api.mangadex.org/manga/${mangaId}/?includes[]=author&includes[]=artist&includes[]=cover_art`)}`,
+        url: `${PROXY_SERVER_URL}/api/manga/${mangaId}?includes[]=author&includes[]=artist&includes[]=cover_art`,
+        crossDomain: true,
         withCredentials: false,
     });
 

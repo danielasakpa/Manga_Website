@@ -71,7 +71,7 @@ function MyList() {
                                             </h1>
                                         </div>
                                         :
-                                        readingList.reverse().map(manga => (
+                                        readingList.map(manga => (
                                             <ReadingListMangaCard key={manga.manga} manga={manga} />
                                         ))
                                     :

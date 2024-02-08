@@ -1,7 +1,7 @@
-// AuthProvider.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 import showToast from '../utils/toastUtils';
 
 const AuthContext = createContext();
@@ -19,14 +19,13 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem('userId', userId);
             localStorage.setItem('token', token);
 
-            // Redirect to the previous path if available, otherwise go to the home page
             navigate(-1 || '/');
         } catch (error) {
             showToast('Login failed', "error");
         }
     };
 
-    const logout = async () => {
+    const logout = () => {
         setToken(null);
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
@@ -35,6 +34,27 @@ const AuthProvider = ({ children }) => {
     };
 
     const isAuthenticated = () => !!token;
+
+    useEffect(() => {
+        const checkTokenExpiration = () => {
+            if (token) {
+                const decodedToken = jwtDecode(token);
+                const currentTime = Date.now() / 1000;
+
+                if (decodedToken.exp < currentTime) {
+                    logout();
+                }
+            }
+        };
+
+        checkTokenExpiration();
+
+        const intervalId = setInterval(() => {
+            checkTokenExpiration();
+        }, 1000 * 60);
+
+        return () => clearInterval(intervalId);
+    }, [token, logout]);
 
     return (
         <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>

@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
     const { id, attributes } = manga;
 
+    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
+
     const { isLastItemVisible } = useContext(VisibilityContext);
 
     useEffect(() => {
@@ -72,7 +74,7 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
                     isCoverLoading ?
                         <div className="h-[200px] w-[100%] md:h-[300px] bg-gray-200 animate-pulse" />
                         :
-                        <img src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${id}/${imageUrl}`)}`} alt={attributes.title.en} loading='lazy' className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
+                        <img src={`${PROXY_SERVER_URL}/image/covers/${id}/${imageUrl}`} alt={attributes.title.en} loading='lazy' className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
                 }
             </div>
             <div
@@ -80,9 +82,9 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
                     } transition-opacity duration-300`}
             >
                 <p className="p-4 mb-3 text-center text-white">{attributes.description.en ? attributes.description.en.split(" ").slice(0, 20).join(" ") : attributes.title.en}...</p>
-                <Link className='list-none mx-auto' to={`/manga/${manga.id}/overview`}>
-                    <button className="text-white font-bold bg-[#1B6FA8] hover:bg-[#E40066] border-2 border-[#1F1F1F] w-max px-4 py-3 rounded">Read Now</button>
-                </Link>
+                <div className='list-none mx-auto'>
+                    <Link to={`/manga/${manga.id}/overview`} className="flex justify-center items-center btn text-white font-bold bg-[#1B6FA8] hover:bg-[#E40066] border border-[#1F1F1F] w-max px-4 py-3 rounded"><span className='z-20'> Read Now</span></Link>
+                </div>
             </div>
             <div className={`absolute bottom-0 lg:hidden py-1 border-t-[5px] border-[#1B6FA8] w-full bg-[#1F1F1F] bg-opacity-80 ${isClicked ? "" : ""}`}>
                 <p className="text-[12px] text-white text-center font-semibold">{title.split(" ").slice(0, 2).join(" ")}...</p>
@@ -101,7 +103,7 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
                     </div>
                 </div>
                 <Link className='list-none mx-auto' to={`/manga/${manga.id}/overview`}>
-                    <button className="text-white text-[13px] font-bold bg-[#1B6FA8] hover:bg-[#E40066] border-2 border-[#1F1F1F] w-[80%] px-2 py-2 mb-2 rounded">Read Now</button>
+                    <button className="text-white text-[13px] font-bold bg-[#1B6FA8] hover:bg-[#E40066] border border-[#1F1F1F] w-[80%] px-2 py-2 mb-2 rounded">Read Now</button>
                 </Link>
             </div>
             <div className='bg-[#1B6FA8] hidden lg:block p-2 flex flex-col items-center justify-center border-y-2 border-[#1F1F1F]'>

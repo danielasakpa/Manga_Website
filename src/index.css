@@ -5,6 +5,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900;9..40,1000&display=swap");
 
 html {
   height: 100%;
@@ -40,6 +41,7 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  font-family: "DM Sans", sans-serif;
 }
 
 .shadow-yellow {
@@ -101,26 +103,64 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* .formInput {
+/* Add this CSS to your stylesheet */
+
+/* Style for the Link */
+.link-item {
   display: flex;
-  flex-direction: column;
-  width: 280px;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: white;
 }
 
-.form-span {
-  font-size: 12px;
-  padding: 3px;
-  color: red;
-  display: none;
+/* Pseudo-element for the hover effect */
+.link-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #f4b333;
+  transition: left 0.3s ease-in-out;
 }
 
-input:invalid[focused="true"] {
-  border: 1px solid red;
+/* Hover effect */
+.link-item:hover::before {
+  left: 0;
 }
 
-input:invalid[focused="true"] ~ .form-span {
-  display: block;
-} */
+.btn {
+  transition: background-color 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: white;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #e40066;
+  transition: left 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.btn:hover::before {
+  z-index: 0;
+  left: 0;
+}
 
 @media screen and (max-width: 768px) {
   .react-horizontal-scrolling-menu--scroll-container {

@@ -13,7 +13,6 @@ function Layout() {
             <div className="flex">
                 <Sidebar />
                 <div className="w-full h-[100%] overflow-x-hidden mx-auto lg:w-4/5">
-                    {/* An <Outlet> renders whatever child route is currently active in App.js */}
                     <Outlet />
                     <Footer />
                 </div>

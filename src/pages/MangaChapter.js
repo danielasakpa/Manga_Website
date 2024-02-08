@@ -8,6 +8,8 @@ import useWindowWidth from '../hooks/useWindowWidth'; // Adjust the path based o
 function MangaChapter() {
     const { id, chapterId } = useParams();
 
+    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
+
     const windowWidth = useWindowWidth();
 
     const { data, isLoading, isError, error } = useChapterData(chapterId);
@@ -115,7 +117,7 @@ function MangaChapter() {
                 {
                     data?.data.map((img) => (
                         <img
-                            src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`${data.baseUrl}/data/${data.hash}/${img}`)}`}
+                            src={`${PROXY_SERVER_URL}/image/data/${data.hash}/${img}`}
                             alt='manga img'
                             loading="lazy"
                             className='mx-auto object-cover mb-[2px] w-[700px]'

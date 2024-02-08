@@ -15,12 +15,14 @@ function Nav() {
 
     const { user, loading } = useUser();
 
+    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com'; // Replace with your actual proxy server URL
+
     async function handleSearch() {
         setLoading(true);
         if (mangaName) {
             const resp = await axios({
                 method: 'GET',
-                url: `https://manga-proxy-server.onrender.com/manga?url=${encodeURIComponent(`https://api.mangadex.org/manga`)}`,
+                url: `${PROXY_SERVER_URL}/api/manga`,
                 withCredentials: false,
                 params: {
                     title: mangaName
@@ -33,7 +35,7 @@ function Nav() {
         }
     }
 
-    const notificationCount = 14; // Number of notifications
+    const notificationCount = 14;
 
     return (
         <nav className="flex sticky top-0 z-20 items-center justify-between bg-[#FAFCFC] border-b-[2px] border-[#1F1F1F] h-[80px] px-3 lg:px-8 py-4">
@@ -46,28 +48,28 @@ function Nav() {
 
             <div className='flex items-center justify-between space-x-2 lg:space-x-5'>
                 <div className='hidden lg:block mr-[20px]'>
-                    <div className="flex items-center overflow-hidden border border-gray-300 rounded-lg drop-shadow-x">
+                    <div className="flex items-center overflow-hidden border border-[#1F1F1F] rounded-lg">
                         <div className="relative">
                             <input
                                 type="text"
                                 placeholder="Mange Name"
                                 value={mangaName}
                                 onChange={(e) => setMangaName(e.target.value)}
-                                className=" bg-white border-r-2 border-gray-300 px-4 py-2 h-[50px] w-[400px] focus:outline-none"
+                                className=" bg-white border-r border-[#1F1F1F] px-4 py-2 h-[50px] w-[400px] focus:outline-none"
                             />
                         </div>
                         <Link
                             to='/search'
-                            className="flex items-center bg-white hover:bg-[#E40066] hover:text-white h-[50px] py-2 px-4"
+                            className="flex items-center bg-[#1B6FA8] text-white btn h-[50px] py-2 px-4"
                             onClick={() => handleSearch()}
                         >
-                            Search here
+                            <span className='z-20'>Search Here</span>
                         </Link>
                     </div>
                 </div>
                 <Link
                     to='/search'
-                    className='flex justify-center items-center lg:hidden block items-center text-[12px] text-black hover:text-[#fff] h-[max-content] md:text-[25px] px-4 lg:px-5 py-1 mr-[10px] border hover:border-0 border-[#F4B333] bg-[#fff] hover:bg-[#F4B333] rounded-md'
+                    className='flex justify-center items-center lg:hidden block items-center text-[12px] text-black h-[max-content] md:text-[16px] px-4 lg:px-5 py-1 mr-[10px] border border-gray-700 bg-[#fff] rounded-md'
                 >
                     Search
                     <MagnifyingGlassIcon className="w-4 h-4 text-black ml-[5px]" />
@@ -87,7 +89,7 @@ function Nav() {
                                 >
                                     <span>
                                         {
-                                            user?.username ? user?.username.split("")[0] : "No User"
+                                            user?.username ? user?.username.split("")[0] : "Sign In"
                                         }
                                     </span>
                                 </div>
