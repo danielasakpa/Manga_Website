@@ -46,7 +46,7 @@ const CarouselImage = ({ manga }) => {
                     <div
                         className="w-full flex-shrink-0 relative flex justify-left pt-[100px] lg:pt-[100px] xl:pt-[70px] pl-2 md:pl-4 pr-4 lg:pr-0 lg:pl-[70px] xl:pl-[120px] bg-gray-600 md:hover:bg-cover cursor-pointer md:hover:bg-top bg-cover md:bg-contain bg-top md:bg-center bg-no-repeat"
                         style={{
-                            backgroundImage: `url(${PROXY_SERVER_URL}/image/covers/${manga.id}/${imageUrl})`,
+                            backgroundImage: `url(${PROXY_SERVER_URL}/images/${manga.id}/${encodeURIComponent(imageUrl)})`,
                         }}
                     >
                         <div className="absolute inset-0 bg-[#1F1F1F] bg-opacity-50 rounded-lg" />

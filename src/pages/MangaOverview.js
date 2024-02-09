@@ -155,7 +155,7 @@ function MangaOverview() {
                 <>
                     <MangaDetailsSection mangaDetails={mangaDetails} />
                     <MangaImageAndDescriptionSection
-                        imageUrl={`${PROXY_SERVER_URL}/image/covers/${id}/${imageUrl}`}
+                        imageUrl={`${PROXY_SERVER_URL}/images/${id}/${encodeURIComponent(imageUrl)}`}
                         mangaData={mangaData}
                         myList={myList}
                         selectedReading={selectedReading}

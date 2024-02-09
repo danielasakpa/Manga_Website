@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com'; // Replace with your actual proxy server URL
+const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
 const useMangaChapters = (mangaID, languages = ['en']) => {
     const fetchMangaChapters = async () => {

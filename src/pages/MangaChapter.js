@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import useChapterData from "../utils/fetchMangaChapter";
 import useMangaChapters from '../utils/fetchMangaChapters';
 import MangaChapterSkeleton from '../components/MangaChapterSkeleton';
-import useWindowWidth from '../hooks/useWindowWidth'; // Adjust the path based on your file structure
+import useWindowWidth from '../hooks/useWindowWidth';
 
 function MangaChapter() {
     const { id, chapterId } = useParams();
@@ -117,7 +117,7 @@ function MangaChapter() {
                 {
                     data?.data.map((img) => (
                         <img
-                            src={`${PROXY_SERVER_URL}/image/data/${data.hash}/${img}`}
+                            src={`${PROXY_SERVER_URL}/chapter/${data.hash}/${encodeURIComponent(img)}`}
                             alt='manga img'
                             loading="lazy"
                             className='mx-auto object-cover mb-[2px] w-[700px]'

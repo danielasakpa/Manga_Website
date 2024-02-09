@@ -15,7 +15,7 @@ function Nav() {
 
     const { user, loading } = useUser();
 
-    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com'; // Replace with your actual proxy server URL
+    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
     async function handleSearch() {
         setLoading(true);
@@ -34,8 +34,6 @@ function Nav() {
             return;
         }
     }
-
-    const notificationCount = 14;
 
     return (
         <nav className="flex sticky top-0 z-20 items-center justify-between bg-[#FAFCFC] border-b-[2px] border-[#1F1F1F] h-[80px] px-3 lg:px-8 py-4">

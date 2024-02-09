@@ -74,7 +74,7 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
                     isCoverLoading ?
                         <div className="h-[200px] w-[100%] md:h-[300px] bg-gray-200 animate-pulse" />
                         :
-                        <img src={`${PROXY_SERVER_URL}/image/covers/${id}/${imageUrl}`} alt={attributes.title.en} loading='lazy' className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
+                        <img src={`${PROXY_SERVER_URL}/images/${id}/${encodeURIComponent(imageUrl)}`} alt={attributes.title.en} loading='lazy' className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
                 }
             </div>
             <div
