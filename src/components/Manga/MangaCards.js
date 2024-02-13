@@ -47,7 +47,7 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
                     </div>
                 ))
             )}
-            {isLastItem && mangaList.length > 1 && <SeeMore onClick={handleSeeMore} isLoadingNewMangas={isLoadingNewMangas} />}
+            {isLastItem && mangaList.length > 1 && <SeeMore handleSeeMore={handleSeeMore} isLoadingNewMangas={isLoadingNewMangas} />}
         </HorizontalScrollMenu>
     );
 };

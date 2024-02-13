@@ -95,7 +95,7 @@ const Home = () => {
                 </div>
                 <div className='flex flex-col items-center justify-center px-[20px] py-4'>
                     <h4 className='gradient-2 font-Bebas font-bold text-[25px] md:text-[45px] my-1 self-start'>Popular New</h4>
-                    <MangaCards type={"popularNew"} order={{ year: 'desc', followedCount: 'desc', }} limit={10} includedTags={[]} excludedTags={["Boys' Love", "doujinshi"]} />
+                    <MangaCards type={"popularNew"} order={{ year: 'desc', followedCount: 'desc' }} limit={10} includedTags={["action"]} excludedTags={["Boys' Love", "doujinshi", "Romance"]} />
                 </div>
                 <div className='flex flex-col items-center justify-center px-[20px] py-4'>
                     <h4 className='gradient-3 font-Bebas font-bold text-[25px] md:text-[45px] my-1 self-start'>Recently Added</h4>
