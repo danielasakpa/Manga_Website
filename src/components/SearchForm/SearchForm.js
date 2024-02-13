@@ -41,7 +41,7 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
   const [order, setOrder] = useState('');
   const [orderDirection, setOrderDirection] = useState('');
 
-
+  // Function to handle the search logic
   async function handleSearch() {
     setLoading(true);
 
@@ -51,6 +51,7 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
     const limit = 30
 
     try {
+      // If mangaName is provided, fetch manga by title
       if (mangaName.trim()) {
         let res = await fetchMangaByTitle(mangaName.trim());
         setLoading(false);
@@ -58,6 +59,7 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
         return;
       }
 
+      // Prepare parameters for fetchMangas API call
       const orderParams = {
         [order]: orderDirection,
       };
@@ -70,10 +72,12 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
         ...orderParams,
       };
 
+      // Perform the fetchMangas API call
       const res = await fetchMangas(orderParams, limit, searchParams.includedTags, searchParams.excludedTags, 1);
 
       setMangas(res.data);
     } catch (error) {
+      // Handle errors by updating error state and displaying a toast
       setError(error.message);
       showToast(error.message, 'error');
     } finally {
@@ -81,6 +85,7 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
     }
   }
 
+  // Function to handle tag clicks and update tag state
   const handleTagClick = (tagName) => {
     const existingTag = tags.find((tag) => tag.name === tagName);
     if (existingTag) {
@@ -98,15 +103,18 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
     }
   };
 
+  // Function to close the search form
   const handleCloseSearch = () => {
     setMangaVis(true)
     setVis(prevVis => !prevVis)
   };
 
+  // Function to handle status clicks and update status state
   const handleStatusClick = (selectedStatus) => {
     setStatus(selectedStatus === status ? '' : selectedStatus);
   };
 
+  // Functions to handle order and order direction changes
   const handleOrderChange = (e) => {
     setOrder(e.target.value);
   };
@@ -115,6 +123,7 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
     setOrderDirection(e.target.value);
   };
 
+  // Check if mangaName is empty
   const isMangaNameEmpty = mangaName.trim() === '';
 
   return (
