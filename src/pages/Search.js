@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import SearchComponent from '../components/Search';
-import MangaCard from '../components/MangaCard';
+import SearchComponent from '../components/Search/Search';
+import MangaCard from '../components/Manga/MangaCard';
 import { MagnifyingGlassIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { useMangaContext } from '../context/MangaContext';
 import { MagnifyingGlass } from 'react-loader-spinner'
@@ -23,7 +23,7 @@ const Search = () => {
 
     return (
         <div className='bg-[#1F1F1F] px-5 py-5 h-[max-content] relative overflow-hidden'>
-            <div className='flex top-0 z-20 justify-between'>
+            <div className='top-0 z-20 flex justify-between'>
                 <p className='px-2 md:px-4 py-2 text-[10px] md:text-[25px] ml-2 text-white'>
                     ALL <span className='text-[#F4B333]'>UPLOADS</span>
                 </p>
@@ -41,9 +41,9 @@ const Search = () => {
             {isLoading ? (
                 <>
                     <div className='no-manga'>
-                        <p className="text-white text-center">No manga</p>
+                        <p className="text-center text-white">No manga</p>
                     </div>
-                    <div className="popOut flex items-center justify-center">
+                    <div className="flex items-center justify-center popOut">
                         <MagnifyingGlass
                             type="Audio"
                             height={80}
@@ -56,12 +56,12 @@ const Search = () => {
             ) : error ? (
                 <>
                     <div className='no-manga'>
-                        <p className="text-white text-center">No manga</p>
+                        <p className="text-center text-white">No manga</p>
                     </div>
                     <div className={`popOut ${errorVis ? "flex" : "hidden"} items-center justify-center`}>
                         <div className='relative w-[300px] h-[300px] '>
                             <button onClick={() => handleCloseError()}>
-                                <XCircleIcon className="w-7 h-7 text-black absolute top-6 right-1" />
+                                <XCircleIcon className="absolute text-black w-7 h-7 top-6 right-1" />
                             </button>
                             <div className='w-[300px] h-[300px] flex justify-center items-center text-center rounded-md py-2 bg-[#fff]'>
                                 <p>{error}</p>
@@ -82,7 +82,7 @@ const Search = () => {
                     </div>
                 ) : (
                     <div className='no-manga'>
-                        <p className="text-white text-center">No manga</p>
+                        <p className="text-center text-white">No manga</p>
                     </div>
                 )
             )

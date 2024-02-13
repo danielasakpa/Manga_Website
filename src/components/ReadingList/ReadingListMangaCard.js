@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { MangaCover } from "../utils/fetchMangaCover";
-import { MangaStatistics } from "../utils/fetchMangaStatistics";
-import { useManga } from "../utils/fetchManga";
-import { useAuth } from '../Auth/AuthProvider';
-import { useReadingList } from '../context/ReadingListContext';
+import { MangaCover } from "../../API/fetchMangaCover";
+import { MangaStatistics } from "../../API/fetchMangaStatistics";
+import { useManga } from "../../API/fetchManga";
+import { useAuth } from '../../Auth/AuthProvider';
+import { useReadingList } from '../../context/ReadingListContext';
 import ReadingListMangaCardSkeleton from './ReadingListMangaCardSkeleton';
-import showToast from '../utils/toastUtils';
+import showToast from '../../utils/toastUtils';
 import { Circles } from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +13,8 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
     const { data: mangaData, isLoading: isMangaLoading, isError: isMangaError } = useManga(manga.manga);
     const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError } = MangaCover(manga.manga);
     const { data: statistics, isLoading: isStatsLoading, isError: isStatsError } = MangaStatistics(manga.manga);
+
+    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
     const { isAuthenticated, token } = useAuth();
 
@@ -88,14 +90,14 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
             <div className="flex-shrink-0">
                 <Link to={`/manga/${manga.manga}/overview`}>
                     <img
-                        src={`https://manga-proxy-server.onrender.com/image?url=${encodeURIComponent(`https://uploads.mangadex.org/covers/${manga.manga}/${imageUrl}`)}`}
+                        src={`${PROXY_SERVER_URL}/images/${manga.manga}/${encodeURIComponent(imageUrl)}`}
                         alt={mangaData.attributes.title.en}
                         loading="lazy"
-                        className="w-20 h-28 object-cover text-white"
+                        className="object-cover w-20 text-white h-28"
                     />
                 </Link>
             </div>
-            <div className="ml-4 flex flex-col">
+            <div className="flex flex-col ml-4">
                 <Link to={`/manga/${manga.manga}/overview`} className="hover:underline hover:underline-offset-1 hover:decoration-blue-500" >
                     <h2 className="text-[16px] lg:text-xl font-semibold text-white">{title}</h2>
                 </Link>

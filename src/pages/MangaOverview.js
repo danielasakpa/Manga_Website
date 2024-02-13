@@ -2,16 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import { useManga } from "../utils/fetchManga";
-import { MangaCover } from "../utils/fetchMangaCover";
-import { MangaStatistics } from "../utils/fetchMangaStatistics";
-import RelatedMangaSkeleton from '../components/RelatedMangaSkeleton';
-import YouMightLikeThisSkeleton from '../components/YouMightLikeThisSkeleton';
-import MangaDetailsSection from '../components/MangaDetailsSection';
-import MangaImageAndDescriptionSection from '../components/MangaImageAndDescriptionSection';
-import RelatedMangaSection from '../components/RelatedMangaSection';
-import RecommendedMangaSection from '../components/RecommendedMangaSection';
-import { MangaOverviewSkeleton } from '../components/MangaOverviewSkeleton';
+import { useManga } from "../API/fetchManga";
+import { MangaCover } from "../API/fetchMangaCover";
+import { MangaStatistics } from "../API/fetchMangaStatistics";
+import RelatedMangaSkeleton from '../components/Manga/RelatedMangaSkeleton';
+import YouMightLikeThisSkeleton from '../components/Manga/YouMightLikeThisSkeleton';
+import MangaDetailsSection from '../components/Manga/MangaDetailsSection';
+import MangaImageAndDescriptionSection from '../components/Manga/MangaImageAndDescriptionSection';
+import RelatedMangaSection from '../components/Manga/RelatedMangaSection';
+import RecommendedMangaSection from '../components/Manga/RecommendedMangaSection';
+import { MangaOverviewSkeleton } from '../components/Manga/MangaOverviewSkeleton';
 import { useAuth } from '../Auth/AuthProvider';
 import { useReadingList } from '../context/ReadingListContext';
 import showToast from '../utils/toastUtils';
@@ -48,10 +48,17 @@ function MangaOverview() {
     useEffect(() => {
         const fetchRelatedManga = async () => {
             try {
+
                 if (!isCoverLoading) {
+                    console.log("relationship", mangaData?.relationships)
                     for (const relationship of mangaData?.relationships || []) {
-                        if (relationship.type === 'manga') {
-                            const response = await axios.get(`${PROXY_SERVER_URL}/api/manga/${relationship.id}`);
+                        if (relationship.type === 'manga' && relationship.related !== "doujinshi") {
+                            const response = await axios(
+                                {
+                                    method: 'get',
+                                    url: `${PROXY_SERVER_URL}/api/manga/${relationship.id}`,
+                                    withCredentials: false,
+                                });
                             const manga = response.data.data;
                             setRelatedManga(prevList => [...prevList, manga]);
                         }
@@ -171,7 +178,7 @@ function MangaOverview() {
                             >
                                 <div className="  w-[90%] lg:w-[40%] h-[300px] border-0 rounded-lg shadow-lg relative flex flex-col justify-center items-center pt-4 bg-white outline-none focus:outline-none">
                                     <button onClick={() => handleCloseMenu()}>
-                                        <XCircleIcon className="w-7 h-7 text-black absolute top-2 right-2" />
+                                        <XCircleIcon className="absolute text-black w-7 h-7 top-2 right-2" />
                                     </button>
                                     <img src={LogIngSvg} alt='' className='h-[150px]' />
                                     <p className="mb-5 text-[16px] font-Kanit font-medium">Sign is required before continuing</p>

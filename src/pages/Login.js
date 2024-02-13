@@ -36,13 +36,11 @@ const Login = () => {
     try {
 
       await login(logInParams);
-      setIsLoading(false);
     } catch (error) {
-      console.log("error", error)
-      setIsLoading(false);
-      // Handle error
       showToast(error.message, "error");
-    };
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

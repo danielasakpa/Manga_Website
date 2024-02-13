@@ -31,8 +31,12 @@ export const getOneUser = async (userId, token) => {
 // Utility function to create a user
 export const createUser = async (userData) => {
     try {
-        const response = await axios.post('https://manga-server-luxr.onrender.com/api/user', userData);
-        return response.data;
+        await axios({
+            method: "post",
+            url: 'https://manga-server-luxr.onrender.com/api/user',
+            data: userData
+        });
+
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while creating the user.');
     }

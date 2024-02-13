@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
-import { MangaCover } from "../utils/fetchMangaCover";
-import { MangaStatistics } from "../utils/fetchMangaStatistics";
+import { MangaCover } from "../../API/fetchMangaCover";
+import { MangaStatistics } from "../../API/fetchMangaStatistics";
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 import MangaCardSkeleton from './MangaCardSkeleton';
 import { Link } from "react-router-dom";
@@ -82,7 +82,7 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
                     } transition-opacity duration-300`}
             >
                 <p className="p-4 mb-3 text-center text-white">{attributes.description.en ? attributes.description.en.split(" ").slice(0, 20).join(" ") : attributes.title.en}...</p>
-                <div className='list-none mx-auto'>
+                <div className='mx-auto list-none'>
                     <Link to={`/manga/${manga.id}/overview`} className="flex justify-center items-center btn text-white font-bold bg-[#1B6FA8] hover:bg-[#E40066] border border-[#1F1F1F] w-max px-4 py-3 rounded"><span className='z-20'> Read Now</span></Link>
                 </div>
             </div>
@@ -102,7 +102,7 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
                         ⭐
                     </div>
                 </div>
-                <Link className='list-none mx-auto' to={`/manga/${manga.id}/overview`}>
+                <Link className='mx-auto list-none' to={`/manga/${manga.id}/overview`}>
                     <button className="text-white text-[13px] font-bold bg-[#1B6FA8] hover:bg-[#E40066] border border-[#1F1F1F] w-[80%] px-2 py-2 mb-2 rounded">Read Now</button>
                 </Link>
             </div>
@@ -131,7 +131,7 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
                     </div>
                 </div>
                 <div className='flex items-center px-2 mb-2'>
-                    <span className="text-gray-500  mr-2">status:</span>
+                    <span className="mr-2 text-gray-500">status:</span>
                     <span className="px-2 text-[12px] text-[#1F1F1F] rounded-md p-1 w-min flex justify-center items-center bg-gray-300">{attributes.status}</span>
                 </div>
             </div>

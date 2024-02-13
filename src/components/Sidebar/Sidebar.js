@@ -7,7 +7,7 @@ import {
     ArrowLeftOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../Auth/AuthProvider';
+import { useAuth } from '../../Auth/AuthProvider';
 
 const menuItems = [
     { icon: <HomeIcon className="w-6 h-6" />, label: 'Home', link: '/' },
@@ -33,7 +33,7 @@ function Sidebar() {
                 </div>
                 <div className="pl-2 space-y-6">
                     {menuItems.map((item, index) => (
-                        <Link to={item.link} key={index} className="link-item flex items-center space-x-2 py-2 px-2 rounded-md cursor-pointer hover:text-white">
+                        <Link to={item.link} key={index} className="flex items-center px-2 py-2 space-x-2 rounded-md cursor-pointer link-item hover:text-white">
                             <span className='z-20'>{item.icon}</span>
                             <span className='lg:text-[15px] text-[17px] z-20'>{item.label}</span>
                         </Link>
@@ -51,7 +51,7 @@ function Sidebar() {
                             to={item.label === "Log Out" ? "/login" : item.link}
                             key={index}
                             onClick={item.label === "Log Out" && logout}
-                            className="link-item flex items-center space-x-2 py-2 px-2 rounded-md cursor-pointer hover:text-white">
+                            className="flex items-center px-2 py-2 space-x-2 rounded-md cursor-pointer link-item hover:text-white">
                             <span className='z-20'>{item.icon}</span>
                             <span className='g:text-[15px] text-[17px] z-20'>{item.label}</span>
                         </Link>

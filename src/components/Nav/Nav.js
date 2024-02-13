@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import DanImg from "../assets/dan.png";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useMangaContext } from '../context/MangaContext';
-import { useAuth } from '../Auth/AuthProvider';
-import { useUser } from '../context/UserContext';
+import { useMangaContext } from '../../context/MangaContext';
+import { useAuth } from '../../Auth/AuthProvider';
+import { useUser } from '../../context/UserContext';
 
 function Nav() {
     const [mangaName, setMangaName] = useState('');
@@ -38,7 +37,7 @@ function Nav() {
     return (
         <nav className="flex sticky top-0 z-20 items-center justify-between bg-[#FAFCFC] border-b-[2px] border-[#1F1F1F] h-[80px] px-3 lg:px-8 py-4">
             <div>
-                <Link to='/' className='flex justify-between w-min m-0 items-center'>
+                <Link to='/' className='flex items-center justify-between m-0 w-min'>
                     <span className="text-[30px] md:text-[40px] text-[#1B6FA8] leading-[40px] tracking-[0.05em]">Yuki</span>
                     <span className="text-[25px] md:text-[35px]">雪</span>
                 </Link>
@@ -73,7 +72,7 @@ function Nav() {
                     <MagnifyingGlassIcon className="w-4 h-4 text-black ml-[5px]" />
                 </Link>
                 <Link to={isAuthenticated() ? "/profile" : "/login"} >
-                    <div className="flex items-center space-x-2 cursor-pointer hidden lg:block">
+                    <div className="flex items-center hidden space-x-2 cursor-pointer lg:block">
                         {
                             loading && !user ?
                                 <div
@@ -94,12 +93,12 @@ function Nav() {
                         }
                     </div>
                 </Link>
-                <div className="flex items-center space-x-2 cursor-pointer block lg:hidden">
+                <div className="flex items-center block space-x-2 cursor-pointer lg:hidden">
                     <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-700 focus:outline-none lg:hidden">
-                        {isMobileMenuOpen ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-10">
+                        {isMobileMenuOpen ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-10 w-7">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                            : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-10">
+                            : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-10 w-7">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
                             </svg>
                         }
@@ -108,15 +107,27 @@ function Nav() {
             </div>
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
-                <div className="lg:hidden absolute top-20 right-0 bg-white w-full p-4 shadow-lg rounded-md">
+                <div className="absolute right-0 w-full p-4 bg-white rounded-md shadow-lg lg:hidden top-20">
                     <div className="flex flex-col space-y-4">
-                        <Link to={isAuthenticated() ? "/profile" : "/login"} className='flex  items-center' >
-                            <img
-                                src={DanImg}
-                                alt="Profile"
-                                className="w-8 h-8 rounded-full"
-                            />
-                            <p className='ml-[5px]'>Profile</p>
+                        <Link to={isAuthenticated() ? "/profile" : "/login"} className='flex items-center cursor-pointer' >
+                            {
+                                loading && !user ?
+                                    <div
+                                        className={`w-12 h-12 font-Roboto font-bold text-white rounded-full bg-gray-400 animate-pulse`}
+                                    >
+
+                                    </div>
+                                    :
+                                    <div
+                                        className={`w-12 h-12 ${user?.username ? "text-[35px]" : "text-[10px]"}  font-Roboto font-bold text-white rounded-full bg-gray-400 flex justify-center items-center`}
+                                    >
+                                        <span>
+                                            {
+                                                user?.username ? user?.username.split("")[0] : "Sign In"
+                                            }
+                                        </span>
+                                    </div>
+                            }
                         </Link>
                         <Link to="/" className="text-gray-700 hover:text-gray-900">Home</Link>
                         <Link to="/search" className="text-gray-700 hover:text-gray-900">Discover Comics</Link>

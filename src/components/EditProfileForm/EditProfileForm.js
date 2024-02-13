@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { updateUser } from '../utils/userUtils';
+import { updateUser } from '../../utils/userUtils';
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import showToast from '../utils/toastUtils';
+import showToast from '../../utils/toastUtils';
 
 const EditProfileForm = ({ user, token, setIsEdit, type, setUser, setLoading }) => {
 
@@ -47,7 +47,7 @@ const EditProfileForm = ({ user, token, setIsEdit, type, setUser, setLoading }) 
         <form className="w-[90%] md:w-full max-w-md bg-white rounded-lg shadow-lg p-6">
             <div className="flex justify-end mb-4">
                 <button onClick={handleCloseMenu}>
-                    <XCircleIcon className="w-7 h-7 text-black" />
+                    <XCircleIcon className="text-black w-7 h-7" />
                 </button>
             </div>
 

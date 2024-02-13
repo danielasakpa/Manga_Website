@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useMangaChapters from '../utils/fetchMangaChapters';
+import useMangaChapters from '../API/fetchMangaChapters';
 
 function MangaChapters() {
     let { id } = useParams();
@@ -44,7 +44,7 @@ function MangaChapters() {
     });
 
     return (
-        <div className={`${chaptersData.data.length < 1 ? "h-[100vh]" : "h-[100%]"} text-white `}>
+        <div className={`h-[100vh] text-white `}>
             {
                 chaptersData.data.length < 1 ?
                     <div className="flex justify-center items-center h-[90%] mt-16 px-10">

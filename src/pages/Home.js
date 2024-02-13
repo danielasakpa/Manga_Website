@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useMangaContext } from '../context/MangaContext';
-import MangaSlider from '../components/MangaSlider';
-import MangaCards from '../components/MangaCards';
+import MangaSlider from '../components/Manga/MangaSlider';
+import MangaCards from '../components/Manga/MangaCards';
 import showToast from '../utils/toastUtils';
 import { useNavigate } from 'react-router-dom';
 import { BallTriangle } from 'react-loader-spinner'
@@ -122,15 +122,15 @@ const Home = () => {
             <div className='py-5 bg-[#1F1F1F]'>
                 <div className='flex flex-col items-center justify-center px-[20px] py-4'>
                     <h4 className='gradient-1 font-Bebas font-bold text-[25px] md:text-[45px] my-1 self-start'>Most Viewed</h4>
-                    <MangaCards type={"viewedMost"} order={{ rating: 'desc', followedCount: 'desc' }} limit={10} includedTags={[]} excludedTags={[]} />
+                    <MangaCards type={"viewedMost"} order={{ followedCount: 'desc', rating: 'desc' }} limit={10} includedTags={[]} excludedTags={["Boys' Love", "doujinshi"]} />
                 </div>
                 <div className='flex flex-col items-center justify-center px-[20px] py-4'>
                     <h4 className='gradient-2 font-Bebas font-bold text-[25px] md:text-[45px] my-1 self-start'>Popular New</h4>
-                    <MangaCards type={"popularNew"} order={{ year: 'desc', rating: 'desc' }} limit={10} includedTags={[]} excludedTags={[]} />
+                    <MangaCards type={"popularNew"} order={{ year: 'desc', followedCount: 'desc', }} limit={10} includedTags={[]} excludedTags={["Boys' Love", "doujinshi"]} />
                 </div>
                 <div className='flex flex-col items-center justify-center px-[20px] py-4'>
                     <h4 className='gradient-3 font-Bebas font-bold text-[25px] md:text-[45px] my-1 self-start'>Recently Added</h4>
-                    <MangaCards type={"recentlyAdded"} order={{ year: 'desc' }} limit={10} includedTags={[]} excludedTags={[]} />
+                    <MangaCards type={"recentlyAdded"} order={{ year: 'desc' }} limit={10} includedTags={[]} excludedTags={["Boys' Love", "doujinshi"]} />
                 </div>
             </div>
             {isLoading && (

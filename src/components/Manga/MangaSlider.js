@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useMangasFetcher } from "../utils/fetchMangas";
-import CarouselImage from "./CarouselImage";
-import CarouselImageSkeleton from '../components/CarouselImageSkeleton ';
+import { useMangasFetcher } from "../../API/fetchMangas";
+import CarouselImage from "../CarouselImage/CarouselImage";
+import CarouselImageSkeleton from '../CarouselImage/CarouselImageSkeleton ';
 
 
 

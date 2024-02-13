@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Auth/AuthProvider';
 import { useUser } from '../context/UserContext';
-import EditProfileForm from '../components/EditProfileForm';
+import EditProfileForm from '../components/EditProfileForm/EditProfileForm';
 import { Circles } from 'react-loader-spinner'
 import { deleteUser } from '../utils/userUtils';
 import showToast from '../utils/toastUtils';
@@ -50,7 +50,7 @@ const Profile = () => {
             <div className={`${loading ? "bg-black" : "bg-white"} w-full h-[100vh] flex justify-center items-center relative`}>
                 {
                     loading ?
-                        <div className="popOut flex items-center justify-center">
+                        <div className="flex items-center justify-center popOut">
                             <Circles
                                 height="35"
                                 width="35"
@@ -62,33 +62,33 @@ const Profile = () => {
                             />
                         </div> :
                         <div>
-                            <h2 className="text-3xl font-semibold mb-4">User Profile Page</h2>
+                            <h2 className="mb-4 text-3xl font-semibold">User Profile Page</h2>
                             <div className="mb-4">
                                 <p className="text-[25px] font-medium">{user?.username}</p>
                                 <p className="text-gray-600">{user?.email}</p>
                             </div>
-                            <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+                            <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
                                 <button
-                                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                                    className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-700"
                                     onClick={() => handleEditClick("Edit User")}
                                 >
                                     Edit User
                                 </button>
                                 <button
-                                    className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-700"
+                                    className="px-4 py-2 text-white bg-yellow-500 rounded-md hover:bg-yellow-700"
                                     onClick={() => handleEditClick("Change Password")}
                                 >
                                     Change Password
                                 </button>
                                 <button
-                                    className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
+                                    className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-700"
                                     onClick={handleDeleteClick}
                                 >
                                     Delete User
                                 </button>
                             </div>
                             <button
-                                className="mt-4 bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+                                className="px-4 py-2 mt-4 text-gray-700 bg-gray-300 rounded-md hover:bg-gray-400"
                                 onClick={handleLogoutClick}
                             >
                                 Logout
@@ -97,7 +97,7 @@ const Profile = () => {
                             {/* Modal for editing user information */}
                             {isEdit.condition && (
                                 <>
-                                    <div className="fixed inset-0 flex items-center justify-center z-50">
+                                    <div className="fixed inset-0 z-50 flex items-center justify-center">
                                         <EditProfileForm user={user} token={token} setIsEdit={setIsEdit} type={isEdit.type} setUser={setUser} setLoading={setLoading} />
                                     </div>
                                     <div className={`${isEdit.condition ? "opacity-25 fixed" : "opacity-0"} inset-0 z-40 bg-black`}></div>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useChapterData from "../utils/fetchMangaChapter";
-import useMangaChapters from '../utils/fetchMangaChapters';
-import MangaChapterSkeleton from '../components/MangaChapterSkeleton';
+import useChapterData from "../API/fetchMangaChapter";
+import useMangaChapters from '../API/fetchMangaChapters';
+import MangaChapterSkeleton from '../components/Manga/MangaChapterSkeleton';
 import useWindowWidth from '../hooks/useWindowWidth';
 
 function MangaChapter() {

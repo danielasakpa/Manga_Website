@@ -1,5 +1,5 @@
 import MangaCardSkeleton from './MangaCardSkeleton';
-import HorizontalScrollMenu from './HorizontalScrollMenu';
+import HorizontalScrollMenu from '../HorizontalScrollMenu/HorizontalScrollMenu';
 
 // Related Manga Skeleton Component
 const RelatedMangaSkeleton = () => {

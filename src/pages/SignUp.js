@@ -39,12 +39,12 @@ const SignUp = () => {
 
     try {
       await createUser(signUpParams);
-      setIsLoading(false);
       navigate('/login');
-      showToast(`User was successfully Created`);
+      showToast(`User was successfully Created`, "success");
     } catch (error) {
-      setIsLoading(false);
       showToast(error.message, "error");
+    } finally {
+      setIsLoading(false);
     }
   }
 

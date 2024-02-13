@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import showToast from '../utils/toastUtils';
+import showToast from '../../utils/toastUtils';
 
 const categories = [
   "Action",
@@ -70,7 +70,6 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
           }
         });
 
-        // console.log(resp.data.data);
         setLoading(false);
         setMangas(resp.data.data);
         return;
@@ -162,7 +161,7 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
   return (
     <div className="w-[90%] md:w-[70%] p-7 mx-auto bg-white  border border-gray-300 rounded-lg relative">
       <button onClick={() => handleCloseSearch()}>
-        <XCircleIcon className="w-7 h-7 text-black absolute top-2 right-2" />
+        <XCircleIcon className="absolute text-black w-7 h-7 top-2 right-2" />
       </button>
       <h2 className="mb-4 text-[20px] md:text-2xl font-bold">Search Manga</h2>
       <div className="mb-4">

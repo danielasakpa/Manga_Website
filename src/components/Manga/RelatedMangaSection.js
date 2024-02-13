@@ -1,4 +1,4 @@
-import HorizontalScrollMenu from './HorizontalScrollMenu';
+import HorizontalScrollMenu from '../HorizontalScrollMenu/HorizontalScrollMenu';
 import MangaCard from './MangaCard';
 
 

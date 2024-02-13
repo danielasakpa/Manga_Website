@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { MangaCover } from "../utils/fetchMangaCover";
-import useMangaChapters from "../utils/fetchMangaChapters";
-import CarouselImageSkeleton from '../components/CarouselImageSkeleton ';
+import { MangaCover } from "../../API/fetchMangaCover";
+import useMangaChapters from "../../API/fetchMangaChapters";
+import CarouselImageSkeleton from './CarouselImageSkeleton ';
 import { Link } from "react-router-dom";
 
 const CarouselImage = ({ manga }) => {
@@ -64,7 +64,7 @@ const CarouselImage = ({ manga }) => {
                                     ? manga.attributes.description.en.split(" ").slice(0, 20).join(" ")
                                     : manga.attributes.title.en}...
                             </p>
-                            <div className='list-none mx-auto'>
+                            <div className='mx-auto list-none'>
                                 <Link to={`/manga/${manga.id}/overview`} className="flex justify-center items-center text-white font-bold bg-[#1B6FA8] btn border border-[#1F1F1F] w-[60%] px-4 py-2 md:py-3 rounded">
                                     <span className='z-20'> Read Now </span>
                                 </Link>
