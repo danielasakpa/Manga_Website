@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import showToast from '../../utils/toastUtils';
-import { fetchMangaDetails } from '../../API/fetchManga';
-import { fetchMangas } from '../../hooks/useMangas';
+import fetchMangaByTitle from '../../API/manga/fetchMangaByTitle';
+import fetchMangas from '../../API/manga/fetchMangas';
 
 const categories = [
   "Action",
@@ -35,8 +34,6 @@ const orderDirections = [
   { label: "Descending", value: "desc" },
 ];
 
-const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
-
 const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handleErrorResponse }) => {
   const [mangaName, setMangaName] = useState('');
   const [tags, setTags] = useState([]);
@@ -46,85 +43,47 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
 
 
   async function handleSearch() {
-    const searchParams = {
-      mangaName,
-      includedTags: tags.filter((tag) => tag.type === 'include').map((tag) => tag.name),
-      excludedTags: tags.filter((tag) => tag.type === 'exclude').map((tag) => tag.name),
-      status,
-      order,
-      orderDirection,
-    };
-
     setLoading(true);
 
-    setVis(prevVis => !prevVis);
+    setVis((prevVis) => !prevVis);
     setMangaVis(true);
 
+    const limit = 30
 
     try {
-
-      if (searchParams.mangaName.trim()) {
-        const resp = await axios({
-          method: 'GET',
-          url: `${PROXY_SERVER_URL}/api/manga`,
-          withCredentials: false,
-          params: {
-            title: searchParams.mangaName.trim()
-          }
-        });
-
+      if (mangaName.trim()) {
+        let res = await fetchMangaByTitle(mangaName.trim());
         setLoading(false);
-        setMangas(resp.data.data);
+        setMangas(res);
         return;
       }
 
-      const tagsResponse = await axios.get(`${PROXY_SERVER_URL}/api/manga/tag`);
+      const orderParams = {
+        [order]: orderDirection,
+      };
 
-      const includedTagIDs = tagsResponse.data.data
-        .filter(tag => searchParams.includedTags.includes(tag.attributes.name.en))
-        .map(tag => tag.id);
+      const searchParams = {
+        mangaName,
+        includedTags: tags.filter((tag) => tag.type === 'include').map((tag) => tag.name),
+        excludedTags: tags.filter((tag) => tag.type === 'exclude').map((tag) => tag.name),
+        status,
+        ...orderParams,
+      };
 
-      const excludedTagIDs = tagsResponse.data.data
-        .filter(tag => searchParams.excludedTags.includes(tag.attributes.name.en))
-        .map(tag => tag.id);
+      const res = await fetchMangas(orderParams, limit, searchParams.includedTags, searchParams.excludedTags, 1);
 
-      const finalOrderQuery = {};
-
-      for (const [key, value] of Object.entries(
-        searchParams.order = "rating" ? { rating: "desc" }
-          : searchParams.order = "followedCount" ? { followedCount: "desc" }
-            : { year: "desc" })
-      ) {
-        finalOrderQuery[`order[${key}]`] = value;
-      }
-
-      const response = await axios({
-        method: 'get',
-        url: `${PROXY_SERVER_URL}/api/manga`,
-        withCredentials: false,
-        params: {
-          includedTags: includedTagIDs,
-          excludedTags: excludedTagIDs,
-          ...finalOrderQuery,
-          limit: searchParams.limit,
-        },
-      });
-
-      // console.log(response.data.data)
-      setLoading(false);
-      setMangas(response.data.data);
+      setMangas(res.data);
     } catch (error) {
-      setLoading(false);
       if (error.code) {
-        setErrorVis(true)
+        setErrorVis(true);
         handleErrorResponse(error.code);
       } else {
-        // Handle other types of errors here
-        showToast(error.message, "error");
+        showToast(error.message, 'error');
       }
+    } finally {
+      setLoading(false);
     }
-    // return response.data.data;
-  };
+  }
 
   const handleTagClick = (tagName) => {
     const existingTag = tags.find((tag) => tag.name === tagName);
@@ -161,7 +120,6 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
   };
 
   const isMangaNameEmpty = mangaName.trim() === '';
-  // const searchButtonText = isMangaNameEmpty ? 'Filter' : 'Search';
 
   return (
     <div className="w-[90%] md:w-[70%] p-7 mx-auto bg-white  border border-gray-300 rounded-lg relative">

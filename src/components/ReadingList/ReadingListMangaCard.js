@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import useMangaCover from "../../hooks/useMangaCover";
-import useMangaStatistics from "../../hooks/useMangaStatistics";
-import { useManga } from "../../hooks/useManga";
+import useMangaCover from "../../hooks/manga/useMangaCover";
+import useMangaStatistics from "../../hooks/manga/useMangaStatistics";
+import { useManga } from "../../hooks/manga/useManga";
 import { useAuth } from '../../Auth/AuthProvider';
 import { useReadingList } from '../../context/ReadingListContext';
 import ReadingListMangaCardSkeleton from './ReadingListMangaCardSkeleton';

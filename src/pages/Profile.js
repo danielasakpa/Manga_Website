@@ -4,7 +4,7 @@ import { useAuth } from '../Auth/AuthProvider';
 import { useUser } from '../context/UserContext';
 import EditProfileForm from '../components/EditProfileForm/EditProfileForm';
 import { Circles } from 'react-loader-spinner'
-import { deleteUser } from '../utils/userUtils';
+import { deleteUser } from '../API/user/user';
 import showToast from '../utils/toastUtils';
 import { useNavigate } from "react-router-dom";
 

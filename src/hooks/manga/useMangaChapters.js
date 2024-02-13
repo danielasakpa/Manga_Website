@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import fetchMangaChapters from '../API/fetchMangaChapters';
+import fetchMangaChapters from '../../API/manga/fetchMangaChapters';
 
 
 const useMangaChapters = (mangaID, languages = ['en']) => {

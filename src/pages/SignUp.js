@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authBackground from "../assets/authBackground.jpg";
 import googleLogo from "../assets/googleLogo.svg";
-import { createUser } from "../utils/userUtils";
+import { createUser } from "../API/user/user";
 import showToast from '../utils/toastUtils';
 import { BallTriangle } from 'react-loader-spinner'
 import { useAuth } from "../Auth/AuthProvider";
@@ -139,21 +139,6 @@ const SignUp = () => {
               Confirm Password
             </label>
           </div>
-
-          {/* Confirm Password Input */}
-          {/* <div className="relative mb-5">
-            <input
-              type="file"
-              accept="image/*"
-              name="profileImage"
-              className="peer h-full w-full rounded-md border-2 border-gray-500 !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
-              required
-            />
-            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Passwords don't match!</span>
-            <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
-              Select Image
-            </label>
-          </div> */}
 
           {/* Checkbox input */}
           <div className="flex items-center gap-2 my-4">

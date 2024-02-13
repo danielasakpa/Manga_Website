@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { updateUser } from '../../utils/userUtils';
+import { updateUser } from '../../API/user/user';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import showToast from '../../utils/toastUtils';
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
-export default async function fetchMangas(order, limit, includedTags, excludedTags, page) {
+export default async function fetchMangas(order, limit = 10, includedTags = [], excludedTags = [], page = 1) {
     const tagsResponse = await axios({
         method: 'get',
         url: `${PROXY_SERVER_URL}/api/manga/tag`,
@@ -19,8 +19,10 @@ export default async function fetchMangas(order, limit, includedTags, excludedTa
 
     const finalOrderQuery = {};
 
-    for (const [key, value] of Object.entries(order)) {
-        finalOrderQuery[`order[${key}]`] = value;
+    if (Object.keys(order).length !== 0 && order.hasOwnProperty("") === false) {
+        for (const [key, value] of Object.entries(order)) {
+            finalOrderQuery[`order[${key}]`] = value;
+        }
     }
 
     const response = await axios({
@@ -32,7 +34,7 @@ export default async function fetchMangas(order, limit, includedTags, excludedTa
             excludedTags: excludedTagIDs,
             ...finalOrderQuery,
             limit,
-            offset: page * limit,  // Calculate offset based on page number
+            offset: page * limit,
         },
     });
 

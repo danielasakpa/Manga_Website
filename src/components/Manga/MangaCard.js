@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
-import useMangaCover from "../../hooks/useMangaCover";
-import useMangaStatistics from "../../hooks/useMangaStatistics";
+import useMangaCover from "../../hooks/manga/useMangaCover";
+import useMangaStatistics from "../../hooks/manga/useMangaStatistics";
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 import MangaCardSkeleton from './MangaCardSkeleton';
 import { Link } from "react-router-dom";

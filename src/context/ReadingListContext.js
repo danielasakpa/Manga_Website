@@ -5,7 +5,7 @@ import {
     getManga as getMangaUtil,
     getReadingList as getReadingListUtil,
     deleteManga as deleteMangaUtil,
-} from '../utils/readingListUtils';
+} from '../API/readingList/readingList';
 import { useAuth } from '../Auth/AuthProvider';
 import showToast from '../utils/toastUtils';
 

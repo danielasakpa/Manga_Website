@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useMangas from "../../hooks/useMangas";
+import useMangas from "../../hooks/manga/useMangas";
 import CarouselImage from "../CarouselImage/CarouselImage";
 import CarouselImageSkeleton from '../CarouselImage/CarouselImageSkeleton ';
 

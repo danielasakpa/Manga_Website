@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import fetchMangas from "../API/fetchMangas";
+import fetchMangas from "../../API/manga/fetchMangas";
 
 export default function useMangas(type, order, limit, includedTags, excludedTags, page) {
     return useQuery([type, page], () => fetchMangas(order, limit, includedTags, excludedTags, page), {

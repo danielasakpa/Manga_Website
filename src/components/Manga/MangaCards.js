@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import MangaCard from './MangaCard';
 import MangaCardSkeleton from './MangaCardSkeleton';
-import useMangas from '../../hooks/useMangas';
+import useMangas from '../../hooks/manga/useMangas';
 import HorizontalScrollMenu from '../HorizontalScrollMenu/HorizontalScrollMenu';
-import fetchMangas from '../../API/fetchMangas';
+import fetchMangas from '../../API/manga/fetchMangas';
 import { Oval } from 'react-loader-spinner'
 
 const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {

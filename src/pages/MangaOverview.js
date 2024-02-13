@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import { useManga } from "../hooks/useManga";
-import useMangaCover from "../hooks/useMangaCover";
-import useMangaStatistics from "../hooks/useMangaStatistics";
+import { useManga } from "../hooks/manga/useManga";
+import useMangaCover from "../hooks/manga/useMangaCover";
+import useMangaStatistics from "../hooks/manga/useMangaStatistics";
 import RelatedMangaSkeleton from '../components/Manga/RelatedMangaSkeleton';
 import YouMightLikeThisSkeleton from '../components/Manga/YouMightLikeThisSkeleton';
 import MangaDetailsSection from '../components/Manga/MangaDetailsSection';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useMangaChapter from "../hooks/useMangaChapter";
-import useMangaChapters from '../hooks/useMangaChapters';
+import useMangaChapter from "../hooks/manga/useMangaChapter";
+import useMangaChapters from '../hooks/manga/useMangaChapters';
 import MangaChapterSkeleton from '../components/Manga/MangaChapterSkeleton';
 import useWindowWidth from '../hooks/useWindowWidth';
 

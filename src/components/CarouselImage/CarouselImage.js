@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import useMangaCover from "../../hooks/useMangaCover";
-import useMangaChapters from "../../hooks/useMangaChapters";
+import useMangaCover from "../../hooks/manga/useMangaCover";
+import useMangaChapters from "../../hooks/manga/useMangaChapters";
 import CarouselImageSkeleton from './CarouselImageSkeleton ';
 import { Link } from "react-router-dom";
 
