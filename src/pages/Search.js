@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import SearchComponent from '../components/Search/Search';
+import SearchForm from '../components/SearchForm/SearchForm';
 import MangaCard from '../components/Manga/MangaCard';
 import { MagnifyingGlassIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { useMangaContext } from '../context/MangaContext';
@@ -34,7 +34,7 @@ const Search = () => {
                 </button>
             </div>
             <div className={`${vis ? "block" : "hidden"} inset-0 py-20 bg-[#000] z-10 absolute inset-0 overflow-y-scroll`}>
-                <SearchComponent setMangas={setMangas} setVis={setVis} setMangaVis={setMangaVis} setError={setError} setLoading={setLoading} />
+                <SearchForm setMangas={setMangas} setVis={setVis} setMangaVis={setMangaVis} setError={setError} setLoading={setLoading} />
             </div>
             {isLoading ? (
                 <>

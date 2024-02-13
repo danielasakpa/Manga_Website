@@ -219,4 +219,4 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
   );
 }
 
-export default Search;
+export default SearchForm;
