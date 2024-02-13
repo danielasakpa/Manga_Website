@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useMangaChapters from '../API/fetchMangaChapters';
+import useMangaChapters from '../hooks/useMangaChapters';
 
 function MangaChapters() {
     let { id } = useParams();

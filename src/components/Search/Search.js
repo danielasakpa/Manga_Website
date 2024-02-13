@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import showToast from '../../utils/toastUtils';
+import { fetchMangaDetails } from '../../API/fetchManga';
+import { fetchMangas } from '../../hooks/useMangas';
 
 const categories = [
   "Action",
@@ -57,8 +59,9 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
 
     setVis(prevVis => !prevVis);
     setMangaVis(true);
+
+
     try {
-      const tagsResponse = await axios.get(`${PROXY_SERVER_URL}/api/manga/tag`);
 
       if (searchParams.mangaName.trim()) {
         const resp = await axios({
@@ -74,6 +77,8 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
         setMangas(resp.data.data);
         return;
       }
+
+      const tagsResponse = await axios.get(`${PROXY_SERVER_URL}/api/manga/tag`);
 
       const includedTagIDs = tagsResponse.data.data
         .filter(tag => searchParams.includedTags.includes(tag.attributes.name.en))

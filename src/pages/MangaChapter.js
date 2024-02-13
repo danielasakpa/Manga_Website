@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useChapterData from "../API/fetchMangaChapter";
-import useMangaChapters from '../API/fetchMangaChapters';
+import useMangaChapter from "../hooks/useMangaChapter";
+import useMangaChapters from '../hooks/useMangaChapters';
 import MangaChapterSkeleton from '../components/Manga/MangaChapterSkeleton';
 import useWindowWidth from '../hooks/useWindowWidth';
 
@@ -12,7 +12,7 @@ function MangaChapter() {
 
     const windowWidth = useWindowWidth();
 
-    const { data, isLoading, isError, error } = useChapterData(chapterId);
+    const { data, isLoading, isError, error } = useMangaChapter(chapterId);
 
     const { data: chaptersData, isLoading: isChaptersLoading, isError: isChaptersError, error: chaptersError } = useMangaChapters(
         id,

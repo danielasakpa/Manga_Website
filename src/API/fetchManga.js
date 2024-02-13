@@ -1,9 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
-async function fetchMangaDetails(mangaId) {
+export default async function fetchManga(mangaId) {
     const response = await axios({
         method: 'get',
         url: `${PROXY_SERVER_URL}/api/manga/${mangaId}?includes[]=author&includes[]=artist&includes[]=cover_art`,
@@ -12,8 +11,4 @@ async function fetchMangaDetails(mangaId) {
     });
 
     return response.data.data;
-}
-
-export function useManga(mangaId) {
-    return useQuery(['mangaDetails', mangaId], () => fetchMangaDetails(mangaId));
 }

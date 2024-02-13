@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
-import { useManga } from "../API/fetchManga";
-import { MangaCover } from "../API/fetchMangaCover";
-import { MangaStatistics } from "../API/fetchMangaStatistics";
+import { useManga } from "../hooks/useManga";
+import useMangaCover from "../hooks/useMangaCover";
+import useMangaStatistics from "../hooks/useMangaStatistics";
 import RelatedMangaSkeleton from '../components/Manga/RelatedMangaSkeleton';
 import YouMightLikeThisSkeleton from '../components/Manga/YouMightLikeThisSkeleton';
 import MangaDetailsSection from '../components/Manga/MangaDetailsSection';
@@ -39,8 +39,8 @@ function MangaOverview() {
 
     // Fetch manga data, cover, and statistics
     const { data: mangaData, isLoading, isError } = useManga(id);
-    const { data: coverFilename, isLoading: isCoverLoading } = MangaCover(id);
-    const { data: statistics, isLoading: isStatsLoading } = MangaStatistics(id);
+    const { data: coverFilename, isLoading: isCoverLoading } = useMangaCover(id);
+    const { data: statistics, isLoading: isStatsLoading } = useMangaStatistics(id);
 
     const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 

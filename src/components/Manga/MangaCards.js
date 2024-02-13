@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import MangaCard from './MangaCard';
 import MangaCardSkeleton from './MangaCardSkeleton';
-import { useMangasFetcher } from '../../API/fetchMangas';
+import useMangas from '../../hooks/useMangas';
 import HorizontalScrollMenu from '../HorizontalScrollMenu/HorizontalScrollMenu';
-import { fetchMangas } from '../../API/fetchMangas';
+import fetchMangas from '../../API/fetchMangas';
 import { Oval } from 'react-loader-spinner'
 
 const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
     const queryClient = useQueryClient();
 
     const [page, setPage] = useState(0);
-    const { data, isLoading, isError, error } = useMangasFetcher(type, order, limit, includedTags, excludedTags, page);
+    const { data, isLoading, isError, error } = useMangas(type, order, limit, includedTags, excludedTags, page);
     const [mangaList, setMangaList] = useState([]);
     const [isLastItem, setIsLastItem] = useState(false);
     const [isLoadingNewMangas, setILoadingNewMangas] = useState(false);

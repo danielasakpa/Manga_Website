@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
-import { MangaCover } from "../../API/fetchMangaCover";
-import { MangaStatistics } from "../../API/fetchMangaStatistics";
+import useMangaCover from "../../hooks/useMangaCover";
+import useMangaStatistics from "../../hooks/useMangaStatistics";
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 import MangaCardSkeleton from './MangaCardSkeleton';
 import { Link } from "react-router-dom";
@@ -34,8 +34,8 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
         setIsClicked(!isClicked);
     };
 
-    const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = MangaCover(id);
-    const { data: statistics, isLoading: isStatsLoading, isError: isStatsError, error: statsError } = MangaStatistics(id);
+    const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = useMangaCover(id);
+    const { data: statistics, isLoading: isStatsLoading, isError: isStatsError, error: statsError } = useMangaStatistics(id);
 
     if (isStatsLoading || isCoverError || isStatsError) {
         return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMangasFetcher } from "../../API/fetchMangas";
+import useMangas from "../../hooks/useMangas";
 import CarouselImage from "../CarouselImage/CarouselImage";
 import CarouselImageSkeleton from '../CarouselImage/CarouselImageSkeleton ';
 
@@ -18,7 +18,7 @@ const Carousel = () => {
 
     const page = 0;
 
-    const { data, isLoading, isError, error } = useMangasFetcher(type, order, limit, includedTags, excludedTags, page);;
+    const { data, isLoading, isError, error } = useMangas(type, order, limit, includedTags, excludedTags, page);;
 
     const handleArrow = (direction) => {
         if (direction === "l") {

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { MangaCover } from "../../API/fetchMangaCover";
-import useMangaChapters from "../../API/fetchMangaChapters";
+import useMangaCover from "../../hooks/useMangaCover";
+import useMangaChapters from "../../hooks/useMangaChapters";
 import CarouselImageSkeleton from './CarouselImageSkeleton ';
 import { Link } from "react-router-dom";
 
 const CarouselImage = ({ manga }) => {
-    const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = MangaCover(manga.id);
+    const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = useMangaCover(manga.id);
     const { data: chaptersData, isLoading: isChaptersLoading, isError: ischaptersError, error: chaptersError } = useMangaChapters(manga.id);
 
     const [sortedChapters, setSortedChapters] = useState(null);

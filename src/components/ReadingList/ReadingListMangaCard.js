@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { MangaCover } from "../../API/fetchMangaCover";
-import { MangaStatistics } from "../../API/fetchMangaStatistics";
-import { useManga } from "../../API/fetchManga";
+import useMangaCover from "../../hooks/useMangaCover";
+import useMangaStatistics from "../../hooks/useMangaStatistics";
+import { useManga } from "../../hooks/useManga";
 import { useAuth } from '../../Auth/AuthProvider';
 import { useReadingList } from '../../context/ReadingListContext';
 import ReadingListMangaCardSkeleton from './ReadingListMangaCardSkeleton';
@@ -11,8 +11,8 @@ import { Link } from 'react-router-dom';
 
 function ReadingListMangaCard({ manga, updateReadingList }) {
     const { data: mangaData, isLoading: isMangaLoading, isError: isMangaError } = useManga(manga.manga);
-    const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError } = MangaCover(manga.manga);
-    const { data: statistics, isLoading: isStatsLoading, isError: isStatsError } = MangaStatistics(manga.manga);
+    const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError } = useMangaCover(manga.manga);
+    const { data: statistics, isLoading: isStatsLoading, isError: isStatsError } = useMangaStatistics(manga.manga);
 
     const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
