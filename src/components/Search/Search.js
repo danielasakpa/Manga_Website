@@ -34,7 +34,7 @@ const orderDirections = [
   { label: "Descending", value: "desc" },
 ];
 
-const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handleErrorResponse }) => {
+const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) => {
   const [mangaName, setMangaName] = useState('');
   const [tags, setTags] = useState([]);
   const [status, setStatus] = useState('');
@@ -74,12 +74,8 @@ const Search = ({ setMangas, setVis, setMangaVis, setLoading, setErrorVis, handl
 
       setMangas(res.data);
     } catch (error) {
-      if (error.code) {
-        setErrorVis(true);
-        handleErrorResponse(error.code);
-      } else {
-        showToast(error.message, 'error');
-      }
+      setError(error.message);
+      showToast(error.message, 'error');
     } finally {
       setLoading(false);
     }
