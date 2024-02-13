@@ -49,7 +49,7 @@ const Home = () => {
 
 
         try {
-            const res = await fetchMangas({ rating: 'desc' }, limit, searchParams.includedTags, excludedTags, 1);
+            const res = await fetchMangas({ followedCount: 'desc', rating: 'desc' }, limit, searchParams.includedTags, excludedTags, 1);
 
             setMangas(res.data);
         } catch (error) {
