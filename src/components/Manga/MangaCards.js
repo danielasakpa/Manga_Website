@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import MangaCard from './MangaCard';
 import MangaCardSkeleton from './MangaCardSkeleton';
 import useMangas from '../../hooks/manga/useMangas';
 import HorizontalScrollMenu from '../HorizontalScrollMenu/HorizontalScrollMenu';
-import fetchMangas from '../../API/manga/fetchMangas';
-import { Oval } from 'react-loader-spinner'
+import SeeMoreLink from '../SeeMoreLink/SeeMoreLink';
 
 const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
-    const queryClient = useQueryClient();
 
     const [page, setPage] = useState(0);
     const { data, isLoading, isError, error } = useMangas(type, order, limit, includedTags, excludedTags, page);
@@ -28,10 +25,6 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
         // Increment the page when "See More" is clicked
         setILoadingNewMangas(true);
         setPage(prevPage => prevPage + 1);
-
-        if ((page * limit) <= data.total) {
-            queryClient.prefetchQuery([type, page], () => fetchMangas(order, includedTags, excludedTags, limit, page));
-        }
     };
 
     return (
@@ -56,31 +49,6 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
             )}
             {isLastItem && mangaList.length > 1 && <SeeMoreLink onClick={handleSeeMore} isLoadingNewMangas={isLoadingNewMangas} />}
         </HorizontalScrollMenu>
-    );
-};
-
-const SeeMoreLink = ({ onClick, isLoadingNewMangas }) => {
-    console.log(isLoadingNewMangas)
-    return (
-        <div
-            className="md:mr-7 flex justify-center items-center bg-white text-black font-medium tracking-[0.3em] hover:bg-[#E40066] hover:text-white cursor-pointer h-[100%] w-[100px] bottom-2 left-14"
-            onClick={onClick}
-        >
-            {
-                isLoadingNewMangas ?
-                    <Oval
-                        visible={true}
-                        height="30"
-                        width="30"
-                        color="#000000"
-                        ariaLabel="oval-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                    />
-                    :
-                    <p className="text-center">See More</p>
-            }
-        </div>
     );
 };
 
