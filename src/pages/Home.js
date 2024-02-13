@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { useMangaContext } from '../context/MangaContext';
+import fetchMangas from '../API/manga/fetchMangas';
 import MangaSlider from '../components/Manga/MangaSlider';
 import MangaCards from '../components/Manga/MangaCards';
 import showToast from '../utils/toastUtils';
@@ -10,12 +10,8 @@ import { BallTriangle } from 'react-loader-spinner'
 const Home = () => {
 
     const { setMangas, isLoading, setLoading } = useMangaContext();
-    const [tags, setTags] = useState([]);
-    const [categoryButtonClicked, setCategoryButtonClicked] = useState(false); // New state variable
 
     const navigate = useNavigate();
-
-    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
     const categories = [
         "Action",
@@ -37,52 +33,26 @@ const Home = () => {
         "Mecha"
     ];
 
-    useEffect(() => {
-        if (categoryButtonClicked) {
-            handelSearch();
-            setCategoryButtonClicked(false);
-        }
-    }, [tags, categoryButtonClicked]);
 
-    const handelSearch = async () => {
-
-        const searchParams = {
-            includedTags: tags,
-        };
-
+    const handelSearch = async (category) => {
         setLoading(true);
 
+        const limit = 30;
+        const excludedTags = [];
+
+
+        const searchParams = {
+            includedTags: [category],
+        };
+
+        console.log(searchParams.includedTags)
+
+
         try {
-            const tagsResponse = await axios({
-                method: 'get',
-                url: `${PROXY_SERVER_URL}/api/manga/tag`,
-                withCredentials: false,
-            });
+            const res = await fetchMangas({ rating: 'desc' }, limit, searchParams.includedTags, excludedTags, 1);
 
-            const includedTagIDs = tagsResponse.data.data
-                .filter(tag => searchParams.includedTags.includes(tag.attributes.name.en))
-                .map(tag => tag.id);
-
-            const finalOrderQuery = {};
-
-            for (const [key, value] of Object.entries({ rating: 'desc' })) {
-                finalOrderQuery[`order[${key}]`] = value;
-            }
-
-            const response = await axios({
-                method: 'get',
-                url: `${PROXY_SERVER_URL}/api/manga`,
-                withCredentials: false,
-                params: {
-                    includedTags: includedTagIDs,
-                    ...finalOrderQuery,
-                    limit: 30,
-                },
-            });
-
-            setMangas(response.data.data);
+            setMangas(res.data);
         } catch (error) {
-            setLoading(false);
             showToast(error.message, "error");
         } finally {
             setLoading(false);
@@ -91,8 +61,7 @@ const Home = () => {
     }
 
     const handleCategorySelect = (category) => {
-        setTags([category]);
-        setCategoryButtonClicked(true);
+        handelSearch(category);
     }
 
 
