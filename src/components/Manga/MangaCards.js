@@ -3,7 +3,7 @@ import MangaCard from './MangaCard';
 import MangaCardSkeleton from './MangaCardSkeleton';
 import useMangas from '../../hooks/manga/useMangas';
 import HorizontalScrollMenu from '../HorizontalScrollMenu/HorizontalScrollMenu';
-import SeeMoreLink from '../SeeMoreLink/SeeMoreLink';
+import SeeMore from '../SeeMore/SeeMore';
 
 const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
 
@@ -47,7 +47,7 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
                     </div>
                 ))
             )}
-            {isLastItem && mangaList.length > 1 && <SeeMoreLink onClick={handleSeeMore} isLoadingNewMangas={isLoadingNewMangas} />}
+            {isLastItem && mangaList.length > 1 && <SeeMore onClick={handleSeeMore} isLoadingNewMangas={isLoadingNewMangas} />}
         </HorizontalScrollMenu>
     );
 };
