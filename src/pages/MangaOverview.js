@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import { useManga } from "../hooks/manga/useManga";
+import fetchRelatedManga from '../API/manga/fetchRelatedManga';
 import useMangaCover from "../hooks/manga/useMangaCover";
 import useMangaStatistics from "../hooks/manga/useMangaStatistics";
 import RelatedMangaSkeleton from '../components/Manga/RelatedMangaSkeleton';
@@ -46,20 +47,12 @@ function MangaOverview() {
 
     // Fetch related manga
     useEffect(() => {
-        const fetchRelatedManga = async () => {
+        const RelatedManga = async () => {
             try {
-
                 if (!isCoverLoading) {
-                    console.log("relationship", mangaData?.relationships)
                     for (const relationship of mangaData?.relationships || []) {
                         if (relationship.type === 'manga' && relationship.related !== "doujinshi") {
-                            const response = await axios(
-                                {
-                                    method: 'get',
-                                    url: `${PROXY_SERVER_URL}/api/manga/${relationship.id}`,
-                                    withCredentials: false,
-                                });
-                            const manga = response.data.data;
+                            const manga = await fetchRelatedManga(relationship);
                             setRelatedManga(prevList => [...prevList, manga]);
                         }
                     }
@@ -70,7 +63,7 @@ function MangaOverview() {
             }
         };
 
-        fetchRelatedManga();
+        RelatedManga();
     }, [mangaData, isCoverLoading]);
 
     // Check if the manga is in the reading list
