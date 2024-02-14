@@ -45,9 +45,6 @@ const Home = () => {
             includedTags: [category],
         };
 
-        console.log(searchParams.includedTags)
-
-
         try {
             const res = await fetchMangas({ followedCount: 'desc', rating: 'desc' }, limit, searchParams.includedTags, excludedTags, 1);
 
