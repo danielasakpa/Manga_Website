@@ -40,13 +40,13 @@ const CarouselImage = ({ manga }) => {
     return (
         <>
             {
-                isChaptersLoading || isCoverLoading || isCoverError || ischaptersError ?
+                isCoverError || ischaptersError ?
                     <CarouselImageSkeleton />
                     :
                     <div
                         className="w-full flex-shrink-0 relative flex justify-left pt-[100px] lg:pt-[100px] xl:pt-[70px] pl-2 md:pl-4 pr-4 lg:pr-0 lg:pl-[70px] xl:pl-[120px] bg-gray-600 md:hover:bg-cover cursor-pointer md:hover:bg-top bg-cover md:bg-contain bg-top md:bg-center bg-no-repeat"
                         style={{
-                            backgroundImage: `url(${PROXY_SERVER_URL}/images/${manga.id}/${encodeURIComponent(imageUrl)})`,
+                            backgroundImage: ` ${isCoverLoading ? "url(../../assets/manga.png)" : `url(${PROXY_SERVER_URL}/images/${manga.id}/${encodeURIComponent(imageUrl)})`}`,
                         }}
                     >
                         <div className="absolute inset-0 bg-[#1F1F1F] bg-opacity-50 rounded-lg" />
@@ -70,15 +70,22 @@ const CarouselImage = ({ manga }) => {
                                 </Link>
                             </div>
                         </div>
-                        {sortedChapters === null ? (
-                            <div className="absolute bottom-4 left-2 md:left-4 text-[13px] md:text-[16px] font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
-                                No Chapter
-                            </div>
-                        ) : (
-                            <div className="absolute bottom-4 left-2 md:left-4 font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
-                                Chapter {sortedChapters[sortedChapters.length - 1].attributes.chapter}
-                            </div>
-                        )}
+                        {
+                            isChaptersLoading ?
+                                <div className="absolute bottom-4 left-4 font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
+                                    Loading
+                                </div>
+                                :
+                                sortedChapters === null ? (
+                                    <div className="absolute bottom-4 left-2 md:left-4 text-[13px] md:text-[16px] font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
+                                        No Chapter
+                                    </div>
+                                ) : (
+                                    <div className="absolute bottom-4 left-2 md:left-4 font-semibold tracking-[0.4em] bg-white text-gray-800 px-10 py-2 rounded-lg">
+                                        Chapter {sortedChapters[sortedChapters.length - 1].attributes.chapter}
+                                    </div>
+                                )
+                        }
                     </div>
             }
         </>
