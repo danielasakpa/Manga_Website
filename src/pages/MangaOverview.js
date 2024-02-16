@@ -29,7 +29,7 @@ function MangaOverview() {
     const [selectedReading, setSelectedReading] = useState("");
     const [relatedManga, setRelatedManga] = useState([]);
     const [loadingRelatedManga, setLoadingRelatedManga] = useState(true);
-    const [loadingReadingList, setLoadingReadingList] = useState(false);
+    const [loadingReadingList, setLoadingReadingList] = useState(true);
     const [isInReadingList, setIsInReadingList] = useState(false);
     const [authenticated, setAuthenticated] = useState(true);
     const [vis, setVis] = useState(false);
@@ -49,22 +49,21 @@ function MangaOverview() {
     useEffect(() => {
         const RelatedManga = async () => {
             try {
-                if (!isCoverLoading) {
-                    for (const relationship of mangaData?.relationships || []) {
-                        if (relationship.type === 'manga' && relationship.related !== "doujinshi") {
-                            const manga = await fetchRelatedManga(relationship);
-                            setRelatedManga(prevList => [...prevList, manga]);
-                        }
+                for (const relationship of mangaData?.relationships || []) {
+                    if (relationship.type === 'manga' && relationship.related !== "doujinshi") {
+                        const manga = await fetchRelatedManga(relationship);
+                        setRelatedManga(prevList => [...prevList, manga]);
                     }
-                    setLoadingRelatedManga(false);
                 }
             } catch (error) {
                 showToast(error.message, "error");
+            } finally {
+                setLoadingRelatedManga(false);
             }
         };
 
         RelatedManga();
-    }, [mangaData, isCoverLoading]);
+    }, [mangaData]);
 
     // Check if the manga is in the reading list
     useEffect(() => {
@@ -143,7 +142,7 @@ function MangaOverview() {
 
     return (
         <div className='text-white w-[90%] h-[100%] mt-4 mx-auto'>
-            {isLoading || isCoverLoading || isStatsLoading || loadingRelatedManga || isError ? (
+            {isLoading || loadingRelatedManga || isStatsLoading || isError ? (
                 // Skeleton loading UI
                 <>
                     <MangaOverviewSkeleton />
@@ -151,10 +150,10 @@ function MangaOverview() {
                     <YouMightLikeThisSkeleton />
                 </>
             ) : (
-                // Manga Overview Content
                 <>
                     <MangaDetailsSection mangaDetails={mangaDetails} />
                     <MangaImageAndDescriptionSection
+                        isCoverLoading={isCoverLoading}
                         imageUrl={`${PROXY_SERVER_URL}/images/${id}/${encodeURIComponent(imageUrl)}`}
                         mangaData={mangaData}
                         myList={myList}
