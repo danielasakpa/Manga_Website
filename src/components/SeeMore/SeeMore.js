@@ -1,13 +1,13 @@
 import { Oval } from 'react-loader-spinner'
 
-const SeeMore = ({ handleSeeMore, isLoadingNewMangas }) => {
+const SeeMore = ({ handleSeeMore, isRefetching }) => {
     return (
         <div
             className="md:mr-7 flex justify-center items-center bg-white text-black font-medium tracking-[0.3em] hover:bg-[#E40066] hover:text-white cursor-pointer h-[100%] w-[100px] bottom-2 left-14"
             onClick={handleSeeMore}
         >
             {
-                isLoadingNewMangas ?
+                isRefetching ?
                     <Oval
                         visible={true}
                         height="30"
