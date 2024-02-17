@@ -8,22 +8,19 @@ import SeeMore from '../SeeMore/SeeMore';
 const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
 
     const [page, setPage] = useState(0);
-    const { data, isLoading, isError, error } = useMangas(type, order, limit, includedTags, excludedTags, page);
+    const { data, isLoading, isRefetching, isError, error } = useMangas(type, order, limit, includedTags, excludedTags, page);
     const [mangaList, setMangaList] = useState([]);
     const [isLastItem, setIsLastItem] = useState(false);
-    const [isLoadingNewMangas, setILoadingNewMangas] = useState(false);
 
     // Update manga list when new data is loaded
     useEffect(() => {
         if (data && data.data.length > 0) {
-            setILoadingNewMangas(false);
             setMangaList(prevList => [...prevList, ...data.data]);
         }
     }, [data]);
 
     const handleSeeMore = () => {
         // Increment the page when "See More" is clicked
-        setILoadingNewMangas(true);
         setPage(prevPage => prevPage + 1);
     };
 
@@ -47,7 +44,7 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
                     </div>
                 ))
             )}
-            {isLastItem && mangaList.length > 1 && <SeeMore handleSeeMore={handleSeeMore} isLoadingNewMangas={isLoadingNewMangas} />}
+            {isLastItem && mangaList.length > 1 && <SeeMore handleSeeMore={handleSeeMore} isRefetching={isRefetching} />}
         </HorizontalScrollMenu>
     );
 };
