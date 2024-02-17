@@ -3,7 +3,7 @@ import MangaCategories from './MangaCategories';
 import MangaStatusButtons from './MangaStatusButtons';
 
 // Manga Image and Description Section Component
-const MangaImageAndDescriptionSection = ({ imageUrl, mangaData, myList, selectedReading, loadingReadingList, handleReadingSelect }) => {
+const MangaImageAndDescriptionSection = ({ isCoverLoading, imageUrl, mangaData, myList, selectedReading, loadingReadingList, handleReadingSelect }) => {
     const [showFullDescription, setShowFullDescription] = useState(false);
 
 
@@ -28,9 +28,14 @@ const MangaImageAndDescriptionSection = ({ imageUrl, mangaData, myList, selected
 
     const truncatedDescription = mangaData?.attributes.description.en ? mangaData?.attributes.description.en.slice(0, 200) : '';
     return (
-        <div className='flex flex-col items-center justify-between mt-8 md:flex-row md:items-start md:space-x-10'>
+        <div className='flex flex-col items-center justify-between mt-8 mb-6 md:flex-row md:items-start md:space-x-10'>
             <div className='h-[300px] w-[90%] md:w-[400px] shadow-yellow rounded-md'>
-                <img src={imageUrl} alt={mangaData?.attributes.title.en} className="object-cover w-full h-full rounded-md" />
+                {
+                    isCoverLoading ?
+                        <div className="animate-pulse bg-white bg-opacity-20 h-[300px] md:h-[250px] w-full md:w-1/4 shadow-yellow rounded-md" />
+                        :
+                        <img src={imageUrl} alt={mangaData?.attributes.title.en} className="object-cover w-full h-full rounded-md" />
+                }
             </div>
             <div className='mt-4 md:mt-0 w-[95%] md:w-full'>
                 <h2 className='mb-3 mt-5 md:mt-0 text-[25px] md:text-[30px] font-bold text-start text-white'>{mangaData?.attributes.title.en}</h2>
