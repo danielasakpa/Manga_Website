@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import useMangaCover from "../../hooks/manga/useMangaCover";
 import useMangaStatistics from "../../hooks/manga/useMangaStatistics";
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';
@@ -6,7 +6,7 @@ import MangaCardSkeleton from './MangaCardSkeleton';
 import { Link } from "react-router-dom";
 
 
-const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
+const MangaCard = React.memo(({ manga, setIsLastItem = () => { } }) => {
     const { id, attributes } = manga;
 
     const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
@@ -37,7 +37,7 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
     const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError, error: coverError } = useMangaCover(id);
     const { data: statistics, isLoading: isStatsLoading, isError: isStatsError, error: statsError } = useMangaStatistics(id);
 
-    if (isStatsLoading || isCoverError || isStatsError) {
+    if (isStatsLoading || isStatsError) {
         return (
             <MangaCardSkeleton />
         );
@@ -71,7 +71,7 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
         >
             <div className='flex justify-center items-center h-[200px] w-[100%] md:h-[300px]'>
                 {
-                    isCoverLoading ?
+                    isCoverLoading || isCoverError ?
                         <div className="h-[200px] w-[100%] md:h-[300px] bg-gray-200 animate-pulse" />
                         :
                         <img src={`${PROXY_SERVER_URL}/images/${id}/${encodeURIComponent(imageUrl)}`} alt={attributes.title.en} loading='lazy' className="h-[200px] w-[100%] md:h-[300px] object-cover transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 cursor-pointer duration-300" />
@@ -137,6 +137,6 @@ const MangaCard = ({ manga, setIsLastItem = () => { } }) => {
             </div>
         </div>
     );
-};
+});
 
 export default MangaCard;
