@@ -76,7 +76,7 @@ const SignUp = () => {
               onBlur={() => setFocused("true")}
               onChange={(e) => setUserName(e.target.value)}
             />
-            <span class="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Username should be 3-16 characters and shouldn't include any special character!</span>
+            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">Username should be 3-16 characters and shouldn't include any special character!</span>
             <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
               Name
             </label>

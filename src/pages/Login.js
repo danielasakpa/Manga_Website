@@ -70,7 +70,7 @@ const Login = () => {
               onBlur={() => setFocused("true")}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <span class="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">It should be a valid email address!</span>
+            <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">It should be a valid email address!</span>
             <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
               Email
             </label>
