@@ -28,16 +28,17 @@ const MangaCards = ({ type, order, limit, includedTags, excludedTags }) => {
         <HorizontalScrollMenu>
             {isLoading || isError ? (
                 [...Array(20)].map((_, index) => (
-                    <div className="mr-5" key={index}>
-                        <MangaCardSkeleton itemId={index} title={index} />
+                    <div className="mr-5" key={index} itemID={index} title={index}>
+                        <MangaCardSkeleton />
                     </div>
                 ))
             ) : (
                 mangaList.map((manga, i) => (
-                    <div className="mr-5" key={manga.id + i}>
+                    <div className="mr-5"
+                        key={manga.id + i}
+                        itemID={manga.id + i}
+                        title={manga.id + i}>
                         <MangaCard
-                            itemId={manga.id + i}
-                            title={manga.id + i}
                             manga={manga}
                             setIsLastItem={setIsLastItem}
                         />
