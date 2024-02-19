@@ -44,7 +44,7 @@ const CarouselImage = ({ manga }) => {
                     <CarouselImageSkeleton />
                     :
                     <div
-                        className="w-full flex-shrink-0 relative flex justify-left pt-[100px] lg:pt-[100px] xl:pt-[70px] pl-2 md:pl-4 pr-4 lg:pr-0 lg:pl-[70px] xl:pl-[120px] bg-gray-600 md:hover:bg-cover cursor-pointer md:hover:bg-top bg-cover md:bg-contain bg-top md:bg-center bg-no-repeat"
+                        className="w-full flex-shrink-0 relative flex justify-left pt-[110px] lg:pt-[100px] pl-2 md:pl-4 pr-4 lg:pr-0 lg:pl-[70px] xl:pl-[120px] bg-gray-600 md:hover:bg-cover cursor-pointer md:hover:bg-top bg-cover md:bg-contain bg-top md:bg-center bg-no-repeat"
                         style={{
                             backgroundImage: `${!isCoverLoading && `url(${PROXY_SERVER_URL}/images/${manga.id}/${encodeURIComponent(imageUrl)})`}`,
                         }}
@@ -54,7 +54,7 @@ const CarouselImage = ({ manga }) => {
                             <span className="">{manga.type.toUpperCase()}</span>
                         </div>
                         <div className="z-10 lg:w-[60%] ml-3 sm:ml-5 lg:ml-0 ">
-                            <h1 className="text-white font-semibold md:text-[40px] text-[25px] leading-9 lg:leading-10 mb-2">
+                            <h1 className="text-white font-semibold text-[30px] md:text-[40px] leading-9 lg:leading-10 mb-2">
                                 {manga.attributes.title.en
                                     ? manga.attributes.title.en.split(" ").slice(0, 3).join(" ")
                                     : manga.attributes.altTitles[0].en.split(" ").slice(0, 3).join(" ")}
