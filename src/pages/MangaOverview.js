@@ -29,7 +29,7 @@ function MangaOverview() {
     const [selectedReading, setSelectedReading] = useState("");
     const [relatedManga, setRelatedManga] = useState([]);
     const [loadingRelatedManga, setLoadingRelatedManga] = useState(true);
-    const [loadingReadingList, setLoadingReadingList] = useState(true);
+    const [loadingReadingList, setLoadingReadingList] = useState(false);
     const [isInReadingList, setIsInReadingList] = useState(false);
     const [authenticated, setAuthenticated] = useState(true);
     const [vis, setVis] = useState(false);
@@ -96,7 +96,7 @@ function MangaOverview() {
 
             if (isInReadingList) {
                 if (status === "Remove form list") {
-                    await deleteManga(token, userId, mangaId, status);
+                    await deleteManga(token, userId, mangaId);
                     setIsInReadingList(false);
                     setSelectedReading("");
                 } else {
@@ -112,13 +112,13 @@ function MangaOverview() {
                 }
             }
 
-            setLoadingReadingList(false);
         } catch (error) {
-            setLoadingReadingList(false)
             showToast(
                 error.response?.data?.message || 'An error occurred while adding the Manga to the Reading List.',
                 "info"
             );
+        } finally {
+            setLoadingReadingList(false);
         }
     };
 
