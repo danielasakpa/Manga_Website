@@ -2,6 +2,8 @@ import { Outlet } from "react-router-dom";
 import Nav from '../components/Nav/Nav';
 import Sidebar from "../components/Sidebar/Sidebar";
 import Footer from "../components/Footer/Footer";
+import { ToastContainer, Zoom } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function Layout() {
 
@@ -15,6 +17,7 @@ function Layout() {
                     <Footer />
                 </div>
             </div>
+            <ToastContainer newestOnTop />
         </div >
     );
 }

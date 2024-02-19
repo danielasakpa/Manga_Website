@@ -3,8 +3,6 @@ import MainRouter from './MainRouter'
 import { BrowserRouter, ScrollRestoration } from "react-router-dom";
 import { MangaProvider } from './context/MangaContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, Zoom } from 'react-toastify';
 
 const App = () => {
 
@@ -29,7 +27,6 @@ const App = () => {
           </QueryClientProvider>
           {/* <ScrollRestoration /> */}
         </BrowserRouter>
-        <ToastContainer newestOnTop />
       </MangaProvider>
     </div>
   )
