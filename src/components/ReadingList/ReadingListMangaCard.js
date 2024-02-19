@@ -18,7 +18,7 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
 
     const { isAuthenticated, token } = useAuth();
 
-    const { addManga, updateManga, getManga, deleteManga } = useReadingList();
+    const { updateManga, getManga, deleteManga } = useReadingList();
     const [selectedReading, setSelectedReading] = useState("");
     const [isInReadingList, setIsInReadingList] = useState(false);
     const [loadingReadingList, setLoadingReadingList] = useState(false);
@@ -46,25 +46,21 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
 
             setLoadingReadingList(true);
 
-            if (isInReadingList) {
-                if (status === "Remove from list") {
-                    await deleteManga(token, userId, manga.manga, status);
-                    setIsInReadingList(false);
-                } else {
-                    await updateManga(token, userId, manga.manga, status);
-                    setIsInReadingList(true);
-                }
+            if (status === "Remove from list") {
+                await deleteManga(token, userId, manga.manga);
+                setIsInReadingList(false);
             } else {
-                await addManga(token, userId, manga.manga, status);
+                await updateManga(token, userId, manga.manga, status);
                 setIsInReadingList(true);
             }
 
-            setLoadingReadingList(false);
         } catch (error) {
             showToast(
                 error.response?.data?.message || 'An error occurred while updating the reading list status.',
                 "info"
             );
+        } finally {
+            setLoadingReadingList(false);
         }
     };
 
@@ -107,16 +103,16 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                     <p className='text-[13px]'>Follows:  <span className='text-gray-500'>{follows.toLocaleString()}</span></p>
                 </div>
                 {/* Reading list status buttons */}
-                <div className="flex mt-2">
+                <div className="flex flex-wrap gap-y-2 mt-2">
                     {/* Render buttons or select based on screen width */}
                     {
                         <select
-                            className={`block md:hidden px-2 py-1 rounded bg-white text-[13px] ${loadingReadingList ? "text-[#FF004D]" : "text-gray-500"}`}
+                            className={`block md:hidden px-2 py-1 rounded bg-white text-[13px] ${loadingReadingList && selectedReading === "Remove from list" ? "text-[#FF004D]" : loadingReadingList ? "text-[blue]" : "text-gray-500"}`}
                             value={selectedReading}
                             onChange={(e) => handleReadingSelect(e.target.value)}
                             disabled={loadingReadingList}
                         >
-                            {statusButtons.map((status) => (
+                            {[...statusButtons, "Remove from list"].map((status) => (
                                 <option key={status} value={status}>
                                     {loadingReadingList && selectedReading === status ? (
                                         <span>
@@ -127,9 +123,6 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                                     )}
                                 </option>
                             ))}
-                            {isInReadingList && (
-                                <option value="Remove from list">Remove from list</option>
-                            )}
                         </select>
                     }
 
@@ -159,31 +152,29 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
                         </button>
                     ))}
                     {/* Render the "Remove from list" button for mobile */}
-                    {
-                        isInReadingList && (
-                            <button
-                                className={`flex justify-center items-center hidden md:block px-2 py-1 rounded ${selectedReading === 'Remove from list'
-                                    ? 'bg-red-500 text-white'
-                                    : 'bg-white text-[13px] text-red-500'
-                                    }`}
-                                onClick={() => handleReadingSelect('Remove from list')}
-                                disabled={loadingReadingList}
-                            >
-                                {loadingReadingList && selectedReading === 'Remove from list' ? (
-                                    <Circles
-                                        height="35"
-                                        width="35"
-                                        color="#ffffff"
-                                        ariaLabel="circles-loading"
-                                        wrapperStyle={{}}
-                                        wrapperClass=""
-                                        visible={true}
-                                    />
-                                ) : (
-                                    'Remove from list'
-                                )}
-                            </button>
+
+                    <button
+                        className={`flex justify-center items-center hidden md:block px-2 py-1 rounded ${selectedReading === 'Remove from list'
+                            ? 'bg-red-500 text-white'
+                            : 'bg-white text-[13px] text-red-500'
+                            }`}
+                        onClick={() => handleReadingSelect('Remove from list')}
+                        disabled={loadingReadingList}
+                    >
+                        {loadingReadingList && selectedReading === 'Remove from list' ? (
+                            <Circles
+                                height="20"
+                                width="20"
+                                color="#ffffff"
+                                ariaLabel="circles-loading"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                                visible={true}
+                            />
+                        ) : (
+                            'Remove from list'
                         )}
+                    </button>
                 </div>
             </div>
         </div >
