@@ -16,7 +16,7 @@ const Manga = () => {
             <div className='flex mx-auto w-[100%] md:w-[95%] text-center text-white mt-5 '>
                 {
                     menuItems.map((item, i) => (
-                        <Link to={`/manga/${id}/${item.link}`} key={i} className='list-none text-[10px] md:text-[20px] mx-auto px-1 md:px-7 py-2 basis-1/3 border-2 border-[#1F1F1F] md:font-medium tracking-[0.3em] hover:bg-white hover:text-black cursor-pointer bg-[#1B6FA8]'>
+                        <Link to={`/manga/${id}/${item.link}`} key={i} className='list-none text-[9px] md:text-[20px] mx-auto px-1 md:px-7 py-2 basis-1/3 border-2 border-[#1F1F1F] md:font-medium tracking-[0.3em] hover:bg-white hover:text-black cursor-pointer bg-[#1B6FA8]'>
                             {item.label}
                         </Link>
                     ))

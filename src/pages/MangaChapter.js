@@ -73,7 +73,7 @@ function MangaChapter() {
     const currentIndex = sortedChapters.findIndex((chapter) => chapter.id === selectedChapter);
 
     return (
-        <div className='bg-[#1F1F1F] w-full min-h-screen p-5'>
+        <div className='bg-[#1F1F1F] w-full min-h-screen py-5 px-2 sm:px-5 md:px-8'>
             <div className='flex justify-between mb-4'>
                 {selectedChapter !== sortedChapters[0]?.id && (
                     <Link

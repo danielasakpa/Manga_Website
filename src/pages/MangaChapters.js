@@ -51,7 +51,7 @@ function MangaChapters() {
                         <p className='text-[13px] md:text-[20px] text-center text-white'>No Available chapters...</p>
                     </div>
                     :
-                    <div className="overflow-x-hidden overflow-auto h-[90%] mt-8 md:mt-16 px-10">
+                    <div className="overflow-x-hidden overflow-auto h-[90%] mt-8 md:mt-16 px-6">
                         {sortedChapters.map((chapter) => (
                             <Link key={chapter.id} className='' to={`/manga/${id}/chapter/${chapter.id}`}>
                                 <div className="py-2 md:py-4 px-3 text-[13px] md:text-[20px] bg-white my-3 text-black rounded-md font-medium hover:bg-[#E40066] hover:text-white cursor-pointer" key={chapter.id}>
