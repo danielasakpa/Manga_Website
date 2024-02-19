@@ -1,10 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import LeftArrowIcon from '../../assets/left-arrow.png';
 import RightArrowIcon from '../../assets/right-arrow.png';
+import useSwipe from '../../hooks/useSwipe/useSwipe';
 
 const HorizontalScrollMenu = ({ children }) => {
+    const { onTouchEnd, onTouchMove, onTouchStart } = useSwipe();
+
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const onTouchMove = (ev) => {
+            ev.preventDefault();
+        };
+        const node = ref.current.scrollContainer.current;
+        node?.addEventListener('touchmove', onTouchMove, { passive: false });
+
+        return () => node?.removeEventListener('touchmove', onTouchMove);
+    }, [ref]);
+
+
     const LeftArrow = () => {
         const { isFirstItemVisible, scrollPrev } = useContext(VisibilityContext);
 
@@ -41,7 +57,21 @@ const HorizontalScrollMenu = ({ children }) => {
         );
     };
 
-    return <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>{children}</ScrollMenu>;
+    return (
+        <ScrollMenu
+            LeftArrow={LeftArrow}
+            RightArrow={RightArrow}
+            onTouchEnd={onTouchEnd}
+            onTouchMove={onTouchMove}
+            onTouchStart={onTouchStart}
+            apiRef={ref}
+        >
+            {children}
+        </ScrollMenu>
+    );
 };
 
+
 export default HorizontalScrollMenu;
+
+
