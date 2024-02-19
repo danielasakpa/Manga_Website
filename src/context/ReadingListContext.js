@@ -45,19 +45,26 @@ export const ReadingListProvider = ({ children }) => {
 
     const updateManga = async (token, userId, mangaId, status) => {
         try {
-            console.log("mangaId", mangaId)
-
             const response = await updateMangaUtil(token, userId, mangaId, status);
             const updatedManga = JSON.parse(response).manga;
-            const updatedList = readingList.map((manga) =>
-                manga._id === updatedManga._id ? updatedManga : manga
-            );
-            setReadingList(updatedList);
+
+            // Find the index of the manga in the list
+            const mangaIndex = readingList.findIndex((manga) => manga.manga === updatedManga.manga);
+
+            // Create a copy of the list
+            const updatedList = [...readingList];
+
+            // Replace the manga at the specific index with the updated manga
+            updatedList[mangaIndex] = updatedManga;
+
+            setReadingList(updatedList.reverse());
             showToast("Manga was updated in the list");
         } catch (error) {
             console.error('Error updating manga in reading list:', error.message);
         }
     };
+
+
 
     const getManga = async (token, userId, mangaId) => {
         try {
@@ -83,7 +90,7 @@ export const ReadingListProvider = ({ children }) => {
         try {
             await deleteMangaUtil(token, userId, mangaId);
             const updatedList = readingList.filter((manga) => manga.manga !== mangaId);
-            setReadingList(updatedList);
+            setReadingList(updatedList.reverse());
             showToast("Manga was removed from the list");
         } catch (error) {
             console.error('Error deleting manga from reading list:', error.message);
