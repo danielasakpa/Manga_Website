@@ -91,7 +91,7 @@ const MangaCard = React.memo(({ manga, setIsLastItem = () => { } }) => {
             </div>
 
             <div
-                className={`absolute bottom-0 left-0 right-0 lg:hidden md:pb-5 bg-[#1F1F1F] bg-opacity-80 text-white text-center ${isHovered ? 'opacity-100' : 'opacity-0'
+                className={`absolute bottom-0 left-0 right-0 lg:hidden w-full md:pb-5 bg-[#1F1F1F] bg-opacity-80 text-white text-center ${isHovered ? 'opacity-100' : 'opacity-0'
                     } transition-opacity duration-300`}
             >
                 <p className="p-2 text-[12px] font-semibold">{title.split(" ").slice(0, 2).join(" ")}</p>
