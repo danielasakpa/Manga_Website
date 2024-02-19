@@ -51,7 +51,7 @@ const Carousel = () => {
             ) : (
                 <div>
                     <div className="z-10 flex items-center justify-between mb-4">
-                        <div className="flex justify-between">
+                        <div className="flex items-center justify-between">
                             <h4 className="text-[20px] font-semibold mr-2 tracking-[0.4em]">
                                 Out Now
                             </h4>

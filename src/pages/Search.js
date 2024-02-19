@@ -70,7 +70,7 @@ const Search = () => {
 
             ) : (
                 mangas.length > 0 ? (
-                    <div className={`${mangaVis ? "block" : "hidden"} grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 justify-items-center content-center gap-y-8 mt-16`}>
+                    <div className={`${mangaVis ? "block" : "hidden"} grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 justify-items-center content-center gap-y-8 mt-16`}>
                         {mangas.map((manga) => (
                             <MangaCard
                                 key={manga.id}
