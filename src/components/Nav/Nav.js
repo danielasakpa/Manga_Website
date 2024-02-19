@@ -132,12 +132,15 @@ function Nav() {
                         <Link to="/" className="text-gray-700 hover:text-gray-900">Home</Link>
                         <Link to="/search" className="text-gray-700 hover:text-gray-900">Discover Comics</Link>
                         <Link to="/my-list" className="text-gray-700 hover:text-gray-900">My List</Link>
-                        <Link
-                            to="#"
-                            onClick={logout}
-                            className="text-gray-700 hover:text-gray-900">
-                            Logout
-                        </Link>
+                        {
+                            isAuthenticated() &&
+                            <Link
+                                to="/login"
+                                onClick={logout}
+                                className="text-gray-700 hover:text-gray-900">
+                                Logout
+                            </Link>
+                        }
                     </div>
                 </div>
             )}
