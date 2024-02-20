@@ -1,0 +1,15 @@
+{
+  "name": "YUKI MANGA",
+  "short_name": "Yuki",
+  "description": "Explore manga like never before with YUKI MANGA: a React-based, Tailwind CSS-infused app, powered by MangaDex API, Node.js, Express.js, and MongoDB. Immerse yourself in a seamless, visually enchanting experience. Dive into a vast manga collection, customize your search, and enjoy an unparalleled reading journey.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5faff",
+  "icons": [
+    {
+      "src": "path/to/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
