@@ -1,6 +1,5 @@
 // Import statements
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import { useManga } from "../hooks/manga/useManga";
 import fetchRelatedManga from '../API/manga/fetchRelatedManga';
@@ -19,7 +18,7 @@ import showToast from '../utils/toastUtils';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import LogIngSvg from '../assets/Login-bro.svg';
 
-function MangaOverview() {
+const MangaOverview = React.memo(() => {
     // Get manga id from URL params
     let { id } = useParams();
 
@@ -186,6 +185,6 @@ function MangaOverview() {
             )}
         </div>
     );
-};
+});
 
 export default MangaOverview;
