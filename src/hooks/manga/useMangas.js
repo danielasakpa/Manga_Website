@@ -13,7 +13,6 @@ export default function useMangas(type, order, limit, includedTags, excludedTags
                 const id = manga.id;
                 client.prefetchQuery(['manga', mangaId], () => fetchManga(mangaId));
             })
-        },
-        cacheTime: 0
+        }
     });
 }
