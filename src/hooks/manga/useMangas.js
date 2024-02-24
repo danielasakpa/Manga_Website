@@ -7,12 +7,12 @@ export default function useMangas(type, order, limit, includedTags, excludedTags
 
     return useQuery([type, includedTags, page], () => fetchMangas(order, limit, includedTags, excludedTags, page), {
         keepPreviousData: true, // Ensure previous data is not discarded during pagination
-        onSuccess: (data) => {
-            data.data.map(manga => {
+        onSuccess: async (data) => {
+            // Use Promise.all to parallelize fetching manga details
+            await Promise.all(data.data.map(async manga => {
                 const mangaId = manga.id;
-                const id = manga.id;
-                client.prefetchQuery(['manga', mangaId], () => fetchManga(mangaId));
-            })
+                await client.prefetchQuery(['manga', mangaId], () => fetchManga(mangaId));
+            }));
         }
     });
 }
