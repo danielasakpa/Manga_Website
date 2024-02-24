@@ -2,7 +2,9 @@ import { Circles } from 'react-loader-spinner'
 
 
 // Manga Status Buttons Component
-const MangaStatusButtons = ({ myList, selectedReading, handleReadingSelect, loadingReadingList }) => {
+const MangaStatusButtons = ({ selectedReading, handleReadingSelect, loadingReadingList }) => {
+    const myList = ['Reading', 'Completed', 'On-Hold', 'Dropped', 'Plan to Read', 'Remove form list'];
+
     return (
         <div className='mt-6'>
             <p className='text-[20px]'>My List</p>
