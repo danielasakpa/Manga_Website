@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useMangaContext } from '../../context/MangaContext';
 import { useAuth } from '../../Auth/AuthProvider';
@@ -12,27 +12,40 @@ function Nav() {
     const { setMangas, setLoading } = useMangaContext();
     const { isAuthenticated, logout } = useAuth();
 
+    const navigate = useNavigate();
+
     const { user, loading } = useUser();
 
     const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
     async function handleSearch() {
         setLoading(true);
-        if (mangaName) {
-            const resp = await axios({
-                method: 'GET',
-                url: `${PROXY_SERVER_URL}/api/manga`,
-                withCredentials: false,
-                params: {
-                    title: mangaName
-                }
-            });
+        try {
+            if (mangaName) {
+                const resp = await axios({
+                    method: 'GET',
+                    url: `${PROXY_SERVER_URL}/api/manga`,
+                    withCredentials: false,
+                    params: {
+                        title: mangaName
+                    }
+                });
 
-            setLoading(false);
-            setMangas(resp.data.data);
-            return;
+                setLoading(false);
+                setMangas(resp.data.data);
+                return;
+            }
+        } finally {
+            navigate("/search")
         }
     }
+
+    // Function to handle Enter key press
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
 
     return (
         <nav className="flex sticky top-0 z-20 items-center justify-between bg-[#FAFCFC] border-b-[2px] border-[#1F1F1F] h-[80px] px-3 lg:px-8 py-4">
@@ -52,16 +65,16 @@ function Nav() {
                                 placeholder="Mange Name"
                                 value={mangaName}
                                 onChange={(e) => setMangaName(e.target.value)}
+                                onKeyDown={handleKeyPress}
                                 className=" bg-white border-r border-[#1F1F1F] px-4 py-2 h-[50px] w-[400px] focus:outline-none"
                             />
                         </div>
-                        <Link
-                            to='/search'
+                        <button
                             className="flex items-center bg-[#1B6FA8] text-white btn h-[50px] py-2 px-4"
                             onClick={() => handleSearch()}
                         >
                             <span className='z-20'>Search Here</span>
-                        </Link>
+                        </button>
                     </div>
                 </div>
                 <Link
