@@ -1,22 +1,22 @@
-// Import statements
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { XCircleIcon } from "@heroicons/react/24/outline";
+
+// Hooks
 import { useManga } from "../hooks/manga/useManga";
-import fetchRelatedManga from '../API/manga/fetchRelatedManga';
-import useMangaCover from "../hooks/manga/useMangaCover";
-import useMangaStatistics from "../hooks/manga/useMangaStatistics";
-import RelatedMangaSkeleton from '../components/Manga/RelatedMangaSkeleton';
-import YouMightLikeThisSkeleton from '../components/Manga/YouMightLikeThisSkeleton';
-import MangaDetailsSection from '../components/Manga/MangaDetailsSection';
+import { useAuth } from '../Auth/AuthProvider';
+import { useReadingList } from '../context/ReadingListContext';
+
+// Components
+import { MangaOverviewSkeleton } from '../components/Manga/MangaOverviewSkeleton';
 import MangaImageAndDescriptionSection from '../components/Manga/MangaImageAndDescriptionSection';
 import RelatedMangaSection from '../components/Manga/RelatedMangaSection';
 import RecommendedMangaSection from '../components/Manga/RecommendedMangaSection';
-import { MangaOverviewSkeleton } from '../components/Manga/MangaOverviewSkeleton';
-import { useAuth } from '../Auth/AuthProvider';
-import { useReadingList } from '../context/ReadingListContext';
+
+// Utils
 import showToast from '../utils/toastUtils';
-import { XCircleIcon } from "@heroicons/react/24/outline";
 import LogIngSvg from '../assets/Login-bro.svg';
+
 
 const MangaOverview = React.memo(() => {
     // Get manga id from URL params
@@ -26,8 +26,6 @@ const MangaOverview = React.memo(() => {
 
     const { addManga, updateManga, getManga, deleteManga } = useReadingList();
     const [selectedReading, setSelectedReading] = useState("");
-    const [relatedManga, setRelatedManga] = useState([]);
-    const [loadingRelatedManga, setLoadingRelatedManga] = useState(true);
     const [loadingReadingList, setLoadingReadingList] = useState(false);
     const [isInReadingList, setIsInReadingList] = useState(false);
     const [authenticated, setAuthenticated] = useState(true);
@@ -37,32 +35,8 @@ const MangaOverview = React.memo(() => {
     const userId = localStorage.getItem("userId");
     const mangaId = id;
 
-    // Fetch manga data, cover, and statistics
+    // Fetch manga data
     const { data: mangaData, isLoading, isError } = useManga(id);
-    const { data: coverFilename, isLoading: isCoverLoading } = useMangaCover(id);
-    const { data: statistics, isLoading: isStatsLoading } = useMangaStatistics(id);
-
-    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
-
-    // Fetch related manga
-    useEffect(() => {
-        const RelatedManga = async () => {
-            try {
-                for (const relationship of mangaData?.relationships || []) {
-                    if (relationship.type === 'manga' && relationship.related !== "doujinshi") {
-                        const manga = await fetchRelatedManga(relationship);
-                        setRelatedManga(prevList => [...prevList, manga]);
-                    }
-                }
-            } catch (error) {
-                showToast(error.message, "error");
-            } finally {
-                setLoadingRelatedManga(false);
-            }
-        };
-
-        RelatedManga();
-    }, [mangaData]);
 
     // Check if the manga is in the reading list
     useEffect(() => {
@@ -75,17 +49,16 @@ const MangaOverview = React.memo(() => {
                     setIsInReadingList(true);
                 }
             }
-        }
+        };
 
         fetchMangaInList();
     }, [getManga, mangaId, token, userId]);
 
     // Handle selection of reading status
     const handleReadingSelect = async (status) => {
-
         if (!isAuthenticated()) {
             setAuthenticated(false);
-            setVis(prevVis => !prevVis)
+            setVis(prevVis => !prevVis);
             return;
         }
 
@@ -122,45 +95,28 @@ const MangaOverview = React.memo(() => {
     };
 
     const handleCloseMenu = () => {
-        setVis(prevVis => !prevVis)
+        setVis(prevVis => !prevVis);
     };
 
-    // Manga cover URL
-    const imageUrl = coverFilename || "coverFilename";
 
-    // Manga details
-    const { rating, follows } = statistics || {};
-    const myList = ['Reading', 'Completed', 'On-Hold', 'Dropped', 'Plan to Read', 'Remove form list'];
-    const mangaDetails = [
-        { label: 'Status', value: mangaData?.attributes?.status || "No Status" },
-        { label: 'Demographic', value: mangaData?.attributes?.publicationDemographic || "No Demographic".slice(0, 6) + "..." },
-        { label: 'Year', value: mangaData?.attributes?.year || "No date" },
-        { label: 'Rating', value: `${rating?.average?.toString().slice(0, 3)} ⭐` || "No rating" },
-        { label: 'follows', value: follows || 0 }
-    ];
 
     return (
         <div className='text-white w-[90%] h-[100%] mt-4 mx-auto'>
-            {isLoading || loadingRelatedManga || isStatsLoading || isError ? (
+            {isLoading || isError ? (
                 // Skeleton loading UI
                 <>
                     <MangaOverviewSkeleton />
-                    <RelatedMangaSkeleton />
-                    <YouMightLikeThisSkeleton />
                 </>
             ) : (
                 <>
-                    <MangaDetailsSection mangaDetails={mangaDetails} />
                     <MangaImageAndDescriptionSection
-                        isCoverLoading={isCoverLoading}
-                        imageUrl={`${PROXY_SERVER_URL}/images/${id}/${encodeURIComponent(imageUrl)}`}
+                        id={id}
                         mangaData={mangaData}
-                        myList={myList}
                         selectedReading={selectedReading}
                         loadingReadingList={loadingReadingList}
                         handleReadingSelect={handleReadingSelect}
                     />
-                    <RelatedMangaSection relatedManga={relatedManga} />
+                    <RelatedMangaSection mangaData={mangaData} />
                     <RecommendedMangaSection mangaData={mangaData} />
                     {!authenticated && (
                         <>
