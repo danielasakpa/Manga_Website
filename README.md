@@ -75,11 +75,18 @@ The project is organized into different modules, each serving a specific purpose
 
 2. **User Authentication:** Implementing a secure user authentication system required careful consideration. The separate server dedicated to user authentication and data management helped centralize these processes.
 
+3. **Parallel Connections Performance Issue with Proxy Server:** One significant challenge encountered was related to the performance of parallel connections when using `http-proxy-middleware` in Express. The application experienced delays, and requests were taking an unexpectedly long time to be resolved, impacting the overall user experience.
+
 ### Solutions Implemented
 
 1. **Proxy Server:** The custom proxy server acts as a middleware between the frontend and the MangaDex API, enhancing the overall performance and reliability of the application.
 
 2. **Separate Manga Server:** Isolating user authentication and data management into a separate server improved the project's maintainability and security.
+
+3. **Asynchronous Middleware to Improve Performance:**
+   To tackle the issue of slow parallel connections, I introduced asynchronous middleware in the proxy server. This involved restructuring the code to utilize `async` and `await` patterns. By doing so, the proxy server can now efficiently handle multiple requests concurrently, significantly improving the application's responsiveness and reducing the time it takes for requests to be resolved.
+
+   This modification ensures that the proxy middleware operates asynchronously, addressing the performance bottleneck and enhancing the overall user experience when interacting with the MangaDex API.
 
 ## Repository Structure
 
