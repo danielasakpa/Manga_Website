@@ -91,7 +91,7 @@ export const ReadingListProvider = ({ children }) => {
             await deleteMangaUtil(token, userId, mangaId);
             const updatedList = readingList.filter((manga) => manga.manga !== mangaId);
             setReadingList(updatedList.reverse());
-            showToast("Manga was removed from the list");
+            showToast("Manga was removed from the list", 'error');
         } catch (error) {
             console.error('Error deleting manga from reading list:', error.message);
         }
