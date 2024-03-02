@@ -38,8 +38,8 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
   const [mangaName, setMangaName] = useState('');
   const [tags, setTags] = useState([]);
   const [status, setStatus] = useState('');
-  const [order, setOrder] = useState('');
-  const [orderDirection, setOrderDirection] = useState('');
+  const [order, setOrder] = useState('followedCount');
+  const [orderDirection, setOrderDirection] = useState('desc');
 
   // Function to handle the search logic
   async function handleSearch() {
@@ -71,6 +71,8 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
         status,
         ...orderParams,
       };
+
+      console.log(orderParams)
 
       // Perform the fetchMangas API call
       const res = await fetchMangas(orderParams, limit, searchParams.includedTags, searchParams.excludedTags, 1);
