@@ -1,36 +1,41 @@
 import React from 'react';
+import RelatedMangaSkeleton from './RelatedMangaSkeleton';
+import YouMightLikeThisSkeleton from './YouMightLikeThisSkeleton';
 
 export const MangaOverviewSkeleton = () => {
     return (
-        <div className="text-white w-full mt-4 mx-auto">
-            <div className="flex flex-wrap xl:flex-nowrap justify-center text-center my-4">
-                {[...Array(5)].map((_, index) => (
-                    <div key={index} className="animate-pulse basis-1/3 mb-4 md:mb-0 px-4 py-3 w-full md:w-1/3 border-2 border-[#1F1F1F] font-medium tracking-[0.3em] cursor-pointer bg-white text-[#1F1F1F]"></div>
-                ))}
-            </div>
-            <div className="flex flex-col md:flex-row justify-between mt-8 space-y-4 md:space-y-0 md:space-x-4">
-                <SkeletonImage />
-                <div className="mt-4 w-full md:w-2/3">
-                    <SkeletonText />
-                    <div className="mt-6">
-                        <p className="text-[20px]">Category</p>
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mt-4">
-                            {[...Array(10)].map((_, index) => (
-                                <SkeletonElement key={index} />
-                            ))}
+        <>
+            <div className="text-white w-full mt-4 mx-auto">
+                <div className="flex flex-wrap xl:flex-nowrap justify-center text-center my-4">
+                    {[...Array(5)].map((_, index) => (
+                        <div key={index} className="animate-pulse basis-1/3 mb-4 md:mb-0 px-4 py-3 w-full md:w-1/3 border-2 border-[#1F1F1F] font-medium tracking-[0.3em] cursor-pointer bg-white text-[#1F1F1F]"></div>
+                    ))}
+                </div>
+                <div className="flex flex-col md:flex-row justify-between mt-8 space-y-4 md:space-y-0 md:space-x-4">
+                    <SkeletonImage />
+                    <div className="mt-4 w-full md:w-2/3">
+                        <SkeletonText />
+                        <div className="mt-6">
+                            <p className="text-[20px]">Category</p>
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mt-4">
+                                {[...Array(10)].map((_, index) => (
+                                    <SkeletonElement key={index} />
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                    <div className="mt-6">
-                        <p className="text-[20px]">My List</p>
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mt-4">
-                            {[...Array(5)].map((_, index) => (
-                                <SkeletonButton key={index} />
-                            ))}
+                        <div className="mt-6">
+                            <p className="text-[20px]">My List</p>
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 mt-4">
+                                {[...Array(5)].map((_, index) => (
+                                    <SkeletonButton key={index} />
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <RelatedMangaSkeleton />
+            <YouMightLikeThisSkeleton /></>
     );
 };
 
