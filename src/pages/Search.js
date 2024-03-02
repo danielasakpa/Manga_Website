@@ -20,7 +20,7 @@ const Search = () => {
     };
 
     return (
-        <div className='bg-[#1F1F1F] px-5 py-5 h-[max-content] relative overflow-hidden'>
+        <div className={`bg-[#1F1F1F] px-5 py-5 ${vis ? "h-[100svh]" : "h-[max-content]"} relative overflow-hidden`}>
             <div className='top-0 z-20 flex justify-between'>
                 <p className='px-2 md:px-4 py-2 text-[10px] md:text-[25px] ml-2 text-white'>
                     ALL <span className='text-[#F4B333]'>UPLOADS</span>
