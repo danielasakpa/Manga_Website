@@ -43,6 +43,11 @@ const Login = () => {
     }
   }
 
+  const google = () => {
+    window.open("https://manga-server-luxr.onrender.com/api/auth/google", "_self");
+  };
+
+
   return (
     <section className="bg-white text-sm md:grid md:grid-cols-2 justify-items-center">
       <div className=" max-w-sm mx-auto px-4 py-16 ">
@@ -109,7 +114,7 @@ const Login = () => {
           >
             Log In
           </button>
-          <button className="h-11 w-full flex gap-2 justify-center items-center border-2 border-gray-400 rounded-lg text-gray-500 mb-4">
+          <button onClick={google} className="h-11 w-full flex gap-2 justify-center items-center border-2 border-gray-400 rounded-lg text-gray-500 mb-4">
             <img
               src={googleLogo}
               alt="google"
