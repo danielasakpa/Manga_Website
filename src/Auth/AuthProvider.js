@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import showToast from '../utils/toastUtils';
 import Cookies from 'js-cookie';
+import { handleTokenExpiration, setAuthData, removeAuthData } from '../utils/authUtils';
 
 const AuthContext = createContext();
 
@@ -12,62 +12,50 @@ const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const getUser = async () => {
-            if (!token) {
-                try {
-                    const response = await axios.get('https://manga-server-luxr.onrender.com/api/auth/login/success', {
-                        withCredentials: true,
-                    });
+        const authData = Cookies.get('auth_data');
 
-                    showToast(response.data.message, 'success');
-
-                    if (response.status !== 200) {
-                        showToast('Authentication has failed!', 'error');
-                    }
-
-                    const authData = Cookies.get('auth_data');
-
-                    if (authData) {
-                        const { userId, token } = JSON.parse(authData.slice(2));
-                        localStorage.setItem('userId', userId);
-                        localStorage.setItem('token', token);
-                        localStorage.setItem("isGoogle", true);
-                        setToken(token);
-                    }
-                } catch (err) {
-                    console.error(err);
-                }
-            }
-        };
-
-        getUser();
+        if (authData) {
+            const { userId, token, message } = JSON.parse(authData.slice(2));
+            setAuthData(userId, token, message, 'google');
+            setToken(token);
+        }
     }, []);
+
+    useEffect(() => {
+        const intervalId = handleTokenExpiration(token, logout);
+
+        return () => clearInterval(intervalId);
+    }, [token, logout]);
 
     const login = async (userData) => {
         try {
-            const response = await axios.post('https://manga-server-luxr.onrender.com/api/auth/login', userData);
-            const { userId, message, token } = response.data;
+            const { data } = await axios.post('https://manga-server-luxr.onrender.com/api/auth/login', userData);
+            const { userId, message, token } = data;
+
             setToken(token);
-
             showToast(message, 'success');
-
-            localStorage.setItem('userId', userId);
-            localStorage.setItem('token', token);
-
+            setAuthData(userId, token);
             navigate(-1 || '/');
         } catch (error) {
             showToast('Login failed', 'error');
         }
     };
 
-    const logout = () => {
+    function logout() {
         setToken(null);
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
+        removeAuthData();
+
+        // Check if the user logged in with Google
         if (localStorage.getItem('isGoogle')) {
+            // Clear the 'isGoogle' flag
             localStorage.removeItem('isGoogle');
+
+            // Remove the 'auth_data' cookie with domain 'localhost'
             Cookies.remove('auth_data', { domain: 'localhost' });
-            window.open("https://manga-server-luxr.onrender.com/api/auth/logout", "_self");
+
+            // Trigger a logout by opening the server-side logout endpoint
+            window.open("http://localhost:5000/api/auth/logout", "_self");
+
             return;
         }
 
@@ -75,27 +63,6 @@ const AuthProvider = ({ children }) => {
     };
 
     const isAuthenticated = () => !!token;
-
-    useEffect(() => {
-        const checkTokenExpiration = () => {
-            if (token) {
-                const decodedToken = jwtDecode(token);
-                const currentTime = Date.now() / 1000;
-
-                if (decodedToken.exp < currentTime) {
-                    logout();
-                }
-            }
-        };
-
-        checkTokenExpiration();
-
-        const intervalId = setInterval(() => {
-            checkTokenExpiration();
-        }, 1000 * 60);
-
-        return () => clearInterval(intervalId);
-    }, [token, logout]);
 
     return (
         <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>
@@ -106,9 +73,11 @@ const AuthProvider = ({ children }) => {
 
 const useAuth = () => {
     const context = useContext(AuthContext);
+
     if (!context) {
         throw new Error('useAuth must be used within an AuthProvider');
     }
+
     return context;
 };
 
