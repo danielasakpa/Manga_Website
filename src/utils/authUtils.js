@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import showToast from './toastUtils';
 import { jwtDecode } from 'jwt-decode';
 
-// authUtils.js
-// authUtils.js
 
 const handleTokenExpiration = (token, logoutCallback) => {
     const checkTokenExpiration = () => {
