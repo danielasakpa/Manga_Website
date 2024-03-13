@@ -6,6 +6,7 @@ import MangaCards from '../components/Manga/MangaCards';
 import showToast from '../utils/toastUtils';
 import { useNavigate } from 'react-router-dom';
 import { BallTriangle } from 'react-loader-spinner'
+import tags from '../assets/tags';
 
 const Home = () => {
 
@@ -38,7 +39,7 @@ const Home = () => {
         setLoading(true);
 
         const limit = 30;
-        const excludedTags = [];
+        const excludedTags = ["Boys' Love"];
 
 
         const searchParams = {
@@ -46,7 +47,7 @@ const Home = () => {
         };
 
         try {
-            const res = await fetchMangas({ followedCount: 'desc', rating: 'desc' }, limit, searchParams.includedTags, excludedTags, 1);
+            const res = await fetchMangas(tags, { followedCount: 'desc', rating: 'desc' }, limit, searchParams.includedTags, excludedTags, 0, "search");
 
             setMangas(res.data);
         } catch (error) {
