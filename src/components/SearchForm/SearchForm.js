@@ -3,6 +3,7 @@ import { XCircleIcon } from "@heroicons/react/24/outline";
 import showToast from '../../utils/toastUtils';
 import fetchMangaByTitle from '../../API/manga/fetchMangaByTitle';
 import fetchMangas from '../../API/manga/fetchMangas';
+import mangaTags from '../../assets/tags';
 
 const categories = [
   "Action",
@@ -72,10 +73,8 @@ const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) =>
         ...orderParams,
       };
 
-      console.log(orderParams)
-
       // Perform the fetchMangas API call
-      const res = await fetchMangas(orderParams, limit, searchParams.includedTags, searchParams.excludedTags, 1);
+      const res = await fetchMangas(mangaTags, orderParams, limit, searchParams.includedTags, searchParams.excludedTags, 1, "search");
 
       setMangas(res.data);
     } catch (error) {
