@@ -7,7 +7,7 @@ export default async function fetchManga(mangaId) {
         method: 'get',
         url: `${PROXY_SERVER_URL}/api/manga/${mangaId}?includes[]=author&includes[]=artist&includes[]=cover_art`,
         crossDomain: true,
-        withCredentials: false,
+        withCredentials: true,
     });
 
     return response.data.data;

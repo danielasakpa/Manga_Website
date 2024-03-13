@@ -24,8 +24,8 @@ function Nav() {
             if (mangaName) {
                 const resp = await axios({
                     method: 'GET',
-                    url: `${PROXY_SERVER_URL}/api/manga`,
-                    withCredentials: false,
+                    url: `${PROXY_SERVER_URL}/search/manga`,
+                    withCredentials: true,
                     params: {
                         title: mangaName
                     }

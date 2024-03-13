@@ -7,7 +7,7 @@ export default async function fetchMangaChapter(chapterID) {
         const response = await axios({
             method: 'get',
             url: `${PROXY_SERVER_URL}/api/at-home/server/${chapterID}`,
-            withCredentials: false,
+            withCredentials: true,
         });
         const { baseUrl, chapter: { hash, data, dataSaver } } = response.data;
         return { baseUrl, hash, data, dataSaver };

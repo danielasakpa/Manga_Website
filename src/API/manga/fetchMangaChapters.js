@@ -8,7 +8,7 @@ export default async function fetchMangaChapters(mangaID, languages) {
         const response = await axios({
             method: 'get',
             url: `${PROXY_SERVER_URL}/api/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`,
-            withCredentials: false,
+            withCredentials: true,
             params: {
                 translatedLanguage: languages,
             },

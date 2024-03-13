@@ -2,18 +2,13 @@ import axios from 'axios';
 
 const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
 
-export default async function fetchMangas(order, limit = 10, includedTags = [], excludedTags = [], page = 1) {
-    const tagsResponse = await axios({
-        method: 'get',
-        url: `${PROXY_SERVER_URL}/api/manga/tag`,
-        withCredentials: false,
-    });
+export default async function fetchMangas(tags, order, limit = 10, includedTags = [], excludedTags = [], page = 0, route = "mangas") {
 
-    const includedTagIDs = tagsResponse.data.data
+    const includedTagIDs = tags
         .filter(tag => includedTags.includes(tag.attributes.name.en))
         .map(tag => tag.id);
 
-    const excludedTagIDs = tagsResponse.data.data
+    const excludedTagIDs = tags
         .filter(tag => excludedTags.includes(tag.attributes.name.en))
         .map(tag => tag.id);
 
@@ -27,8 +22,8 @@ export default async function fetchMangas(order, limit = 10, includedTags = [], 
 
     const response = await axios({
         method: 'get',
-        url: `${PROXY_SERVER_URL}/api/manga`,
-        withCredentials: false,
+        url: `${PROXY_SERVER_URL}/${route}/manga`,
+        withCredentials: true,
         params: {
             includedTags: includedTagIDs,
             excludedTags: excludedTagIDs,

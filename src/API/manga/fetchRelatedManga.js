@@ -10,7 +10,7 @@ export default async function fetchRelatedManga(mangaData) {
                 const response = await axios({
                     method: 'get',
                     url: `${PROXY_SERVER_URL}/api/manga/${relationship.id}`,
-                    withCredentials: false,
+                    withCredentials: true,
                 });
                 return response.data.data;
             })
