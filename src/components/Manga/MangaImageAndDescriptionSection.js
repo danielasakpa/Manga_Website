@@ -37,11 +37,11 @@ const MangaImageAndDescriptionSection = ({ id, mangaData, selectedReading, loadi
         <>
             <MangaDetailsSection id={id} mangaData={mangaData} />
 
-            <div className='flex flex-col items-center justify-between mt-8 mb-6 md:flex-row md:items-start md:space-x-10'>
-                <div className='h-[300px] w-[90%] md:w-[400px] shadow-yellow rounded-md'>
+            <div className='flex flex-col items-center justify-between mt-3 md:mt-8 mb-6 md:flex-row md:items-start md:space-x-10'>
+                <div className='h-[100%] w-[90%] md:w-[400px] shadow-yellow rounded-md'>
                     {
                         !isCoverLoading &&
-                        <img src={`${PROXY_SERVER_URL}/images/${id}/${encodeURIComponent(coverFilename)}`} alt={mangaData?.attributes.title.en} className="object-cover w-full h-full rounded-md" />
+                        <img src={`${PROXY_SERVER_URL}/images/${id}/${encodeURIComponent(coverFilename)}`} alt={mangaData?.attributes.title.en} className="bg-auto bg-top w-full h-full rounded-md" />
                     }
                 </div>
                 <div className='mt-4 md:mt-0 w-[95%] md:w-full'>
