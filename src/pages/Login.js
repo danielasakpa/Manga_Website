@@ -43,16 +43,18 @@ const Login = () => {
     }
   }
 
-  const google = () => {
+  const google = (e) => {
+    e.preventDefault();
+
     window.open("https://manga-server-luxr.onrender.com/api/auth/google", "_self");
   };
 
 
   return (
-    <section className="bg-white text-sm md:grid md:grid-cols-2 justify-items-center">
-      <div className=" max-w-sm mx-auto px-4 py-16 ">
+    <section className="text-sm bg-white md:grid md:grid-cols-2 justify-items-center">
+      <div className="max-w-sm px-4 py-16 mx-auto ">
         <div className="text-center mb-9">
-          <h2 className="text text-3xl font-medium mb-4">
+          <h2 className="mb-4 text-3xl font-medium text">
             Welcome <span className="text-[#1B6FA8]">back</span>!
           </h2>
           <p className="text-sm text-gray-500">
@@ -76,7 +78,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">It should be a valid email address!</span>
-            <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
+            <label className="absolute top-0 px-1 duration-300 -translate-y-1/2 bg-white peer-placeholder-shown:top-1/2 peer-focus:top-0 left-3">
               Email
             </label>
           </div>
@@ -91,13 +93,13 @@ const Login = () => {
               required
               onChange={(e) => setPassword(e.target.value)}
             />
-            <label className="absolute peer-placeholder-shown:top-1/2 peer-focus:top-0 top-0 left-3 -translate-y-1/2 bg-white px-1 duration-300">
+            <label className="absolute top-0 px-1 duration-300 -translate-y-1/2 bg-white peer-placeholder-shown:top-1/2 peer-focus:top-0 left-3">
               Password
             </label>
           </div>
 
           {/* Checkbox input */}
-          <div className="flex justify-between items-center my-4">
+          <div className="flex items-center justify-between my-4">
             <div className="flex items-center">
               <input type="checkbox" />
               <label className="ml-2">Remember me</label>
@@ -114,17 +116,17 @@ const Login = () => {
           >
             Log In
           </button>
-          <button onClick={google} className="h-11 w-full flex gap-2 justify-center items-center border-2 border-gray-400 rounded-lg text-gray-500 mb-4">
+          <button onClick={google} className="flex items-center justify-center w-full gap-2 mb-4 text-gray-500 border-2 border-gray-400 rounded-lg h-11">
             <img
               src={googleLogo}
               alt="google"
-              className="h-6 w-6 inline-block"
+              className="inline-block w-6 h-6"
             />
             <span>Log in with Google</span>
           </button>
         </form>
 
-        <div className="text-center font-semibold text-gray-600">
+        <div className="font-semibold text-center text-gray-600">
           <p className="mb-3">
             Don't have an account?{" "}
             <Link to="/sign-up" className="text-[#1B6FA8]">
@@ -142,7 +144,7 @@ const Login = () => {
 
       <img
         src={authBackground}
-        className=" h-full w-full"
+        className="w-full h-full "
         alt="auth background"
       />
       {isLoading && (
