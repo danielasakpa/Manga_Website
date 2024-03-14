@@ -33,9 +33,9 @@ const MangaDetailsSection = ({ id, mangaData }) => {
                             </div>
                         ))}
                     </div> :
-                    <div className="flex flex-wrap xl:flex-nowrap justify-center text-center my-4">
+                    <div className="flex flex-wrap xl:flex-nowrap justify-center text-center mt-4">
                         {[...Array(5)].map((_, index) => (
-                            <div key={index} className="animate-pulse basis-1/3 mb-4 md:mb-0 px-4 py-3 w-full md:w-1/3 border-2 border-[#1F1F1F] font-medium tracking-[0.3em] cursor-pointer bg-white text-[#1F1F1F]"></div>
+                            <div key={index} className="animate-pulse basis-1/3 px-4 py-3.5 md:py-4 w-full md:w-1/3 border-2 border-[#1F1F1F] font-medium tracking-[0.3em] cursor-pointer bg-white text-[#1F1F1F]"></div>
                         ))}
                     </div>
             }
