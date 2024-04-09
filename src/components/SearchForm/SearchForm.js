@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import showToast from '../../utils/toastUtils';
-import fetchMangaByTitle from '../../API/manga/fetchMangaByTitle';
-import fetchMangas from '../../API/manga/fetchMangas';
-import mangaTags from '../../assets/tags';
+import { useNavigate } from 'react-router-dom';
 
 const categories = [
   "Action",
@@ -22,7 +20,7 @@ const categories = [
   "School Life",
 ];
 
-const statuses = ["Ongoing", "Completed"];
+const statuses = ["Ongoing", "Completed", "Hiatus", "Cancelled"];
 
 const orders = [
   { label: "Rating", value: "rating" },
@@ -35,56 +33,88 @@ const orderDirections = [
   { label: "Descending", value: "desc" },
 ];
 
-const SearchForm = ({ setMangas, setVis, setMangaVis, setLoading, setError }) => {
+const SearchForm = ({ setVis, setMangaVis, setLoading, setError }) => {
+  const navigate = useNavigate();
+
   const [mangaName, setMangaName] = useState('');
   const [tags, setTags] = useState([]);
   const [status, setStatus] = useState('');
-  const [order, setOrder] = useState('followedCount');
-  const [orderDirection, setOrderDirection] = useState('desc');
+  const [order, setOrder] = useState('');
+  const [orderDirection, setOrderDirection] = useState('');
 
   // Function to handle the search logic
   async function handleSearch() {
     setLoading(true);
-
-    setVis((prevVis) => !prevVis);
+    setVis(false);
     setMangaVis(true);
 
-    const limit = 30
-
     try {
-      // If mangaName is provided, fetch manga by title
+      // Redirect to search results if mangaName is provided
       if (mangaName.trim()) {
-        let res = await fetchMangaByTitle(mangaName.trim());
-        setLoading(false);
-        setMangas(res);
+        navigate(`/search?title=${encodeURIComponent(mangaName.trim())}`);
         return;
       }
 
-      // Prepare parameters for fetchMangas API call
-      const orderParams = {
-        [order]: orderDirection,
-      };
+      const orderParams = order && orderDirection ? { [order]: orderDirection } : {};
 
       const searchParams = {
-        mangaName,
         includedTags: tags.filter((tag) => tag.type === 'include').map((tag) => tag.name),
         excludedTags: tags.filter((tag) => tag.type === 'exclude').map((tag) => tag.name),
         status,
-        ...orderParams,
       };
 
-      // Perform the fetchMangas API call
-      const res = await fetchMangas(mangaTags, orderParams, limit, searchParams.includedTags, searchParams.excludedTags, 1, "search");
+      const queryParams = new URLSearchParams();
 
-      setMangas(res.data);
+      // Add 'advanced' parameter if any search parameters are filled
+      const anySearchParamsFilled = Object.values(searchParams).some(param => Array.isArray(param) ? param.length > 0 : !!param);
+      if (anySearchParamsFilled) {
+        queryParams.set('advanced', 'true');
+      }
+
+      // Add includedTags and excludedTags
+      for (const key in searchParams) {
+        const value = searchParams[key];
+        if (Array.isArray(value) && value.length > 0) {
+          queryParams.set(key, value.join(','));
+        }
+      }
+
+      // Add status parameter if it has value
+      if (searchParams.status) {
+        queryParams.set('status', searchParams.status);
+      }
+
+
+      // Add order parameter if it has value
+      if (Object.keys(orderParams).length > 0) {
+        queryParams.set('order', JSON.stringify(orderParams));
+      }
+
+      // Only navigate if any search parameters are filled
+      if (anySearchParamsFilled) {
+        // Navigate to the search page with constructed query string
+        navigate(`/search?${queryParams.toString()}`);
+      } else {
+        // Navigate to default search page without any query parameters
+        navigate('/search');
+      }
+
     } catch (error) {
       // Handle errors by updating error state and displaying a toast
       setError(error.message);
       showToast(error.message, 'error');
     } finally {
       setLoading(false);
+      // Clearing the state variables might be necessary here depending on your app logic
+      // setMangaName('');
+      // setTags([]);
+      // setStatus('');
+      // setOrder('');
+      // setOrderDirection('');
     }
   }
+
+
 
   // Function to handle tag clicks and update tag state
   const handleTagClick = (tagName) => {
