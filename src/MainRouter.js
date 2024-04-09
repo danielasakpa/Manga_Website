@@ -9,13 +9,13 @@ import MangaChapters from "./pages/MangaChapters";
 import Recommendations from "./pages/Recommendations";
 import { useLocation, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './Auth/AuthProvider';
-import { UserProvider } from './context/UserContext';
 import { ReadingListProvider } from './context/ReadingListContext';
 import ProtectedRoute from './Auth/ProtectedRoute';
 import Profile from './pages/Profile';
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import MyList from "./pages/MyList";
+import LatestChapters from "./pages/LatestChapters";
 
 
 function MainRouter() {
@@ -31,36 +31,35 @@ function MainRouter() {
 
   return (
     <AuthProvider>
-      <UserProvider>
-        <ReadingListProvider>
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/my-list" element={<MyList />} />
+      <ReadingListProvider>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/my-list" element={<MyList />} />
+            <Route path="/latest-chapters" element={<LatestChapters />} />
 
-              <Route path="/manga/:id" element={<Manga />}>
-                <Route path="/manga/:id/overview" element={<MangaOverview />} />
-                <Route path="/manga/:id/chapters" element={<MangaChapters />} />
-                <Route
-                  path="/manga/:id/chapter/:chapterId"
-                  element={<MangaChapter />}
-                />
-                <Route
-                  path="/manga/:id/recommendations"
-                  element={<Recommendations />}
-                />
-              </Route>
-              <Route element={<ProtectedRoute />}>
-                <Route path="/profile" element={<Profile />} />
-              </Route>
-              <Route path="*" element={<Home />} />
+            <Route path="/manga/:id" element={<Manga />}>
+              <Route path="/manga/:id/overview" element={<MangaOverview />} />
+              <Route path="/manga/:id/chapters" element={<MangaChapters />} />
+              <Route
+                path="/manga/:id/chapter/:chapterId/:chapterNum/:lang"
+                element={<MangaChapter />}
+              />
+              <Route
+                path="/manga/:id/recommendations"
+                element={<Recommendations />}
+              />
             </Route>
-          </Routes>
-        </ReadingListProvider>
-      </UserProvider>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route path="*" element={<Home />} />
+          </Route>
+        </Routes>
+      </ReadingListProvider>
     </AuthProvider>
   );
 }
