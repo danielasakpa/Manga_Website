@@ -1,44 +1,24 @@
 import React, { useState } from 'react';
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useMangaContext } from '../../context/MangaContext';
 import { useAuth } from '../../Auth/AuthProvider';
-import { useUser } from '../../context/UserContext';
+import { FireIcon  } from "@heroicons/react/24/outline";
+
 
 function Nav() {
     const [mangaName, setMangaName] = useState('');
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const { setMangas, setLoading } = useMangaContext();
     const { isAuthenticated, logout } = useAuth();
-
     const navigate = useNavigate();
 
-    const { user, loading } = useUser();
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
-
-    async function handleSearch() {
-        setLoading(true);
-        try {
-            if (mangaName) {
-                const resp = await axios({
-                    method: 'GET',
-                    url: `${PROXY_SERVER_URL}/search/manga`,
-                    withCredentials: true,
-                    params: {
-                        title: mangaName
-                    }
-                });
-
-                setLoading(false);
-                setMangas(resp.data.data);
-                return;
-            }
-        } finally {
-            navigate("/search")
+    // Function to handle search and navigate to "/search" route with mangaName as query parameter
+    const handleSearch = () => {
+        if (mangaName) {
+            navigate(`/search?title=${encodeURIComponent(mangaName)}`);
         }
-    }
+    };
+
 
     // Function to handle Enter key press
     const handleKeyPress = (event) => {
@@ -79,34 +59,25 @@ function Nav() {
                 </div>
                 <Link
                     to='/search'
-                    className='flex justify-center items-center lg:hidden block items-center text-[12px] text-black h-[max-content] md:text-[16px] px-4 lg:px-5 py-1 mr-[10px] border border-gray-700 bg-[#fff] rounded-md'
+                    className='flex justify-center lg:hidden items-center text-[12px] text-white h-[max-content] md:text-[16px] px-4 lg:px-5 py-[0.2rem] mr-[10px] border border-gray-700  bg-[#1B6FA8] rounded-md'
                 >
-                    Search
-                    <MagnifyingGlassIcon className="w-4 h-4 text-black ml-[5px]" />
+                    Explore Mangas
+                    <FireIcon  className="w-4 h-4 text-[#fabe47] ml-[7px]"  />
                 </Link>
                 <Link to={isAuthenticated() ? "/profile" : "/login"} >
-                    <div className="flex items-center hidden space-x-2 cursor-pointer lg:block">
-                        {
-                            loading && !user ?
-                                <div
-                                    className={`w-12 h-12 font-Roboto font-bold text-white rounded-full bg-gray-400 animate-pulse`}
-                                >
-
-                                </div>
-                                :
-                                <div
-                                    className={`w-12 h-12 ${user?.username ? "text-[35px]" : "text-[10px]"}  font-Roboto font-bold text-white rounded-full bg-gray-400 flex justify-center items-center`}
-                                >
-                                    <span>
-                                        {
-                                            user?.username ? user?.username.split("")[0] : "Sign In"
-                                        }
-                                    </span>
-                                </div>
-                        }
+                    <div className="items-center hidden space-x-2 cursor-pointer lg:flex ">
+                        <div
+                            className={`w-12 h-12 ${user?.username ? "text-[35px]" : "text-[10px]"}  font-Roboto font-bold text-white rounded-full bg-gray-400 flex justify-center items-center`}
+                        >
+                            <span>
+                                {
+                                    user?.username ? user?.username.split("")[0] : "Sign In"
+                                }
+                            </span>
+                        </div>
                     </div>
                 </Link>
-                <div className="flex items-center block space-x-2 cursor-pointer lg:hidden">
+                <div className="flex items-center space-x-2 cursor-pointer lg:hidden">
                     <button onClick={() => setMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-700 focus:outline-none lg:hidden">
                         {isMobileMenuOpen ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-10 w-7">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -120,30 +91,21 @@ function Nav() {
             </div>
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
-                <div className="absolute right-0 w-full p-4 bg-white rounded-md shadow-lg lg:hidden top-20">
+                <div className="absolute right-0 z-auto w-full p-4 bg-white rounded-md shadow-lg lg:hidden top-20">
                     <div className="flex flex-col space-y-4">
                         <Link to={isAuthenticated() ? "/profile" : "/login"} className='flex items-center cursor-pointer' >
-                            {
-                                loading && !user ?
-                                    <div
-                                        className={`w-12 h-12 font-Roboto font-bold text-white rounded-full bg-gray-400 animate-pulse`}
-                                    >
-
-                                    </div>
-                                    :
-                                    <div
-                                        className={`w-12 h-12 ${user?.username ? "text-[35px]" : "text-[10px]"}  font-Roboto font-bold text-white rounded-full bg-gray-400 flex justify-center items-center`}
-                                    >
-                                        <span>
-                                            {
-                                                user?.username ? user?.username.split("")[0] : "Sign In"
-                                            }
-                                        </span>
-                                    </div>
-                            }
+                            <div
+                                className={`w-12 h-12 ${user?.username ? "text-[35px]" : "text-[10px]"}  font-Roboto font-bold text-white rounded-full bg-gray-400 flex justify-center items-center`}
+                            >
+                                <span>
+                                    {
+                                        user?.username ? user?.username.split("")[0] : "Sign In"
+                                    }
+                                </span>
+                            </div>
                         </Link>
                         <Link to="/" className="text-gray-700 hover:text-gray-900">Home</Link>
-                        <Link to="/search" className="text-gray-700 hover:text-gray-900">Discover Comics</Link>
+                        <Link to="/search" className="text-gray-700 hover:text-gray-900">Discover Mangas</Link>
                         <Link to="/my-list" className="text-gray-700 hover:text-gray-900">My List</Link>
                         {
                             isAuthenticated() &&
