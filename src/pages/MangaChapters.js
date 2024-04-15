@@ -1,68 +1,97 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import useMangaChapters from '../hooks/manga/useMangaChapters';
+import { useManga } from '../hooks/manga/useManga';
+import LanguageSelector from '../components/LanguageSelector/LanguageSelector';
+import ChaptersList from '../components/ChaptersList/ChaptersList';
 
 function MangaChapters() {
-    let { id } = useParams();
+    // Retrieve manga ID from URL parameters
+    const { id } = useParams();
 
-    const { data: chaptersData, isLoading: isChaptersLoading, isError: isChaptersError, error: chaptersError } = useMangaChapters(
+    const [currentPage, setCurrentPage] = useState(1);
+    const [chapterLang, setChapterLang] = useState("en");
+    const chaptersPerPage = 50;
+
+    // Fetch manga data and chapters data
+    const { data: mangaData, isLoading: isMangaLoading, isError: isMangaError } = useManga(id);
+    const { data: chaptersData, isLoading: isChaptersLoading, isRefetching, isError: isChaptersError, total: totalChapters } = useMangaChapters(
         id,
-        ['en']
+        [`${chapterLang}`],
+        chaptersPerPage,
+        currentPage - 1
     );
 
-    if (isChaptersLoading) {
-        return (
-            <div className="flex justify-center items-center h-[500px] mt-16 px-10">
-                <p className='text-[13px] md:text-[20px] text-white'>Loading manga chapters...</p>
-            </div>
-        );
+    // Event handler for changing language selection
+    const handleChapterLang = (e) => {
+        const selectedLang = e.target.value;
+        setChapterLang(selectedLang);
+    };
+
+    // Event handler for pagination click
+    const handlePaginationClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    // Render loading message while data is being fetched
+    if (isChaptersLoading || isMangaLoading || isRefetching) {
+        return <LoadingMessage />;
     }
 
-    if (isChaptersError) {
-        return (
-            <div className="flex justify-center items-center h-[500px] mt-16 px-10">
-                <p className='text-[13px] md:text-[20px] text-white'>Error fetching manga chapters..</p>
-            </div>
-        );
+    // Render error message if there is an error fetching chapters or manga
+    if (isChaptersError || isMangaError) {
+        return <ErrorMessage />;
     }
 
-    // Filter the chapters array to remove duplicates based on the chapter number
-    const filteredChapters = chaptersData.data.filter(
-        (chapter, index, self) => {
-            // Find the index of the first occurrence of the chapter number in the array
-            const firstIndex = self.findIndex(
-                (c) => c.attributes.chapter === chapter.attributes.chapter
-            );
-
-            // Keep only the chapter if its index matches the first occurrence index
-            return index === firstIndex;
-        }
-    );
-
-    const sortedChapters = filteredChapters.sort((a, b) => {
-        return parseInt(a.attributes.chapter, 10) - parseInt(b.attributes.chapter, 10);
-    });
+    // Calculate total pages for pagination
+    const totalPages = Math.ceil(totalChapters / chaptersPerPage);
 
     return (
-        <div className={`h-[100vh] text-white `}>
-            {
-                chaptersData.data.length < 1 ?
-                    <div className="flex justify-center items-center h-[90%] mt-16 px-10">
-                        <p className='text-[13px] md:text-[20px] text-center text-white'>No Available chapters...</p>
-                    </div>
-                    :
-                    <div className="overflow-x-hidden overflow-auto h-[90%] mt-8 md:mt-16 px-6">
-                        {sortedChapters.map((chapter) => (
-                            <Link key={chapter.id} className='' to={`/manga/${id}/chapter/${chapter.id}`}>
-                                <div className="py-2 md:py-4 px-3 text-[13px] md:text-[20px] bg-white my-3 text-black rounded-md font-medium hover:bg-[#E40066] hover:text-white cursor-pointer" key={chapter.id}>
-                                    Chapter {chapter.attributes.chapter}
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-            }
+        <div className="h-screen text-white md:px-5 md:pb-6">
+            {/* Language selection dropdown */}
+            <LanguageSelector
+                chapterLang={chapterLang}
+                availableTranslatedLanguages={mangaData.attributes.availableTranslatedLanguages}
+                handleChapterLang={handleChapterLang}
+            />
+            {chaptersData?.data?.length === 0 ? (
+                <NoChaptersMessage />
+            ) : (
+                <ChaptersList
+                    id={id}
+                    chapters={chaptersData.data}
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    handlePaginationClick={handlePaginationClick}
+                />
+            )}
         </div>
     );
 }
+
+// Component for rendering loading message
+const LoadingMessage = () => (
+    <div className="flex justify-center items-center h-[500px] mt-16 px-10">
+        <p className='text-[13px] md:text-[20px] text-white'>Loading manga chapters...</p>
+    </div>
+);
+
+// Component for rendering error message
+const ErrorMessage = () => (
+    <div className="flex justify-center items-center h-[500px] mt-16 px-10">
+        <p className='text-[13px] md:text-[20px] text-white'>Error fetching manga chapters..</p>
+    </div>
+);
+
+
+// Component for rendering message when no chapters are available
+const NoChaptersMessage = () => (
+    <div className="flex justify-center items-center h-[90%] mt-16 px-10">
+        <p className="text-[13px] md:text-[20px] text-center text-white">
+            No Available chapters...
+        </p>
+    </div>
+);
+
 
 export default MangaChapters;
