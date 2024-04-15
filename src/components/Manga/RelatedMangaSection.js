@@ -19,12 +19,12 @@ const RelatedMangaSection = ({ mangaData, setIsLastItem }) => {
                         <div className='flex flex-col items-center justify-center px-[5px] md:px-[20px]'>
                             <h4 className='gradient-1 font-Kanit font-bold text-[20px] md:text-[35px] my-1 self-start'>RELATED MANGA</h4>
                             <HorizontalScrollMenu>
-                                {data?.map((manga) => (
-                                    <div className='mr-5' key={manga.id}>
+                                {data?.map((manga, index) => (
+                                    <div className='mr-5' key={index}>
                                         <MangaCard
-                                            itemId={manga.id}
-                                            title={manga.id}
-                                            key={manga.id}
+                                            itemId={index}
+                                            title={index}
+                                            key={index}
                                             manga={manga}
                                             setIsLastItem={setIsLastItem}
                                         />
