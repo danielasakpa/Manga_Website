@@ -1,44 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useMangaCover from "../../hooks/manga/useMangaCover";
-import useMangaStatistics from "../../hooks/manga/useMangaStatistics";
-import { useManga } from "../../hooks/manga/useManga";
 import { useAuth } from '../../Auth/AuthProvider';
 import { useReadingList } from '../../context/ReadingListContext';
-import ReadingListMangaCardSkeleton from './ReadingListMangaCardSkeleton';
 import showToast from '../../utils/toastUtils';
 import { Circles } from 'react-loader-spinner';
 import { Link } from 'react-router-dom';
 
-function ReadingListMangaCard({ manga, updateReadingList }) {
-    const { data: mangaData, isLoading: isMangaLoading, isError: isMangaError } = useManga(manga.manga);
+function ReadingListMangaCard({ manga }) {
     const { data: coverFilename, isLoading: isCoverLoading, isError: isCoverError } = useMangaCover(manga.manga);
-    const { data: statistics, isLoading: isStatsLoading, isError: isStatsError } = useMangaStatistics(manga.manga);
 
-    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
+    const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
 
-    const { isAuthenticated, token } = useAuth();
+    const { token } = useAuth();
 
-    const { updateManga, getManga, deleteManga } = useReadingList();
-    const [selectedReading, setSelectedReading] = useState("");
-    const [isInReadingList, setIsInReadingList] = useState(false);
+    const { updateManga, deleteManga } = useReadingList();
+    const [selectedReading, setSelectedReading] = useState(manga.status);
     const [loadingReadingList, setLoadingReadingList] = useState(false);
 
-    const userId = localStorage.getItem("userId");
-
-    useEffect(() => {
-        const fetchReadingStatus = async () => {
-            if (isAuthenticated() && token) {
-                const mangaInList = await getManga(token, userId, manga.manga);
-
-                if (mangaInList?.manga.manga === manga.manga) {
-                    setSelectedReading(mangaInList.manga.status);
-                    setIsInReadingList(true);
-                }
-            }
-        };
-
-        fetchReadingStatus();
-    }, [getManga, isAuthenticated, token, manga.manga, userId]);
+    const userId = JSON.parse(localStorage.getItem("user"))?._id;
 
     const handleReadingSelect = async (status) => {
         try {
@@ -48,10 +27,8 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
 
             if (status === "Remove from list") {
                 await deleteManga(token, userId, manga.manga);
-                setIsInReadingList(false);
             } else {
                 await updateManga(token, userId, manga.manga, status);
-                setIsInReadingList(true);
             }
 
         } catch (error) {
@@ -64,56 +41,52 @@ function ReadingListMangaCard({ manga, updateReadingList }) {
         }
     };
 
-    if (isMangaLoading || isCoverLoading || isStatsLoading || isMangaError || isCoverError || isStatsError) {
-        // Handle loading and error states
-        return <ReadingListMangaCardSkeleton />;
-    }
-
-    const imageUrl = coverFilename;
-    const { rating, follows } = statistics;
-
-    const getTitle = (language) => {
-        const altTitle = mangaData.attributes.altTitles.find((title) => title[language]);
-        return altTitle ? altTitle[language] : mangaData.attributes.title.en;
-    };
-
-    const title = getTitle('en') || getTitle('ja') || mangaData.attributes.title.en;
-
     const statusButtons = ['Reading', 'Completed', 'On-Hold', 'Dropped', 'Plan to Read'];
 
     return (
-        <div className="flex p-4 border-b border-gray-300">
+        <div className="z-0 flex p-4 border-b border-gray-300">
             <div className="flex-shrink-0">
-                <Link to={`/manga/${manga.manga}/overview`}>
-                    <img
-                        src={`${PROXY_SERVER_URL}/images/${manga.manga}/${encodeURIComponent(imageUrl)}`}
-                        alt={mangaData.attributes.title.en}
-                        loading="lazy"
-                        className="object-cover w-20 text-white h-28"
-                    />
-                </Link>
+                {
+                    isCoverLoading || isCoverError ?
+                        <div className="flex-shrink-0">
+                            <div className="w-20 bg-gray-200 rounded-md h-28 animate-pulse" />
+                        </div>
+                        :
+                        <Link to={`/manga/${manga.manga}/overview`}>
+                            <img
+                                src={`${PROXY_SERVER_URL}/images/${manga.manga}/${encodeURIComponent(coverFilename)}`}
+                                alt={manga?.title.split(" ").slice(0, 3).join(" ") + "..."}
+                                loading="eager"
+                                decoding='async'
+                                fetchPriority='high'
+                                className="object-cover w-20 text-white text-[10px] h-28 text-center"
+                            />
+                        </Link>
+                }
+
             </div>
             <div className="flex flex-col ml-4">
                 <Link to={`/manga/${manga.manga}/overview`} className="hover:underline hover:underline-offset-1 hover:decoration-blue-500" >
-                    <h2 className="text-[16px] lg:text-xl font-semibold text-white">{title}</h2>
+                    <h2 className="text-[16px] lg:text-xl font-semibold text-white">{manga.title}</h2>
                 </Link>
-                <p className="text-gray-500">{mangaData.attributes.status}</p>
+                <p className="text-gray-500">{manga.manga_status}</p>
                 <div className="flex items-center my-2 text-white">
-                    <p className="mr-4 text-[13px]">Rating: <span className='text-gray-500'>{rating?.average?.toFixed(2)}</span></p>
-                    <p className='text-[13px]'>Follows:  <span className='text-gray-500'>{follows.toLocaleString()}</span></p>
+                    <p className="mr-4 text-[13px]">Rating: <span className='text-gray-500'>{manga?.statistics?.rating.toFixed(2)}</span></p>
+                    <p className='text-[13px]'>Follows:  <span className='text-gray-500'>{manga?.statistics?.follow.toLocaleString()}</span></p>
                 </div>
+
                 {/* Reading list status buttons */}
-                <div className="flex flex-wrap gap-y-2 mt-2">
+                <div className="flex flex-wrap mt-2 gap-y-2">
                     {/* Render buttons or select based on screen width */}
                     {
                         <select
-                            className={`block md:hidden px-2 py-1 rounded bg-white text-[13px] ${loadingReadingList && selectedReading === "Remove from list" ? "text-[#FF004D]" : loadingReadingList ? "text-[blue]" : "text-gray-500"}`}
+                            className={`block md:hidden px-2 py-1 rounded bg-blue-500 text-[13px] ${loadingReadingList && selectedReading === "Remove from list" ? "text-[#FF004D]" : loadingReadingList ? "text-[blue]" : "text-white"}`}
                             value={selectedReading}
                             onChange={(e) => handleReadingSelect(e.target.value)}
                             disabled={loadingReadingList}
                         >
                             {[...statusButtons, "Remove from list"].map((status) => (
-                                <option key={status} value={status}>
+                                <option key={status} value={status} className='text-white'>
                                     {loadingReadingList && selectedReading === status ? (
                                         <span>
                                             Loading...
