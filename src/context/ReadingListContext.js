@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import {
     addManga as addMangaUtil,
     updateManga as updateMangaUtil,
@@ -13,33 +13,21 @@ const ReadingListContext = createContext();
 
 export const ReadingListProvider = ({ children }) => {
     const [readingList, setReadingList] = useState([]);
-    const [error, setError] = useState("");
+    const [readingListError, setReadingListError] = useState("");
+    const [isLoadingList, setIsLoadingList] = useState(false);
 
     const { token } = useAuth();
 
-    const userId = localStorage.getItem("userId");
+    const userId = JSON.parse(localStorage.getItem("user"))?._id;
+   
 
-    // Fetch reading list data when the component mounts
-    useEffect(() => {
-        const fetchReadingList = async () => {
-            try {
-                const readingListData = await getReadingListUtil(token, userId);
-                setReadingList(JSON.parse(readingListData).readingList.mangas || []);
-            } catch (error) {
-                // console.error('Error fetching reading list:', error.message);
-            }
-        };
-
-        fetchReadingList();
-    }, []);
-
-    const addManga = async (token, userId, mangaId, status) => {
+    const addManga = async (token, userId, mangaId, status, mangaData) => {
         try {
-            const response = await addMangaUtil(token, userId, mangaId, status);
-            setReadingList([response.manga, ...readingList]);
+            const response = await addMangaUtil(token, userId, mangaId, status, mangaData);
+            setReadingList([response.manga, ...readingList].reverse());
             showToast("Manga was added to the list");
         } catch (error) {
-            console.error('Error adding manga to reading list:', error.message);
+            showToast(`Error adding manga to reading list: ${error.message}`, "error");
         }
     };
 
@@ -60,11 +48,9 @@ export const ReadingListProvider = ({ children }) => {
             setReadingList(updatedList.reverse());
             showToast("Manga was updated in the list");
         } catch (error) {
-            console.error('Error updating manga in reading list:', error.message);
+            showToast(`Error updating manga in reading list: ${error.message}`, "error");
         }
     };
-
-
 
     const getManga = async (token, userId, mangaId) => {
         try {
@@ -81,8 +67,8 @@ export const ReadingListProvider = ({ children }) => {
             const readingListData = await getReadingListUtil(token, userId);
             setReadingList(JSON.parse(readingListData).readingList.mangas || []);
         } catch (error) {
-            setError(error.message);
-            showToast(error.message, "error");
+            setReadingListError(error.message);
+            showToast(`Error getting reading list: ${error.message}`, "error");
         }
     };
 
@@ -108,7 +94,10 @@ export const ReadingListProvider = ({ children }) => {
                 getReadingList,
                 deleteManga,
                 setReadingList,
-                error
+                isLoadingList,
+                readingListError,
+                setReadingListError,
+                setIsLoadingList 
             }}
         >
             {children}
@@ -126,7 +115,10 @@ export const useReadingList = () => {
         getManga,
         deleteManga,
         setReadingList,
-        error
+        isLoadingList,
+        readingListError,
+        setIsLoadingList,
+        setReadingListError
     } = useContext(ReadingListContext);
 
     return {
@@ -137,6 +129,9 @@ export const useReadingList = () => {
         getManga,
         deleteManga,
         setReadingList,
-        error
+        isLoadingList,
+        readingListError,
+        setIsLoadingList,
+        setReadingListError
     };
 };
