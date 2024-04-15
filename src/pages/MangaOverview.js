@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
 // Hooks
 import { useManga } from "../hooks/manga/useManga";
 import { useAuth } from '../Auth/AuthProvider';
 import { useReadingList } from '../context/ReadingListContext';
+import useMangaStatistics from "../hooks/manga/useMangaStatistics";
 
 // Components
 import { MangaOverviewSkeleton } from '../components/Manga/MangaOverviewSkeleton';
 import MangaImageAndDescriptionSection from '../components/Manga/MangaImageAndDescriptionSection';
 import RelatedMangaSection from '../components/Manga/RelatedMangaSection';
 import RecommendedMangaSection from '../components/Manga/RecommendedMangaSection';
+
 
 // Utils
 import showToast from '../utils/toastUtils';
@@ -21,6 +23,8 @@ import LogIngSvg from '../assets/Login-bro.svg';
 const MangaOverview = React.memo(() => {
     // Get manga id from URL params
     let { id } = useParams();
+
+    const location = useLocation()
 
     const { isAuthenticated, token } = useAuth();
 
@@ -32,11 +36,13 @@ const MangaOverview = React.memo(() => {
     const [vis, setVis] = useState(false);
 
     // User and manga IDs with token
-    const userId = localStorage.getItem("userId");
+    const userId = JSON.parse(localStorage.getItem("user"))?._id;
     const mangaId = id;
 
     // Fetch manga data
     const { data: mangaData, isLoading, isError } = useManga(id);
+    const { data: statistics, isLoading: isStatsLoading } = useMangaStatistics(id);
+
 
     // Check if the manga is in the reading list
     useEffect(() => {
@@ -79,7 +85,14 @@ const MangaOverview = React.memo(() => {
                 if (status === "Remove form list") {
                     showToast("This Manga does not exist in the list and can't be deleted");
                 } else {
-                    await addManga(token, userId, mangaId, status);
+                    const getTitle = (language) => {
+                        const altTitle = mangaData.attributes.altTitles.find((title) => title[language]);
+                        return altTitle ? altTitle[language] : mangaData.attributes.title.en;
+                    };
+
+                    const title = getTitle('en') || getTitle('ja') || mangaData.attributes.title.en;
+
+                    await addManga(token, userId, mangaId, status, { title, manga_status: mangaData.attributes.status, statistics: { follow: statistics?.follows, rating: statistics?.rating?.average } });
                     setIsInReadingList(true);
                 }
             }
@@ -102,7 +115,7 @@ const MangaOverview = React.memo(() => {
 
     return (
         <div className='text-white w-[90%] h-[100%] mt-4 mx-auto'>
-            {isLoading || isError ? (
+            {isLoading || isStatsLoading || isError ? (
                 // Skeleton loading UI
                 <>
                     <MangaOverviewSkeleton />
@@ -112,6 +125,8 @@ const MangaOverview = React.memo(() => {
                     <MangaImageAndDescriptionSection
                         id={id}
                         mangaData={mangaData}
+                        statistics={statistics}
+                        isStatsLoading={isStatsLoading}
                         selectedReading={selectedReading}
                         loadingReadingList={loadingReadingList}
                         handleReadingSelect={handleReadingSelect}
@@ -129,7 +144,7 @@ const MangaOverview = React.memo(() => {
                                     </button>
                                     <img src={LogIngSvg} alt='' className='h-[150px]' />
                                     <p className="mb-5 text-[16px] font-Kanit font-medium">Sign is required before continuing</p>
-                                    <Link to={"/login"} className='w-[60%]' >
+                                    <Link to={"/login"} state={{prevUrl: location.pathname}} className='w-[60%]' >
                                         <button className='text-white text-[13px] font-bold bg-[#1B6FA8] hover:bg-[#E40066] border-2 border-[#1F1F1F] w-[100%] px-2 py-2 mb-2 rounded'>Sign in</button>
                                     </Link>
                                 </div>
