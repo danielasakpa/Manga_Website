@@ -68,7 +68,7 @@ const Profile = () => {
     <>
       <div
         className={`${loading ? "bg-black" : "bg-white"
-          }  w-full min-h-[100vh] relative pb-6`}
+          }  w-full h-max lg:min-h-[100vh] relative pb-6`}
       >
         {loading ? (
           <div className="flex items-center justify-center popOut">
@@ -84,35 +84,48 @@ const Profile = () => {
           </div>
         ) : (
           <>
-          {
-            imgLoading ?
-            <div className="w-[100%] h-[300px] bg-cover bg-top mb-4 animate-pulse bg-gray-600" />
-            :
-            <img
-            src={`${animeImg}`}
-            alt=""
-            className="w-[100%] h-[300px] bg-cover bg-top mb-4"
-          />
-          }
-            <div className="mx-auto w-[max-content]">
-              <div className="mb-4">
+            {
+               imgLoading ?
+                <div className="w-[100%] h-[300px] bg-cover bg-top mb-4 animate-pulse bg-gray-600" />
+                :
+                <div className='w-[100%] h-[250px] md:h-[300px] relative'>
+                  <img
+                    src={`${animeImg}`}
+                    alt=""
+                    decoding='async' 
+                    fetchPriority='high'
+                    className="hidden md:block w-[100%] h-full opacity-50 bg-cover bg-top mb-4"
+                  />
+                  <img
+                    src={`${animeImg}`}
+                    alt=""
+                    decoding='async' 
+                    fetchPriority='high'
+                    className="absolute inset-0 left-1/2 transform -translate-x-1/2 z-10 w-full md:w-[500px] h-full bg-cover bg-top mb-4"
+                  />
+                  <div className="hidden md:block absolute inset-0 w-[100%] h-[250px] md:h-[300px] bg-black opacity-90" />
+                </div>
+
+            }
+            <div className="mx-auto w-[max-content] my-4 ">
+              <div>
                 <p className="text-[40px] font-medium mb-3">
                   {user?.username}
                 </p>
                 <div>
-                  <>
+                  <div className='mb-3'>
                     <p className="mb-2 text-[20px] font-semibold">
                       User Email
                     </p>
                     <p className="text-gray-600">{user?.email}</p>
-                  </>
-                  <>
+                  </div>
+                  <div className='mb-3'>
                     <p className="mb-2 text-[20px] font-semibold">User ID</p>
-                    <p className="text-gray-600">{user?._id}</p>
-                  </>
+                    <p className="text-gray-600 ">{user?._id}</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+              <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-4 md:gap-y-0">
                 {/* Edit User button */}
                 <button
                   className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-700"
