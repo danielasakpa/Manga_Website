@@ -1,130 +1,134 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import useMangaChapter from "../hooks/manga/useMangaChapter";
+import useMangaChapter from '../hooks/manga/useMangaChapter';
 import useMangaChapters from '../hooks/manga/useMangaChapters';
 import MangaChapterSkeleton from '../components/Manga/MangaChapterSkeleton';
 import useWindowWidth from '../hooks/useWindowWidth';
 
 function MangaChapter() {
-    const { id, chapterId } = useParams();
+    // Retrieve parameters from the URL
+    const { id, chapterId, chapterNum, lang } = useParams();
 
-    const PROXY_SERVER_URL = 'https://manga-proxy-server.onrender.com';
+    const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
 
+    // Get the current window width
     const windowWidth = useWindowWidth();
 
-    const { data, isLoading, isError, error } = useMangaChapter(chapterId);
+    // Fetch data for the current manga chapter
+    const { data, isLoading, isError } = useMangaChapter(chapterId);
 
-    const { data: chaptersData, isLoading: isChaptersLoading, isError: isChaptersError, error: chaptersError } = useMangaChapters(
+    // Fetch data for all chapters of the manga
+    const { data: chaptersData, isLoading: isChaptersLoading, isError: isChaptersError } = useMangaChapters(
         id,
-        ['en']
+        [`${lang}`],
+        100,
+        0,
+        true
     );
 
+    // State to keep track of the selected chapter
     const [selectedChapter, setSelectedChapter] = useState(chapterId);
 
+    // Function to render loading skeleton
+    const renderLoading = () => <MangaChapterSkeleton />;
+
+    // Function to render error message
+    const renderError = () => (
+        <div className="flex bg-[#1F1F1F] w-full justify-center items-center h-[500px] px-10">
+            <p className='text-[13px] md:text-[20px] text-white'>Error fetching manga chapter...</p>
+        </div>
+    );
+
+    // Function to render options for selecting chapters
+    const renderChapterOptions = () => (
+        sortedChapters.map(chapter => (
+            <option
+                key={chapter.id}
+                value={chapter.id}
+                className={`${selectedChapter === chapter.id ? "text-white bg-gray-800" : "#ffffff"}`}
+            >
+                Chapter {chapter.attributes.chapter}
+            </option>
+        ))
+    );
+
+    // Function to render navigation links for previous and next chapters
+    const renderChapterLinks = (direction) => (
+        sortedChapters[currentIndex + direction] && (
+            <Link
+                to={`/manga/${id}/chapter/${sortedChapters[currentIndex + direction].id
+                    }/${sortedChapters[currentIndex + direction].attributes.chapter}/${sortedChapters[currentIndex + direction].attributes.translatedLanguage
+                    }`}
+                className="px-2 md:px-4 text-[10px] md:text-[20px] py-2 text-white bg-gray-800 rounded hover:bg-gray-700"
+                onClick={() => handleChapterChange(sortedChapters[currentIndex + direction].id)}
+            >
+                {direction > 0 ? (windowWidth > 768 ? "Next Chapter" : "Next Chap") : (windowWidth > 768 ? "previous chapter" : " Prev Chap")}
+            </Link>
+        )
+    );
+
+    // Function to handle change in selected chapter
+    const handleChapterChange = (chapterId) => {
+        setSelectedChapter(chapterId);
+    };
+
+    // Render loading skeleton if data is loading
     if (isChaptersLoading || isLoading) {
-        return (
-            <MangaChapterSkeleton />
-        );
+        return renderLoading();
     }
 
+    // Render error message if there is an error
     if (isChaptersError || isError) {
-        return (
-            <div className="flex bg-[#1F1F1F] w-full justify-center items-center h-[500px] px-10">
-                <p className='text-[13px] md:text-[20px] text-white'>Error fetching manga chapter...</p>
-            </div>
-        );
+        return renderError();
     }
 
-    // Filter the chapters array to remove duplicates based on the chapter number
-    const filteredChapters = chaptersData.data.filter((chapter, index, self) => {
-        // Find the index of the first occurrence of the chapter number in the array
+    // Filter and sort chapters data
+    const filteredChapters = chaptersData.filter((chapter, index, self) => {
         const firstIndex = self.findIndex((c) => c.attributes.chapter === chapter.attributes.chapter);
-
-        // Keep only the chapter if its index matches the first occurrence index
         return index === firstIndex;
     });
+    const sortedChapters = filteredChapters.sort((a, b) => parseInt(a.attributes.chapter, 10) - parseInt(b.attributes.chapter, 10));
 
-    const sortedChapters = filteredChapters.sort((a, b) => {
-        return parseInt(a.attributes.chapter, 10) - parseInt(b.attributes.chapter, 10);
-    });
-
-    const handleChapterChange = (e) => {
-        const selectedChapter = e.target.value;
-        setSelectedChapter(selectedChapter);
-    };
-
-    const handlePrevChapter = () => {
-        const currentIndex = sortedChapters.findIndex((chapter) => chapter.id === selectedChapter);
-        if (currentIndex > 0) {
-            const prevChapter = sortedChapters[currentIndex - 1];
-            setSelectedChapter(prevChapter.id);
-        }
-    };
-
-    const handleNextChapter = () => {
-        const currentIndex = sortedChapters.findIndex((chapter) => chapter.id === selectedChapter);
-        if (currentIndex < sortedChapters.length - 1) {
-            const nextChapter = sortedChapters[currentIndex + 1];
-            setSelectedChapter(nextChapter.id);
-        }
-    };
-
-
+    // Find index of currently selected chapter
     const currentIndex = sortedChapters.findIndex((chapter) => chapter.id === selectedChapter);
 
+    // Retrieve data of currently selected chapter
+    const selectedChapterData = sortedChapters.find(item => item.id === selectedChapter);
+
     return (
-        <div className='bg-[#1F1F1F] w-full min-h-screen py-5 px-2 sm:px-5 md:px-8'>
-            <div className='flex justify-between mb-4'>
-                {selectedChapter !== sortedChapters[0]?.id && (
-                    <Link
-                        to={`/manga/${id}/chapter/${sortedChapters[currentIndex - 1]?.id}`}
-                        className='px-2 md:px-4 text-[10px] md:text-[20px] py-2 text-white bg-gray-800 rounded hover:bg-gray-700'
-                        onClick={handlePrevChapter}
-                    >
-                        {windowWidth > 768 ? "previous chapter" : " Prev Chap"}
-                    </Link>
-                )}
+        <div className="bg-[#1F1F1F] w-full min-h-screen py-5 px-2 sm:px-5 md:px-12">
+            <div className="sticky flex justify-between mb-4 -top-1 bg-[#1F1F1F] py-2">
+                {renderChapterLinks(-1)}
                 <div>
                     <select
                         value={selectedChapter}
-                        onChange={handleChapterChange}
-                        className='px-2 md:px-4 text-[10px] md:text-[20px] py-2 bg-white text-black rounded'
+                        onChange={(e) => handleChapterChange(e.target.value)}
+                        className="px-2 md:pl-4 md:pr-12 text-[10px] md:text-[20px] py-2 bg-white text-black rounded"
                     >
-                        {sortedChapters.map((chapter) => (
-                            <option key={chapter.id} value={chapter.id}>
-                                Chapter {chapter.attributes.chapter}
-                            </option>
-                        ))}
+                        {renderChapterOptions()}
                     </select>
                     <Link
-                        to={`/manga/${id}/chapter/${selectedChapter}`}
-                        className='px-2 md:px-4 text-[10px] md:text-[20px] py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-400'
+                        to={`/manga/${id}/chapter/${selectedChapter}/${selectedChapterData?.attributes.chapter}/${selectedChapterData?.attributes.translatedLanguage
+                            }`}
+                        className="px-2 md:px-4 text-[10px] md:text-[20px] py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-400"
                     >
                         Go
                     </Link>
                 </div>
-                {selectedChapter !== sortedChapters[sortedChapters.length - 1]?.id && (
-                    <Link
-                        to={`/manga/${id}/chapter/${sortedChapters[currentIndex + 1]?.id}`}
-                        className='px-2 md:px-4 text-[10px] md:text-[20px] py-2 text-white bg-gray-800 rounded hover:bg-gray-700'
-                        onClick={handleNextChapter}
-                    >
-                        {windowWidth > 768 ? "Next Chapter" : "Next Chap"}
-                    </Link>
-                )}
+                {renderChapterLinks(1)}
             </div>
-            <div className='mt-10 md:mt-16'>
-                {
-                    data?.data.map((img) => (
-                        <img
-                            src={`${PROXY_SERVER_URL}/chapter/${data.hash}/${encodeURIComponent(img)}`}
-                            alt='manga img'
-                            loading="lazy"
-                            className='mx-auto object-cover mb-[2px] w-[700px]'
-                            key={img}
-                        />
-                    ))
-                }
+            <div className="mt-10 md:mt-16">
+                {data?.data.map((img) => (
+                    <img
+                        src={`${PROXY_SERVER_URL}/chapter/${data.hash}/${encodeURIComponent(img)}`}
+                        alt="manga img"
+                        decoding='async' 
+                        fetchPriority='high' 
+                        loading='eager' 
+                        className="mx-auto object-cover mb-[1px] w-[700px]"
+                        key={img}
+                    />
+                ))}
             </div>
         </div>
     );
