@@ -56,7 +56,7 @@ const Search = () => {
               order ? JSON.parse(order) : { followedCount: "desc" },
               pageSize,
               includedTags || [],
-              excludedTags ? ["Boys' Love", "doujinshi", "Romance", ...excludedTags] : ["Boys' Love", "doujinshi", "Romance"],
+              excludedTags ? ["Boys' Love", "doujinshi", ...excludedTags] : ["Boys' Love", "doujinshi"],
               currentPage - 1,
               status
             );
@@ -148,21 +148,21 @@ const Search = () => {
             className={`popOut ${error ? "flex" : "hidden"
               } items-center justify-center`}
           >
-            <div className="relative w-[300px] h-[300px]">
+            <div className="relative mx-auto w-[85%] md:w-[300px] h-[300px]">
               <button onClick={() => handleCloseError()}>
                 <XCircleIcon className="absolute text-black w-7 h-7 top-7 right-1" />
               </button>
-              <div className="w-[300px] h-[300px] flex justify-center items-center text-center rounded-md py-2 bg-[#fff]">
+              <div className="w-full md:w-[300px] h-[300px] flex justify-center items-center text-center rounded-md py-2 bg-[#fff]">
                 <p>{error}</p>
               </div>
             </div>
           </div>
         </>
-      ) : mangas.length > 0 ? (
+      ) : mangas?.length > 0 ? (
         <>
           <div
             className={`${mangaVis ? "block" : "hidden"
-              } grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 justify-items-center content-center gap-x-2 gap-y-8 mt-16`}
+              } grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center content-center gap-x-2 gap-y-8 mt-16`}
           >
             {mangas.map((manga) => (
               <MangaCard key={manga.id} manga={manga} />
