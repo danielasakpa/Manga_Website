@@ -3,7 +3,7 @@ import axios from 'axios';
 // Utility function to get all users
 export const getAllUsers = async () => {
     try {
-        const response = await axios.get('https://manga-server-luxr.onrender.com/api/user');
+        const response = await axios.get('https://yuki-manga-server.netlify.app/api/user');
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while fetching users.');
@@ -15,7 +15,7 @@ export const getOneUser = async (userId, token) => {
     try {
         const response = await axios({
             method: 'GET',
-            url: `https://manga-server-luxr.onrender.com/api/user/${userId}`,
+            url: `https://yuki-manga-server.netlify.app/api/user/${userId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const createUser = async (userData) => {
     try {
         await axios({
             method: "post",
-            url: 'https://manga-server-luxr.onrender.com/api/user',
+            url: 'https://yuki-manga-server.netlify.app/api/user',
             data: userData
         });
 
@@ -48,7 +48,7 @@ export const updateUser = async (userId, userData, token) => {
     try {
         const response = await axios({
             method: 'put',
-            url: `https://manga-server-luxr.onrender.com/api/user/${userId}`,
+            url: `https://yuki-manga-server.netlify.app/api/user/${userId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export const deleteUser = async (userId, token) => {
     try {
         const response = await axios({
             method: 'delete',
-            url: `https://manga-server-luxr.onrender.com/api/user/${userId}`,
+            url: `https://yuki-manga-server.netlify.app/api/user/${userId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
