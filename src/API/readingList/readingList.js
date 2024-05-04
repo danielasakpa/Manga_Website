@@ -1,16 +1,17 @@
 import axios from 'axios';
 
 // Utility function to create a Reading List
-export const addManga = async (token, userId, mangaId, status) => {
+export const addManga = async (token, userId, mangaId, status, mangaData) => {
     try {
         const response = await axios({
             method: 'post',
-            url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}/add-manga/${mangaId}`,
+            url: `https://yuki-manga-server.netlify.app/api/readingList/${userId}/add-manga/${mangaId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
             },
-            params: { status }
+            params: { status },
+            data: mangaData
         });
 
         return response.data;
@@ -25,7 +26,7 @@ export const updateManga = async (token, userId, mangaId, status) => {
 
         const response = await axios({
             method: 'put',
-            url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}/update-manga/${mangaId}`,
+            url: `https://yuki-manga-server.netlify.app/api/readingList/${userId}/update-manga/${mangaId}`,
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ export const getManga = async (token, userId, mangaId) => {
         const response = await axios(
             {
                 method: 'get',
-                url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}/get-manga/${mangaId}`,
+                url: `https://yuki-manga-server.netlify.app/api/readingList/${userId}/get-manga/${mangaId}`,
                 headers: {
                     Authorization: token,
                     'Content-Type': 'application/json',
@@ -63,7 +64,7 @@ export const getReadingList = async (token, userId) => {
         const response = await axios(
             {
                 method: 'get',
-                url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}`,
+                url: `https://yuki-manga-server.netlify.app/api/readingList/${userId}`,
                 headers: {
                     Authorization: token,
                     'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ export const deleteManga = async (token, userId, mangaId) => {
         const response = await axios(
             {
                 method: 'delete',
-                url: `https://manga-server-luxr.onrender.com/api/readingList/${userId}/delete-manga/${mangaId}`,
+                url: `https://yuki-manga-server.netlify.app/api/readingList/${userId}/delete-manga/${mangaId}`,
                 headers: {
                     Authorization: token,
                     'Content-Type': 'application/json',
