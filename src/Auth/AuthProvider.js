@@ -1,84 +1,114 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import showToast from '../utils/toastUtils';
-import Cookies from 'js-cookie';
-import { handleTokenExpiration, setAuthData, removeAuthData } from '../utils/authUtils';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import showToast from "../utils/toastUtils";
+import {
+  handleTokenExpiration,
+  setAuthData,
+  removeAuthData,
+} from "../utils/authUtils";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(localStorage.getItem('token') || null);
-    const navigate = useNavigate();
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    useEffect(() => {
-        const authData = Cookies.get('auth_data');
-
-        if (authData) {
-            const { userId, token, message } = JSON.parse(authData.slice(2));
-            setAuthData(userId, token, message, 'google');
-            setToken(token);
-        }
-    }, []);
-
-    useEffect(() => {
-        const intervalId = handleTokenExpiration(token, logout);
-
-        return () => clearInterval(intervalId);
-    }, [token, logout]);
-
-    const login = async (userData) => {
+  useEffect(() => {
+    const getUser = async () => {
+      if(!token) {
         try {
-            const { data } = await axios.post('https://manga-server-luxr.onrender.com/api/auth/login', userData);
-            const { userId, message, token } = data;
-
-            setToken(token);
-            showToast(message, 'success');
-            setAuthData(userId, token);
-            navigate(-1 || '/');
-        } catch (error) {
-            showToast('Login failed', 'error');
-        }
+            const response = await axios({
+              method: "GET",
+              url: `https://yuki-manga-server.netlify.app/api/auth/login/success`,
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+               "Access-Control-Allow-Credentials": true,
+              },
+              withCredentials: true,
+            });
+    
+            if (response.status !== 200) {
+              showToast("Authentication has failed!", "error");
+            }
+    
+            if (response.data) {
+              const { user, token, message } = response.data;
+              setAuthData(user, token, message, "google");
+              setToken(token);
+              navigate(location.state?.prevUrl || "/");
+            }
+          } catch (err) {
+            console.error(err);
+          }
+      }
     };
+    getUser();
+  }, []);
 
-    function logout() {
-        setToken(null);
-        removeAuthData();
+  useEffect(() => {
+    handleTokenExpiration(token, logout);
+  }, []);
 
-        // Check if the user logged in with Google
-        if (localStorage.getItem('isGoogle')) {
-            // Clear the 'isGoogle' flag
-            localStorage.removeItem('isGoogle');
+  const login = async (userData) => {
+    try {
+      const { data } = await axios.post(
+        "https://yuki-manga-server.netlify.app/api/auth/login",
+        userData
+      );
+      const { user, message, token } = data;
 
-            // Remove the 'auth_data' cookie with domain 'localhost'
-            Cookies.remove('auth_data', { domain: 'localhost' });
+      setToken(token);
+      setAuthData(user, token);
+      showToast(message, "success", "top-center");
+      navigate(location.state?.prevUrl || "/");
+    } catch (error) {
+      showToast(error?.message || "Login failed", "error", "top-center");
+    }
+  };
 
-            // Trigger a logout by opening the server-side logout endpoint
-            window.open("http://localhost:5000/api/auth/logout", "_self");
+  function logout() {
+    // Check if the user logged in with Google
+    if (localStorage.getItem("isGoogle")) {
+      setToken(null);
+      removeAuthData();
 
-            return;
-        }
+      // Clear the 'isGoogle' flag
+      localStorage.removeItem("isGoogle");
 
-        navigate('/login');
-    };
+      // Trigger a logout by opening the server-side logout endpoint
+      window.open("https://yuki-manga-server.netlify.app/api/auth/logout", "_self");
 
-    const isAuthenticated = () => !!token;
+      return;
+    }
 
-    return (
-        <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    setToken(null);
+    removeAuthData();
+
+    navigate("/login");
+  }
+
+  function isAuthenticated() {
+    return !!token;
+  }
+
+  return (
+    <AuthContext.Provider value={{ token, login, logout, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 const useAuth = () => {
-    const context = useContext(AuthContext);
+  const context = useContext(AuthContext);
 
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
 
-    return context;
+  return context;
 };
 
 export { AuthProvider, useAuth };
