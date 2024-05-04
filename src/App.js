@@ -1,7 +1,10 @@
 import React from 'react'
+import './App.css';
 import MainRouter from './MainRouter'
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
 
@@ -24,6 +27,7 @@ const App = () => {
             <MainRouter />
           </QueryClientProvider>
           {/* <ScrollRestoration /> */}
+          <ToastContainer newestOnTop toastClassName="toast-con" />
         </BrowserRouter>
     </div>
   )
