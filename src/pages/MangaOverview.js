@@ -17,7 +17,7 @@ import RecommendedMangaSection from '../components/Manga/RecommendedMangaSection
 
 // Utils
 import showToast from '../utils/toastUtils';
-import LogIngSvg from '../assets/Login-bro.svg';
+import LogIngSvg from '../assets/svg/Login-bro.svg';
 
 
 const MangaOverview = React.memo(() => {
@@ -68,10 +68,12 @@ const MangaOverview = React.memo(() => {
             return;
         }
 
+       
+
         try {
             setSelectedReading(status);
-            setLoadingReadingList(true);
-
+            setLoadingReadingList(true);           
+            
             if (isInReadingList) {
                 if (status === "Remove form list") {
                     await deleteManga(token, userId, mangaId);
@@ -103,6 +105,7 @@ const MangaOverview = React.memo(() => {
                 "info"
             );
         } finally {
+            setSelectedReading('');
             setLoadingReadingList(false);
         }
     };
