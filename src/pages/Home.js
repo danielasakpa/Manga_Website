@@ -60,7 +60,7 @@ const Home = () => {
 
     return (
       <div className="w-full">
-        <div className="flex justify-center w-full mt-10">
+        <div className="flex justify-center w-full mt-4 md:mt-10">
           <MangaSlider />
         </div>
 
@@ -73,7 +73,7 @@ const Home = () => {
               {categories.map((category, index) => (
                 <button
                   key={index}
-                  className={`px-2 md:px-6 py-2 text-[11px] md:text-[20px] rounded-md font-semibold tracking-[0.2em] border border-[#1F1F1F]
+                  className={`px-2 md:px-6 py-2 text-[11px] md:text-[20px] rounded-[5px] font-semibold tracking-[0.2em] border border-[#1F1F1F]
                                         bg-gray-200 text-[#1F1F1F]`}
                   onClick={() => handleCategorySelect(category)}
                 >
