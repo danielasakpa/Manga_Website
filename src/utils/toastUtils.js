@@ -1,16 +1,16 @@
 // utils/toastUtils.js
 import { toast } from 'react-toastify';
 
-const showToast = (message, type = 'info') => {
+const showToast = (message, type = 'info', position = 'bottom-right') => {
     toast[type](message, {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
+      position,
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
     });
 };
 
