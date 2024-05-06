@@ -101,7 +101,7 @@ const Profile = () => {
                     alt=""
                     decoding='async' 
                     fetchPriority='high'
-                    className="absolute inset-0 left-1/2 transform -translate-x-1/2 z-10 w-full md:w-[500px] h-full bg-cover bg-top mb-4"
+                    className="absolute inset-0 left-1/2 transform -translate-x-1/2 z-10 w-full md:w-[500px] h-full bg-gray-200 bg-opacity-40 bg-cover bg-top mb-4"
                   />
                   <div className="hidden md:block absolute inset-0 w-[100%] h-[250px] md:h-[300px] bg-black opacity-90" />
                 </div>
@@ -109,7 +109,7 @@ const Profile = () => {
             }
             <div className="mx-auto w-[max-content] my-4 ">
               <div>
-                <p className="text-[40px] font-medium mb-3">
+                <p className="text-[40px] font-medium break-all over mb-3">
                   {user?.username}
                 </p>
                 <div>
@@ -128,21 +128,21 @@ const Profile = () => {
               <div className="flex flex-col gap-y-4 md:flex-row md:gap-x-4 md:gap-y-0">
                 {/* Edit User button */}
                 <button
-                  className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-700"
+                  className="px-4 py-2 text-white bg-blue-500 rounded-[3px] hover:bg-blue-700"
                   onClick={() => handleEditClick("Edit User")}
                 >
                   Edit User
                 </button>
                 {/* Change Password button */}
                 <button
-                  className="px-4 py-2 text-white bg-yellow-500 rounded-md hover:bg-yellow-700"
+                  className="px-4 py-2 text-white bg-yellow-500 rounded-[3px] hover:bg-yellow-700"
                   onClick={() => handleEditClick("Change Password")}
                 >
                   Change Password
                 </button>
                 {/* Delete User button */}
                 <button
-                  className="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-700"
+                  className="px-4 py-2 text-white bg-red-500 rounded-[3px] hover:bg-red-700"
                   onClick={handleDeleteClick}
                 >
                   Delete User
@@ -150,7 +150,7 @@ const Profile = () => {
               </div>
               {/* Logout button */}
               <button
-                className="px-4 py-2 mt-4 text-gray-700 bg-gray-300 rounded-md hover:bg-gray-400"
+                className="px-4 py-2 mt-4 text-gray-700 bg-gray-300 rounded-[3px] hover:bg-gray-400"
                 onClick={handleLogoutClick}
               >
                 Logout
