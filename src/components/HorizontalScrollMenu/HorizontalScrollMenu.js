@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
-import LeftArrowIcon from '../../assets/left-arrow.png';
-import RightArrowIcon from '../../assets/right-arrow.png';
+import LeftArrowIcon from '../../assets/images/left-arrow.png';
+import RightArrowIcon from '../../assets/images/right-arrow.png';
 import useSwipe from '../../hooks/useSwipe/useSwipe';
 
 const HorizontalScrollMenu = ({ children }) => {
