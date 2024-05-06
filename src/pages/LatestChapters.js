@@ -88,11 +88,6 @@ const LatestChapters = () => {
                     : 1,
               }}
               transition={{ duration: 0.2, bounce: 0.5 }}
-              onClick={() =>
-                selectedId
-                  ? closeModel(chapters?.mangaID)
-                  : openModel(chapters?.mangaID)
-              }
             >
               {isLoading || isRefetching ? (
                 <LatestUploadedCardSkeleton itemID={index} title={index} />
