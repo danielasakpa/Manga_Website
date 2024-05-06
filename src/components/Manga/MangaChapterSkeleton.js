@@ -2,7 +2,7 @@ import React from 'react';
 
 const MangaChapterSkeleton = () => {
     return (
-        <div className="bg-[#1F1F1F] w-full min-h-screen px-2 sm:px-5 py-5">
+        <div className="bg-[#1F1F1F] w-full min-h-screen px-2 sm:px-5 lg:px-12 py-5">
             <div className="flex justify-between mb-4">
                 <div className="px-2 md:px-4 text-[10px] md:text-[20px] py-2 text-white bg-gray-800 rounded hover:bg-gray-700 animate-pulse">
                     Prev Chap
@@ -27,7 +27,7 @@ const MangaChapterSkeleton = () => {
                 {[...Array(10)].map((_, index) => (
                     <div
                         key={index}
-                        className="w-[90%] lg:w-[70%] h-[800px] bg-gray-200 animate-pulse mb-3"
+                        className="w-[90%] lg:w-[700px] h-[800px] bg-gray-200 animate-pulse mb-1"
                     />
                 ))}
             </div>
