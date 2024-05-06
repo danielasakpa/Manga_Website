@@ -8,7 +8,7 @@ export const MangaOverviewSkeleton = () => {
       <div className="w-full mx-auto mt-4 text-white">
         <div className="flex flex-wrap justify-center mt-4 text-center xl:flex-nowrap gap-y-1">
           {[...Array(5)].map((_, index) => (
-            <div key={index} className="animate-pulse basis-1/3 px-4 py-3.5 md:py-4 w-full md:w-1/3 border-1 md:mx-[2px] border-[#1F1F1F] font-medium tracking-[0.3em] cursor-pointer bg-white text-[#1F1F1F]"></div>
+            <div key={index} className="animate-pulse basis-1/3 px-4 py-3.5 md:py-4 w-full md:w-1/3 border-x-[1.5px] border-opacity-30 border-[#1F1F1F] font-medium tracking-[0.3em] cursor-pointer bg-white text-[#1F1F1F]"></div>
           ))}
         </div>
         <div className='flex flex-col items-center mt-3 mb-6 md:mt-8 md:flex-row md:items-start md:gap-8'>
@@ -42,14 +42,14 @@ export const MangaOverviewSkeleton = () => {
 
 const SkeletonElement = () => {
   return (
-    <div className="w-full px-4 py-2 bg-white animate-pulse bg-opacity-20" />
+    <div className="w-full px-4 py-2 bg-white animate-pulse bg-opacity-20 rounded-[3px]" />
   );
 };
 
 const SkeletonImage = () => {
   return (
-    <div className='h-[100%] w-[90%] md:w-[max-content] shadow-yellow rounded-md mx-auto mt-8 mb-12 sm:m-0'>
-      <div className="animate-pulse bg-white bg-opacity-40 h-[350px] md:h-[310px] lg:h-[450px] min-w-[250px] lg:w-[273px] rounded-md" />
+    <div className='h-[100%] w-[90%] md:w-[max-content] shadow-yellow rounded-[3px] mx-auto mt-8 mb-12 sm:m-0'>
+      <div className="animate-pulse bg-white bg-opacity-40 h-[330px] md:h-[310px] lg:h-[380px] min-w-[250px] lg:w-[273px] rounded-md" />
     </div>
   );
 };
@@ -62,6 +62,6 @@ const SkeletonText = () => {
 
 const SkeletonButton = () => {
   return (
-    <div className="animate-pulse bg-white bg-opacity-20 px-3 py-3 rounded-md font-semibold text-center text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F] w-full" />
+    <div className="animate-pulse bg-white bg-opacity-20 px-3 py-3 rounded-[3px] font-semibold text-center text-[13px] tracking-[0.1em] border border-[#1F1F1F] text-[#1F1F1F] w-full" />
   );
 };
