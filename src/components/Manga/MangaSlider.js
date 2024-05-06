@@ -18,7 +18,7 @@ const Carousel = () => {
 
     const page = 0;
 
-    const { data, isLoading, isError, error } = useMangas(type, order, limit, includedTags, excludedTags, page);;
+    const { data, isLoading, isError, error } = useMangas(type, order, limit, includedTags, excludedTags, page);
 
     const handleArrow = (direction) => {
         if (direction === "l") {
@@ -40,8 +40,8 @@ const Carousel = () => {
                     <p className="text-[20px] font-semibold mr-2 tracking-[0.4em] mb-4">
                         Loading manga list...
                     </p>
-                    <div className="relative overflow-hidden rounded-lg">
-                        <div className="flex h-[400px] rounded-lg">
+                    <div className="relative overflow-hidden rounded-[4px]">
+                        <div className="flex h-[400px]">
                             {[...Array(5)].map((_, index) => (
                                 <CarouselImageSkeleton key={index} />
                             ))}
@@ -72,9 +72,9 @@ const Carousel = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="relative mx-auto overflow-hidden rounded-lg">
+                    <div className="relative mx-auto overflow-hidden rounded-[4px]">
                         <div
-                            className="flex h-[400px] rounded-lg transition-transform duration-300"
+                            className="flex h-[400px] transition-transform duration-300"
                             style={{ transform: `translateX(${-index * 100}%)` }}
                         >
                             {data.data.map((manga, i) => (
