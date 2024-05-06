@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import showToast from '../../utils/toastUtils';
 import { useNavigate } from 'react-router-dom';
@@ -43,7 +43,7 @@ const SearchForm = ({ setVis, setMangaVis, setLoading, setError }) => {
   const [orderDirection, setOrderDirection] = useState('');
 
   // Function to handle the search logic
-  async function handleSearch() {
+  const handleSearch = useCallback(() => {
     setLoading(true);
     setVis(false);
     setMangaVis(true);
@@ -84,7 +84,6 @@ const SearchForm = ({ setVis, setMangaVis, setLoading, setError }) => {
         queryParams.set('status', searchParams.status);
       }
 
-
       // Add order parameter if it has value
       if (Object.keys(orderParams).length > 0) {
         queryParams.set('order', JSON.stringify(orderParams));
@@ -112,12 +111,10 @@ const SearchForm = ({ setVis, setMangaVis, setLoading, setError }) => {
       // setOrder('');
       // setOrderDirection('');
     }
-  }
-
-
+  }, [mangaName, tags, status, order, orderDirection, navigate, setVis, setMangaVis, setLoading, setError]);
 
   // Function to handle tag clicks and update tag state
-  const handleTagClick = (tagName) => {
+  const handleTagClick = useCallback((tagName) => {
     const existingTag = tags.find((tag) => tag.name === tagName);
     if (existingTag) {
       if (existingTag.type === 'include') {
@@ -132,33 +129,33 @@ const SearchForm = ({ setVis, setMangaVis, setLoading, setError }) => {
     } else {
       setTags([...tags, { name: tagName, type: 'include' }]);
     }
-  };
+  }, [tags]);
 
   // Function to close the search form
-  const handleCloseSearch = () => {
+  const handleCloseSearch = useCallback(() => {
     setMangaVis(true)
     setVis(prevVis => !prevVis)
-  };
+  }, [setMangaVis, setVis]);
 
   // Function to handle status clicks and update status state
-  const handleStatusClick = (selectedStatus) => {
+  const handleStatusClick = useCallback((selectedStatus) => {
     setStatus(selectedStatus === status ? '' : selectedStatus);
-  };
+  }, [status]);
 
   // Functions to handle order and order direction changes
-  const handleOrderChange = (e) => {
+  const handleOrderChange = useCallback((e) => {
     setOrder(e.target.value);
-  };
+  }, []);
 
-  const handleOrderDirectionChange = (e) => {
+  const handleOrderDirectionChange = useCallback((e) => {
     setOrderDirection(e.target.value);
-  };
+  }, []);
 
   // Check if mangaName is empty
   const isMangaNameEmpty = mangaName.trim() === '';
 
   return (
-    <div className="w-[90%] md:w-[70%] p-7 mx-auto bg-white  border border-gray-300 rounded-lg relative">
+    <div className="w-[90%] md:w-[70%] p-7 mx-auto bg-white  border border-gray-300 rounded-[3px] relative">
       <button onClick={() => handleCloseSearch()}>
         <XCircleIcon className="absolute text-black w-7 h-7 top-2 right-2" />
       </button>
