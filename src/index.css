@@ -9,6 +9,7 @@
 
 html {
   height: 100%;
+  overflow: hidden;
 }
 
 .gradient-1 {
@@ -38,9 +39,8 @@ html {
 body {
   background-color: #f5faff;
   height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+  overflow: hidden;
+  overscroll-behavior: none;
   font-family: "DM Sans", sans-serif;
 }
 
@@ -59,7 +59,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: #1b6fa8;
-  border-radius: 4px;
+  border-radius: 2px;
   height: 300px;
 }
 
@@ -70,6 +70,14 @@ body {
 ::-webkit-scrollbar-thumb:active {
   background-color: #0e3c5d;
 }
+
+@media screen and (max-width: 425px) {
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+}
+
+
 
 .react-horizontal-scrolling-menu--wrapper {
   width: 100%;
@@ -108,7 +116,8 @@ body {
 /* Style for the Link */
 .link-item {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: center; /* Changed from align-items: flex-end; */
   padding: 8px;
   border-radius: 8px;
   transition: background-color 0.3s ease-in-out;
@@ -162,8 +171,48 @@ body {
   left: 0;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin-top: 20px;
+}
+
+.ellipsis {
+  margin: 0 5px; 
+  color: #888;
+  font-size: 25px;
+}
+
+.chapter-container:hover .chapter-title {
+  color: #FEC7B4; /* Change text color of title on hover */
+}
+
+
+.pagination button {
+  background-color: #1B6FA8;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination button:hover {
+  background-color: #145686;
+}
+
+.pagination button.active {
+  background-color: #145686;
+}
+
 @media screen and (max-width: 768px) {
   .react-horizontal-scrolling-menu--scroll-container {
     padding: 0px;
+  }
+  
+  .pagination button {
+    padding: 5px 10px;
   }
 }
