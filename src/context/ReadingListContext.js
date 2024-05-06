@@ -27,7 +27,7 @@ export const ReadingListProvider = ({ children }) => {
             setReadingList([response.manga, ...readingList].reverse());
             showToast("Manga was added to the list");
         } catch (error) {
-            showToast(`Error adding manga to reading list: ${error.message}`, "error");
+            showToast(error.message || `Error adding manga to reading list.`, "error");
         }
     };
 
@@ -48,7 +48,7 @@ export const ReadingListProvider = ({ children }) => {
             setReadingList(updatedList.reverse());
             showToast("Manga was updated in the list");
         } catch (error) {
-            showToast(`Error updating manga in reading list: ${error.message}`, "error");
+            showToast(error.message || `Error updating manga in reading list.`, "error");
         }
     };
 
@@ -58,7 +58,7 @@ export const ReadingListProvider = ({ children }) => {
             const mangaData = JSON.parse(response);
             return mangaData;
         } catch (error) {
-            // console.error('Error getting manga from reading list:', error.message);
+            console.error(error.message || `Error getting manga from reading list.`, "error");
         }
     };
 
@@ -68,7 +68,6 @@ export const ReadingListProvider = ({ children }) => {
             setReadingList(JSON.parse(readingListData).readingList.mangas || []);
         } catch (error) {
             setReadingListError(error.message);
-            showToast(`Error getting reading list: ${error.message}`, "error");
         }
     };
 
@@ -79,7 +78,7 @@ export const ReadingListProvider = ({ children }) => {
             setReadingList(updatedList.reverse());
             showToast("Manga was removed from the list", 'error');
         } catch (error) {
-            console.error('Error deleting manga from reading list:', error.message);
+            showToast(error.message || `Error deleting manga from reading list.`, "error");
         }
     };
 
