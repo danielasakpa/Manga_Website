@@ -15,7 +15,7 @@ function MangaChapters() {
 
     // Fetch manga data and chapters data
     const { data: mangaData, isLoading: isMangaLoading, isError: isMangaError } = useManga(id);
-    const { data: chaptersData, isLoading: isChaptersLoading, isRefetching, isError: isChaptersError, total: totalChapters } = useMangaChapters(
+    const { data: chaptersData, isLoading: isChaptersLoading, isRefetching, isError: isChaptersError, total: totalChapters, refetch } = useMangaChapters(
         id,
         [`${chapterLang}`],
         chaptersPerPage,
@@ -40,14 +40,14 @@ function MangaChapters() {
 
     // Render error message if there is an error fetching chapters or manga
     if (isChaptersError || isMangaError) {
-        return <ErrorMessage />;
+        return <ErrorMessage refetch={refetch} />;
     }
 
     // Calculate total pages for pagination
     const totalPages = Math.ceil(totalChapters / chaptersPerPage);
 
     return (
-        <div className="h-screen text-white md:px-5 md:pb-6">
+        <div className="min-h-[100vh] h-[max-content] text-white md:px-5 md:pb-6">
             {/* Language selection dropdown */}
             <LanguageSelector
                 chapterLang={chapterLang}
@@ -77,10 +77,18 @@ const LoadingMessage = () => (
 );
 
 // Component for rendering error message
-const ErrorMessage = () => (
-    <div className="flex justify-center items-center h-[500px] mt-16 px-10">
-        <p className='text-[13px] md:text-[20px] text-white'>Error fetching manga chapters..</p>
-    </div>
+const ErrorMessage = ({refetch}) => (
+  <div className="flex flex-col justify-center items-center h-[500px] gap-3 mt-16 px-10">
+    <p className="text-[13px] md:text-[20px] text-white">
+      Error fetching manga chapters..
+    </p>
+    <button
+      onClick={refetch}
+      className="flex justify-center items-center btn text-white font-bold bg-[#1B6FA8] hover:bg-[#E40066] border border-[#1F1F1F] w-[75%] md:w-[450px] px-4 py-1 rounded"
+    >
+      <span className="z-20 text-[13px] md:text-[20px]">Retry</span>
+    </button>
+  </div>
 );
 
 
