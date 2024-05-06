@@ -1,10 +1,8 @@
-import { useEffect } from 'react';
 import showToast from './toastUtils';
 import { jwtDecode } from 'jwt-decode';
 
 
 const handleTokenExpiration = (token, logoutCallback) => {
-    const checkTokenExpiration = () => {
         if (token) {
             const decodedToken = jwtDecode(token);
             const currentTime = Date.now() / 1000;
@@ -12,19 +10,10 @@ const handleTokenExpiration = (token, logoutCallback) => {
                 logoutCallback();
             }
         }
-    };
-
-    checkTokenExpiration();
-
-    const intervalId = setInterval(() => {
-        checkTokenExpiration();
-    }, 1000 * 60);
-
-    return () => clearInterval(intervalId);
 };
 
-const setAuthData = (userId, token, message, authenticationSource = "local") => {
-    localStorage.setItem('userId', userId);
+const setAuthData = (user, token, message, authenticationSource = "local") => {
+    localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', token);
 
     // Check if the 'isGoogle' flag is not set and authenticationSource is 'google'
@@ -36,7 +25,7 @@ const setAuthData = (userId, token, message, authenticationSource = "local") => 
 };
 
 const removeAuthData = () => {
-    localStorage.removeItem('userId');
+    localStorage.removeItem('user');
     localStorage.removeItem('token');
 };
 
