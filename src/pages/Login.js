@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import authBackground from "../assets/authBackground.jpg";
-import googleLogo from "../assets/googleLogo.svg";
+import authBackground from "../assets/images/authBackground.jpg";
+import googleLogo from "../assets/svg/googleLogo.svg";
 import { useAuth } from "../Auth/AuthProvider";
-import { BallTriangle } from 'react-loader-spinner'
+import { TailSpin } from 'react-loader-spinner'
 import showToast from '../utils/toastUtils';
 
 const Login = () => {
@@ -46,7 +46,7 @@ const Login = () => {
   const google = (e) => {
     e.preventDefault();
 
-    window.open("https://manga-server-luxr.onrender.com/api/auth/google", "_self");
+    window.open("https://yuki-manga-server.netlify.app/api/auth/google", "_self");
   };
 
 
@@ -69,7 +69,7 @@ const Login = () => {
             <input
               type="text"
               placeholder="Email"
-              className="peer h-full w-full rounded-md border-2 border-gray-500 !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+              className="peer h-full w-full rounded-[3px] border-2 border-gray-500 !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
               value={email}
               pattern={`[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+`}
               required
@@ -88,7 +88,7 @@ const Login = () => {
             <input
               type="password"
               placeholder="Password"
-              className="peer h-full w-full rounded-md border-2 border-gray-500 !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
+              className="peer h-full w-full rounded-[3px] border-2 border-gray-500 !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500"
               value={password}
               required
               onChange={(e) => setPassword(e.target.value)}
@@ -111,12 +111,21 @@ const Login = () => {
 
           {/* Buttons */}
           <button
-            className="h-11 w-full text-center font-semibold text-white bg-[#1B6FA8] hover:bg-[#155580] rounded-lg  mb-5"
+            className="flex justify-center items-center h-11 w-full text-center font-semibold text-white bg-[#1B6FA8] hover:bg-[#155580] rounded-[3px] mb-5"
             onClick={handleLogIn}
           >
-            Log In
+            {isLoading ? <TailSpin
+              height="20"
+              width="20"
+              color="#ffffff"
+              ariaLabel="tail-spin-loading"
+              radius="1"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            /> : 'Log In'}
           </button>
-          <button onClick={google} className="flex items-center justify-center w-full gap-2 mb-4 text-gray-500 border-2 border-gray-400 rounded-lg h-11">
+          <button onClick={google} className="flex items-center justify-center w-full gap-2 mb-4 text-gray-500 border-2 border-gray-400 rounded-[3px] h-11">
             <img
               src={googleLogo}
               alt="google"
@@ -147,25 +156,6 @@ const Login = () => {
         className="w-full h-full "
         alt="auth background"
       />
-      {isLoading && (
-        <>
-          <div
-            className={`flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
-          >
-            <BallTriangle
-              height="80"
-              width="80"
-              radius={5}
-              color="#ffffff"
-              ariaLabel="ball-triangle-loading"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-            />
-          </div>
-          <div className={`"opacity-25 fixed inset-0 z-40 bg-black`}></div>
-        </>
-      )}
     </section>
   );
 };
