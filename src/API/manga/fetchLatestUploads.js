@@ -39,7 +39,7 @@ export default async function fetchLatestUploads(order, limit, includes = [], pa
     const params = {
       includes,
       ...finalOrderQuery,
-      contentRating: ["safe", "suggestive", "erotica", "pornographic"],
+      contentRating: ["safe", "suggestive"],
       limit,
       offset: page * limit,
     };
