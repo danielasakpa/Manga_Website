@@ -40,7 +40,6 @@ function ReadingListMangaCard({ manga }) {
         "info"
       );
     } finally {
-      setSelectedReading('');
       setLoadingReadingList(false);
     }
   };
