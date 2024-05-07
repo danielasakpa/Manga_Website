@@ -106,8 +106,7 @@ function MyList() {
               </div>
             ) : (
               sortedList
-                ?.reverse()
-                .map((manga) => (
+                ?.slice(0).reverse().map((manga) => (
                   <ReadingListMangaCard key={manga.manga} manga={manga} />
                 ))
             )
