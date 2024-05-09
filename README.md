@@ -38,6 +38,7 @@ Welcome to **YUKI MANGA**, a comprehensive manga exploration platform developed 
     </td>
   </tr>
 </table>
+
 ## Table of Contents
 
 - [Overview](#overview)
