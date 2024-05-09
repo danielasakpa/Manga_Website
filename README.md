@@ -12,10 +12,32 @@ Welcome to **YUKI MANGA**, a comprehensive manga exploration platform developed 
 ## Screenshots
 <br/>
 
-<p align="center">
-  <img src="https://i.ibb.co/7Y2K6jw/Firefox-Screenshot-2024-01-11-T09-58-20-097-Z.png" alt="Alt Text">
-</p>
-
+<table align="center">
+  <tr>
+    <td>
+      <p align="center">
+        <img src="https://i.ibb.co/MCh4Rk6/Yuki-Manga.png" alt="Alt Text">
+      </p>
+    </td>
+    <td>
+      <p align="center">
+        <img src="https://i.ibb.co/d2k2mW8/Yuki-Manga-2.png" alt="Alt Text">
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p align="center">
+        <img src="https://i.ibb.co/9HwSLsK/Yuki-Manga-3.png" alt="Alt Text">
+      </p>
+    </td>
+    <td>
+      <p align="center">
+        <img src="https://i.ibb.co/VVp5Fpn/Yuki-Manga-1.png" alt="Alt Text">
+      </p>
+    </td>
+  </tr>
+</table>
 ## Table of Contents
 
 - [Overview](#overview)
@@ -27,7 +49,7 @@ Welcome to **YUKI MANGA**, a comprehensive manga exploration platform developed 
 - [Getting Started](#getting-started)
 - [Explore API Documentation](#explore-api-documentation)
 - [Explore Proxy Server](#explore-proxy-server)
-- [Explore Manga Server](#explore-auth-server)
+- [Explore Manga Server](#explore-manga-server)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -37,15 +59,15 @@ Welcome to **YUKI MANGA**, a comprehensive manga exploration platform developed 
 
 ## Tech Stack
 
-- **React:** A JavaScript library for building user interfaces. The entire frontend of **YUKI MANGA** is built with React, enabling a dynamic and responsive user interface.
-
-- **Tailwind CSS:** A utility-first CSS framework used for styling. Tailwind CSS allowed for quick and consistent styling across the application.
-
-- **MangaDex API:** The backbone of the manga content. The application leverages the MangaDex API to fetch and display manga information.
-
-- **Node.js and Express.js:** The backend is powered by Node.js, with Express.js providing a robust and flexible web application framework.
-
-- **MongoDB:** A NoSQL database used for storing user data and reading lists. MongoDB's flexibility and scalability make it an ideal choice for this project.
+- **React**: Frontend framework for building user interfaces.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **Node.js**: JavaScript runtime environment for server-side development.
+- **Express.js**: Web application framework for Node.js.
+- **MongoDB**: NoSQL database for storing application data.
+- **Netlify Serverless Functions**: Serverless compute service provided by Netlify for deploying APIs and other server-side functions.
+- **Passport**: Authentication middleware for Node.js, widely used for implementing authentication strategies.
+- **Express-session**: Middleware for Express.js to manage session data, useful for implementing user sessions in web applications.
+- **Sharp**: High-performance image processing library for Node.js, commonly used for resizing, cropping, and other image transformations.
 
 ## What You Can Do
 
@@ -63,97 +85,96 @@ The project is organized into different modules, each serving a specific purpose
 
 - **Frontend:** The user interface built with React and styled with Tailwind CSS.
 
-- **Backend:** Node.js and Express.js server handling user authentication, user data management, and reading list operations.
+- **Backend:** An efficient serverless backend for manga website, offering user authentication, data storage, and reading list functionalities.
 
-- **Proxy Server:** A custom Node.js proxy server that I built to handle requests to the MangaDex API. This server helps manage API calls and ensures a smooth experience for users.
+- **Proxy Server:** A custom proxy server for manga websites using mangaDex API, serving images and resources efficiently using Netlify serverless functions.
 
 ## Learning Along the Way
 
 ### Challenges Faced
 
-1. **API Request Handling:** Managing requests to the MangaDex API efficiently was a challenge. I addressed this by creating a custom proxy server to handle API requests, reducing latency and improving performance.
+- **Direct API Access**: The MangaDex API has strict anti-abuse policies, including not sending CORS responses for external websites and serving incorrect responses for hotlinked images.
 
-2. **User Authentication:** Implementing a secure user authentication system required careful consideration. The separate server dedicated to user authentication and data management helped centralize these processes.
+- **Proxying API Requests**: Direct access to the MangaDex API was not possible due to anti-abuse policies, necessitating the development of a custom proxy server.
 
-3. **Parallel Connections Performance Issue with Proxy Server:** One significant challenge encountered was related to the performance of parallel connections when using `http-proxy-middleware` in Express. The application experienced delays, and requests were taking an unexpectedly long time to be resolved, impacting the overall user experience.
+- **Cold Start Time**: Initially, setting up the proxy server on Render resulted in significant delays due to cold start times.
+
+- **Image Processing Performance**: Processing large images caused serverless functions on Netlify to exceed their execution time limit.
 
 ### Solutions Implemented
 
-1. **Proxy Server:** The custom proxy server acts as a middleware between the frontend and the MangaDex API, enhancing the overall performance and reliability of the application.
+- **Custom Proxy Server**: Built a custom proxy with Netlify's serverless function to handle user requests and image fetching from the MangaDex API while adhering to the platform's anti-abuse policies.
 
-2. **Separate Manga Server:** Isolating user authentication and data management into a separate server improved the project's maintainability and security.
+- **Netlify Serverless Functions**: Leveraged Netlify's serverless functions for efficient and scalable solutions.
 
-3. **Asynchronous Middleware to Improve Performance:**
-   To tackle the issue of slow parallel connections, I introduced asynchronous middleware in the proxy server. This involved restructuring the code to utilize `async` and `await` patterns. By doing so, the proxy server can now efficiently handle multiple requests concurrently, significantly improving the application's responsiveness and reducing the time it takes for requests to be resolved.
+- **Stream Processing**: Implemented stream processing to optimize image processing within the serverless function's execution time limit.
 
-   This modification ensures that the proxy middleware operates asynchronously, addressing the performance bottleneck and enhancing the overall user experience when interacting with the MangaDex API.
+- **Caching**: Implemented caching mechanisms using `memory-cache` to improve performance and reduce response times.
 
 ## Repository Structure
 
 - **[YUKI MANGA](https://github.com/danielasakpa/Manga_Website):** The main repository for the YUKI MANGA project.
-- **[Manga Server](https://github.com/danielasakpa/manga-server):** Repository for the user authentication and data management server.
-- **[Proxy Server](https://github.com/danielasakpa/proxy-server):** Repository for the custom proxy server handling requests to the MangaDex API.
+- **[Netlify-Serverless-Manga-Server repository](https://github.com/danielasakpa/Netlify-Serverless-Manga-Server):** Repository for the user authentication and data management server.
+- **[Netlify-Serverless-Manga-Proxy repository](https://github.com/danielasakpa/Netlify-Serverless-Manga-Proxy):** Repository for the custom proxy server handling requests to the MangaDex API.
 
 ## Getting Started
 
 1. **Clone the repositories:**
 
-    ```bash
-    git clone https://github.com/danielasakpa/Manga_Website.git
-    git clone https://github.com/danielasakpa/manga-server.git
-    git clone https://github.com/danielasakpa/proxy-server.git
-    ```
+   ```bash
+   git clone https://github.com/danielasakpa/Manga_Website.git
+   git clone https://github.com/danielasakpa/Netlify-Serverless-Manga-Server
+   git clone https://github.com/danielasakpa/Netlify-Serverless-Manga-Proxy
+   ```
+   
+2. **Set up environment variables:**
 
-2. **Install dependencies:**
+3. **Run the applications:**
 
-    Navigate to each repository and run:
+   - **Manga Server:**
 
-    ```bash
-    npm install
-    ```
+     ```bash
+     npm install
+     npm start
+     ```
+     - ***Additional Steps:***
 
-3. **Set up environment variables:**
+     Set up the required environmental variables by creating a .env file in the root directory of the project and filling in the necessary values for MONGO_URI, JWT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CLIENT_URL, SERVER_URL, and SESSION_SECRET.
+     
+   - **Proxy Server:**
 
-    Create a `.env` file in the Manga Server repository with the necessary environment variables:
+     ```bash
+     npm install
+     ```
 
-    ```env
-    # Example .env content for manga-server
-    MONGO_URI=<your-mongodb-uri>
-    JWT_SECRET=<your-secret-key>
-    ```
+     - ***_For Windows:_***
 
-4. **Run the applications:**
+       ```bash
+       npm i sharp@0.32.6
+       ```
 
-    - **Manga Server:**
+     - ***_For Linux:_***
 
-        ```bash
-        cd manga-server
-        npm start
-        ```
+       ```bash
+       npm install --include=optional --arch=x64 --platform=linux sharp@0.32.6
+       ```
 
-        The server runs on port 5000 if the `PORT` environment variable is not provided.
+     - ***_Run the server:_***
 
-    - **Proxy Server:**
+       ```bash
+       npm run start
+       ```
 
-        ```bash
-        cd proxy-server
-        npm start
-        ```
+   - **YUKI MANGA (React Frontend):**
 
-        The server runs on port 4000 if the `PORT` environment variable is not provided.
+     ```bash
+     npm install
+     npm start
+     ```
 
-    - **YUKI MANGA (React Frontend):**
+4. **Explore and Contribute:**
 
-        ```bash
-        cd Manga_Website
-        npm start
-        ```
-
-        The React frontend runs on port 3000.
-
-5. **Explore and Contribute:**
-
-    Feel free to explore the app and contribute to its development. If you encounter any issues or have suggestions, please open an [issue](https://github.com/danielasakpa/Manga_Website/issues).
+   Feel free to explore the app and contribute to its development. If you encounter any issues or have suggestions, please open an [issue](https://github.com/danielasakpa/Manga_Website/issues).
 
 ## Explore API Documentation
 
@@ -161,11 +182,11 @@ Explore the [MangaDex API documentation](https://api.mangadex.org/docs/) for mor
 
 ## Explore Proxy Server
 
-Explore the [Proxy Server repository](https://github.com/danielasakpa/proxy-server) to understand the custom proxy server's inner workings and contribute to its development.
+Explore the [Netlify-Serverless-Manga-Proxy repository](https://github.com/danielasakpa/Netlify-Serverless-Manga-Proxy) to understand the custom proxy server's inner workings and contribute to its development.
 
 ## Explore Manga Server
 
-Explore the [Manga Server repository](https://github.com/danielasakpa/manga-server) for insights into the user authentication and data management server and contribute to its enhancement.
+Explore the [Netlify-Serverless-Manga-Server repository](https://github.com/danielasakpa/Netlify-Serverless-Manga-Server) for insights into the user authentication and data management server and contribute to its enhancement.
 
 ## Contributing
 
@@ -179,4 +200,4 @@ If you'd like to contribute to **YUKI MANGA**, please follow these guidelines:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
