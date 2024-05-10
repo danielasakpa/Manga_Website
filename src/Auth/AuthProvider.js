@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
         try {
             const response = await axios({
               method: "GET",
-              url: `https://yuki-manga-server.netlify.app/api/auth/login/success`,
+              url: `${process.env.REACT_APP_MANGA_SERVER_URL}/api/auth/login/success`,
               headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -55,7 +55,7 @@ const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     try {
       const { data } = await axios.post(
-        "https://yuki-manga-server.netlify.app/api/auth/login",
+        `${process.env.REACT_APP_MANGA_SERVER_URL}/api/auth/login`,
         userData
       );
       const { user, message, token } = data;
@@ -79,7 +79,7 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem("isGoogle");
 
       // Trigger a logout by opening the server-side logout endpoint
-      window.open("https://yuki-manga-server.netlify.app/api/auth/logout", "_self");
+      window.open(`${process.env.REACT_APP_MANGA_SERVER_URL}/api/auth/logout`, "_self");
 
       return;
     }

@@ -46,7 +46,7 @@ const Login = () => {
   const google = (e) => {
     e.preventDefault();
 
-    window.open("https://yuki-manga-server.netlify.app/api/auth/google", "_self");
+    window.open(`${process.env.REACT_APP_MANGA_SERVER_URL}/api/auth/google`, "_self");
   };
 
 
