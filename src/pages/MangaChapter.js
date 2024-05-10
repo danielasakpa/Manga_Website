@@ -10,8 +10,6 @@ function MangaChapter() {
   // Retrieve parameters from the URL
   const { id, chapterId, chapterNum, lang } = useParams();
 
-  const PROXY_SERVER_URL = "https://yuki-proxy-server.netlify.app";
-
   // Get the current window width
   const windowWidth = useWindowWidth();
 
@@ -128,7 +126,7 @@ function MangaChapter() {
             {renderChapterOptions()}
           </select>
           <Link
-            to={`/manga/${id}/chapter/${selectedChapter}/${selectedChapterData?.attributes.chapter}/${selectedChapterData?.attributes.translatedLanguage}`}
+            to={`${process.env.REACT_APP_PROXY_SERVER_URL}/manga/${id}/chapter/${selectedChapter}/${selectedChapterData?.attributes.chapter}/${selectedChapterData?.attributes.translatedLanguage}`}
             className="px-2 md:px-4 text-[10px] md:text-[20px] py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-400"
           >
             Go

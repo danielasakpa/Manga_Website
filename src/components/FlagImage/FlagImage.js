@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const FlagImage = ({ flagCode, className }) => {
-  const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+  
 
   const {
     data: flag,
@@ -14,7 +14,7 @@ const FlagImage = ({ flagCode, className }) => {
     async () => {
       try {
         const res = await axios.get(
-          `${PROXY_SERVER_URL}/images/flags/${flagCode}`
+          `${process.env.REACT_APP_PROXY_SERVER_URL}/images/flags/${flagCode}`
         );
         return res?.data;
       } catch (error) {

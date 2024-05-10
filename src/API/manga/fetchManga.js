@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+
 
 export default async function fetchManga(mangaId) {
     try {
         const response = await axios({
             method: 'get',
-            url: `${PROXY_SERVER_URL}/api/v1/manga/${mangaId}?includes[]=author&includes[]=artist&includes[]=cover_art&hasAvailableChapters=true`,
+            url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga/${mangaId}?includes[]=author&includes[]=artist&includes[]=cover_art&hasAvailableChapters=true`,
             crossDomain: true,
         });
 

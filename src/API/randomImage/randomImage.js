@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+
 
 export default async function randomImage() {
     try {
         const response = await axios({
             method: "get",
-            url: `${PROXY_SERVER_URL}/api/wall_paper`,
+            url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/wall_paper`,
         });
 
         // Check if response data is undefined or empty

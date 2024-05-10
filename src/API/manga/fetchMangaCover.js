@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+
 
 export default async function fetchMangaCover(mangaId) {
     try {
         const response = await axios({
             method: 'get',
-            url: `${PROXY_SERVER_URL}/api/v1/cover?manga[]=${mangaId}`,
+            url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/cover?manga[]=${mangaId}`,
         });
 
         // Check if response data is undefined or empty

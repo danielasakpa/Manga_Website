@@ -1,12 +1,10 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
-
 export default async function fetchMangaChapter(chapterID) {
     try {
         const response = await axios({
             method: 'get',
-            url: `${PROXY_SERVER_URL}/api/v1/at-home/server/${chapterID}`,
+            url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/at-home/server/${chapterID}`,
         });
 
         // Check if response data is undefined or incomplete

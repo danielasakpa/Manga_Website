@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+
 
 export default async function fetchRelatedManga(mangaData) {
     try {
@@ -10,7 +10,7 @@ export default async function fetchRelatedManga(mangaData) {
                 .map(async relationship => {
                     const response = await axios({
                         method: 'get',
-                        url: `${PROXY_SERVER_URL}/api/v1/manga/${relationship.id}`,
+                        url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga/${relationship.id}`,
                     });
                     // Check if response data is undefined
                     if (!response.data || !response.data.data) {

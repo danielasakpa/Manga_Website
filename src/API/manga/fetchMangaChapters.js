@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+
 
 export default async function fetchMangaChapters(mangaID, languages, limit = 100, page = 0, fetchAll = false) {
     try {
@@ -31,7 +31,7 @@ export default async function fetchMangaChapters(mangaID, languages, limit = 100
             params.limit = limit;
             params.offset = page * limit;
 
-            const response = await axios.get(`${PROXY_SERVER_URL}/api/v1/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`, {
+            const response = await axios.get(`${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`, {
                 params: params
             });
 
@@ -47,7 +47,7 @@ export default async function fetchMangaChapters(mangaID, languages, limit = 100
                 params.limit = limit;
                 params.offset = currentPage * limit;
 
-                const response = await axios.get(`${PROXY_SERVER_URL}/api/v1/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`, {
+                const response = await axios.get(`${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`, {
                     params: params
                 });
 

@@ -16,14 +16,14 @@ const Image = ({
   isChapterImg,
   index,
 }) => {
-  const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+  
 
   const { data, isLoading, isError } = useQuery(
     ["image", id, coverFilename],
     async () => {
       try {
         const res = await axios.get(
-          `${PROXY_SERVER_URL}${
+          `${process.env.REACT_APP_PROXY_SERVER_URL}${
             isChapterImg ? "/images/chapter/" : "/images/cover/"
           }${id}/${encodeURIComponent(coverFilename)}${size ? `/${size}` : ""}`
         );

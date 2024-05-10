@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+
 
 function groupChaptersByMangaID(chapters) {
   const groupedChapters = [];
@@ -44,7 +44,7 @@ export default async function fetchLatestUploads(order, limit, includes = [], pa
       offset: page * limit,
     };
 
-    const response = await axios.get(`${PROXY_SERVER_URL}/api/v1/chapter`, {
+    const response = await axios.get(`${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/chapter`, {
       params: params,
     });
 

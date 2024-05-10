@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+
 
 export default async function fetchMangas(tags, order, limit = 10, includedTags = [], excludedTags = [], page = 0, status = "") {
     try {
+        console.log('process.env.REACT_APP_PROXY_SERVER_URL', process.env.REACT_APP_PROXY_SERVER_URL)
+
         const includedTagIDs = tags
             .filter(tag => includedTags.includes(tag.attributes.name.en))
             .map(tag => tag.id);
@@ -28,7 +30,7 @@ export default async function fetchMangas(tags, order, limit = 10, includedTags 
 
         const response = await axios({
             method: 'get',
-            url: `${PROXY_SERVER_URL}/api/v1/manga`,
+            url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga`,
             params: {
                 includedTags: includedTagIDs,
                 excludedTags: excludedTagIDs,

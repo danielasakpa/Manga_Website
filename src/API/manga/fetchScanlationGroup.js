@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
+
 
 export default async function fetchScanlationGroup(groupId) {
     try {
@@ -11,7 +11,7 @@ export default async function fetchScanlationGroup(groupId) {
 
         const response = await axios({
             method: 'get',
-            url: `${PROXY_SERVER_URL}/api/v1/group/${groupId}`,
+            url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/group/${groupId}`,
         });
 
         // Check if response data is undefined or empty

@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const PROXY_SERVER_URL = 'https://yuki-proxy-server.netlify.app';
-
 export default async function fetchDexUser(userId) {
     try {
         // Check if userId is null, if so, return "No User"
@@ -11,7 +9,7 @@ export default async function fetchDexUser(userId) {
 
         const response = await axios({
             method: 'get',
-            url: `${PROXY_SERVER_URL}/api/v1/user/${userId}`
+            url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/user/${userId}`
         });
 
         // Check if response data is undefined or empty
