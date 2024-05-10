@@ -130,6 +130,9 @@ The project is organized into different modules, each serving a specific purpose
    
 2. **Set up environment variables:**
 
+- `REACT_APP_MANGA_SERVER_URL`: URL for the manga server.
+- `REACT_APP_PROXY_SERVER_URL` URL for the proxy server.
+
 3. **Run the applications:**
 
    - **Manga Server:**
@@ -140,7 +143,7 @@ The project is organized into different modules, each serving a specific purpose
      ```
      - ***Additional Steps:***
 
-     Set up the required environmental variables by creating a .env file in the root directory of the project and filling in the necessary values for MONGO_URI, JWT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CLIENT_URL, SERVER_URL, and SESSION_SECRET.
+       Set up the required environmental variables by creating a .env file in the root directory of the project and filling in the necessary values for MONGO_URI, JWT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CLIENT_URL, SERVER_URL, and SESSION_SECRET.
      
    - **Proxy Server:**
 
