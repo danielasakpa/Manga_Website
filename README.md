@@ -160,6 +160,7 @@ The project is organized into different modules, each serving a specific purpose
      - ***_For Linux:_***
 
        ```bash
+       npm uninstall sharp
        npm install --include=optional --arch=x64 --platform=linux sharp@0.32.6
        ```
 
