@@ -1,4 +1,5 @@
 import axios from 'axios';
+import RemoveToken from '../RateLimit';
 
 
 
@@ -43,6 +44,8 @@ export default async function fetchLatestUploads(order, limit, includes = [], pa
       limit,
       offset: page * limit,
     };
+
+    await RemoveToken(1);
 
     const response = await axios.get(`${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/chapter`, {
       params: params,

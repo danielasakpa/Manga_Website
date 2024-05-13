@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import RemoveToken from "../../API/RateLimit";
 
 const FlagImage = ({ flagCode, className }) => {
   
@@ -13,6 +14,8 @@ const FlagImage = ({ flagCode, className }) => {
     ["image", flagCode],
     async () => {
       try {
+        await RemoveToken(1);
+
         const res = await axios.get(
           `${process.env.REACT_APP_PROXY_SERVER_URL}/images/flags/${flagCode}`
         );

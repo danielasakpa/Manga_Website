@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import place_holderImg2 from "../../assets/images/place_holder2.png";
 import place_holderImg3 from "../../assets/images/place_holder3.png";
+import RemoveToken from "../../API/RateLimit";
 
 const Image = ({
   id,
@@ -22,6 +23,8 @@ const Image = ({
     ["image", id, coverFilename],
     async () => {
       try {
+        await RemoveToken(1);
+        
         const res = await axios.get(
           `${process.env.REACT_APP_PROXY_SERVER_URL}${
             isChapterImg ? "/images/chapter/" : "/images/cover/"

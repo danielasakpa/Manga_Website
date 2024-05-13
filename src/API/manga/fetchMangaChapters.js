@@ -1,4 +1,5 @@
 import axios from 'axios';
+import RemoveToken from '../RateLimit';
 
 
 
@@ -31,6 +32,8 @@ export default async function fetchMangaChapters(mangaID, languages, limit = 100
             params.limit = limit;
             params.offset = page * limit;
 
+            await RemoveToken(1);
+            
             const response = await axios.get(`${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`, {
                 params: params
             });
@@ -46,6 +49,8 @@ export default async function fetchMangaChapters(mangaID, languages, limit = 100
                 // Set limit and offset for pagination
                 params.limit = limit;
                 params.offset = currentPage * limit;
+
+                await RemoveToken(1);
 
                 const response = await axios.get(`${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga/${mangaID}/feed?includeFuturePublishAt=0&includeEmptyPages=0`, {
                     params: params

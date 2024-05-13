@@ -1,4 +1,5 @@
 import axios from 'axios';
+import RemoveToken from '../RateLimit';
 
 export default async function fetchDexUser(userId) {
     try {
@@ -6,6 +7,8 @@ export default async function fetchDexUser(userId) {
         if (userId === null) {
             return "No User";
         }
+        
+        await RemoveToken(1);
 
         const response = await axios({
             method: 'get',

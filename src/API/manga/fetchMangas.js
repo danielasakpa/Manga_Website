@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-
+import RemoveToken from '../RateLimit';
 
 export default async function fetchMangas(tags, order, limit = 10, includedTags = [], excludedTags = [], page = 0, status = "") {
     try {
@@ -28,6 +27,8 @@ export default async function fetchMangas(tags, order, limit = 10, includedTags 
 
         const statusArray = status ? [status.toLowerCase()] : allStatus;
 
+        await RemoveToken(1);
+        
         const response = await axios({
             method: 'get',
             url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga`,

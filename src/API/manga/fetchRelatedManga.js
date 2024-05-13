@@ -1,4 +1,5 @@
 import axios from 'axios';
+import RemoveToken from '../RateLimit';
 
 
 
@@ -8,6 +9,8 @@ export default async function fetchRelatedManga(mangaData) {
             (mangaData?.relationships || [])
                 .filter(relationship => relationship.type === 'manga' && relationship.related !== "doujinshi")
                 .map(async relationship => {
+                    await RemoveToken(1);
+
                     const response = await axios({
                         method: 'get',
                         url: `${process.env.REACT_APP_PROXY_SERVER_URL}/api/v1/manga/${relationship.id}`,
