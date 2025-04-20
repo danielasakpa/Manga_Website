@@ -17,14 +17,12 @@ const Image = ({
   isChapterImg,
   index,
 }) => {
-  
-
   const { data, isLoading, isError } = useQuery(
     ["image", id, coverFilename],
     async () => {
       try {
         await RemoveToken(1);
-        
+
         const res = await axios.get(
           `${process.env.REACT_APP_PROXY_SERVER_URL}${
             isChapterImg ? "/images/chapter/" : "/images/cover/"

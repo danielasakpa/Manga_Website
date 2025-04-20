@@ -4,8 +4,6 @@ import axios from "axios";
 import RemoveToken from "../../API/RateLimit";
 
 const FlagImage = ({ flagCode, className }) => {
-  
-
   const {
     data: flag,
     isLoading,
