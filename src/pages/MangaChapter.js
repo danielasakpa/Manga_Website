@@ -126,7 +126,7 @@ function MangaChapter() {
             {renderChapterOptions()}
           </select>
           <Link
-            to={`${process.env.REACT_APP_PROXY_SERVER_URL}/manga/${id}/chapter/${selectedChapter}/${selectedChapterData?.attributes.chapter}/${selectedChapterData?.attributes.translatedLanguage}`}
+            to={`/manga/${id}/chapter/${selectedChapter}/${selectedChapterData?.attributes.chapter}/${selectedChapterData?.attributes.translatedLanguage}`}
             className="px-2 md:px-4 text-[10px] md:text-[20px] py-2 ml-2 text-white bg-blue-500 rounded hover:bg-blue-400"
           >
             Go
@@ -136,17 +136,17 @@ function MangaChapter() {
       </div>
       <div className="mt-10 md:mt-16">
         {data?.dataSaver.map((img, index) => (
-            <Image
-              id={data.hash}
-              coverFilename={img}
-              decoding="async"
-              fetchPriority="high"
-              loading="lazy"
-              isChapterImg={true}
-              index={index}
-              className="mx-auto object-cover mb-[1px] w-[90%] lg:w-[700px]"
-              key={img}
-            />
+          <Image
+            id={data.hash}
+            coverFilename={img}
+            decoding="async"
+            fetchPriority="high"
+            loading="lazy"
+            isChapterImg={true}
+            index={index}
+            className="mx-auto object-cover mb-[1px] w-[90%] lg:w-[700px]"
+            key={img}
+          />
         ))}
       </div>
     </div>
