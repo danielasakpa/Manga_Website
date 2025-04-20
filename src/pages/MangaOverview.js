@@ -141,7 +141,7 @@ const MangaOverview = React.memo(() => {
                             <div
                                 className={`${vis ? "flex" : "hidden"}  justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
                             >
-                                <div className="  w-[90%] lg:w-[40%] h-[300px] border-0 rounded-lg shadow-lg relative flex flex-col justify-center items-center pt-4 bg-white outline-none focus:outline-none">
+                                <div className="w-[90%] lg:w-[40%] h-[300px] border-0 rounded-lg shadow-lg relative flex flex-col justify-center items-center pt-4 bg-white outline-none focus:outline-none">
                                     <button onClick={() => handleCloseMenu()}>
                                         <XCircleIcon className="absolute text-black w-7 h-7 top-2 right-2" />
                                     </button>

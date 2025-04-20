@@ -123,20 +123,10 @@ const LatestChapters = () => {
                   key={item?.mangaID}
                   className="w-[90%] md:w-[70%%] lg:w-[50%] max-h-[70%] mt-[10%] md:mt-[5%] overflow-x-hidden overflow-y-scroll border-y-4 border-white px-1 py-2 mx-auto bg-white rounded-lg shadow-md"
                   layoutId={`card-container-${item?.mangaID}`}
-                  initial={{
-                    opacity: 0,
-                    y: 100,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    duration: 0.3,
-                    ease: "easeInOut",
-                  }}
-                  exit={{ opacity: 0 }}
-
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.8, opacity: 0}}
+                  transition={{ delay: 0.2 }}
                 >
                   <m.div className="relative">
                     <button

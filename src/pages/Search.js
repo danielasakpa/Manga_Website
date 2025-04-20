@@ -18,7 +18,7 @@ const Search = () => {
   const [vis, setVis] = useState(false);
   const [mangaVis, setMangaVis] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 30;
+  const pageSize = 20;
 
   const totalPages = Math.ceil(totalManga / pageSize);
 

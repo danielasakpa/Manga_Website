@@ -207,6 +207,31 @@ body {
   background-color: #145686;
 }
 
+/* Custom scrollbar for pagination */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px; /* short height */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #E40066;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c60059;
+}
+
+/* Hide scrollbar in Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #E40066 #f1f1f1;
+}
+
 @media screen and (max-width: 768px) {
   .react-horizontal-scrolling-menu--scroll-container {
     padding: 0px;

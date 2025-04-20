@@ -9,7 +9,7 @@ const Manga = () => {
     const menuItems = [
         { label: 'Overview', link: 'overview' },
         { label: 'Chapters', link: 'chapters' },
-        { label: 'Recommended', link: 'recommendations' }
+        { label: 'Manga Art', link: 'manga-art' }
     ];
     return (
         <div className='bg-[#1F1F1F] w-full h-[max-content] px-2 pt-2 pb-8 md:p-5 relative'>

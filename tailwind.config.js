@@ -1,35 +1,37 @@
 /** @type {import('tailwindcss').Config} */
-
 module.exports = {
+  darkMode: ["class"],
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    './pages/**/*.{js,jsx}',
+    './components/**/*.{js,jsx}',
+    './app/**/*.{js,jsx}',
+    './src/**/*.{js,jsx}',
   ],
+  prefix: "",
   theme: {
-    extend: {
-      fontFamily: {
-        'Roboto': ["DM Sans"],
-        "Bebas": ["Bebas Neue"],
-        "Kanit": ["Kanit"]
-      },
-      maxWidth: {
-        '2/3': '90%',
-      },
+    container: {
+      center: true,
+      padding: "2rem",
       screens: {
-        'xs': '320px',
-        'xm': '375px',
-        'sm': '640px',
-        'md': '768px',
-        'lg': '1024px',
-        'xl': '1280px',
-        '2xl': '1536px',
+        "2xl": "1400px",
       },
-      dropShadow: {
-        'x': '4px 4px 0px #F4B333',
+    },
+    extend: {
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
       },
-      colors: {
-        'Light-Ice-Blue': 'rgba(250, 252, 252, 0.5)',
-      }
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
-  plugins: []
-};
+  plugins: [require("tailwindcss-animate")],
+}

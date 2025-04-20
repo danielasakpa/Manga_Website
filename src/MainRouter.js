@@ -6,7 +6,6 @@ import Search from "./pages/Search";
 import MangaOverview from "./pages/MangaOverview";
 import MangaChapter from "./pages/MangaChapter";
 import MangaChapters from "./pages/MangaChapters";
-import Recommendations from "./pages/Recommendations";
 import { useLocation, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './Auth/AuthProvider';
 import { ReadingListProvider } from './context/ReadingListContext';
@@ -16,6 +15,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import MyList from "./pages/MyList";
 import LatestChapters from "./pages/LatestChapters";
+import MangaArt from "./pages/MangaArt";
 
 
 function MainRouter() {
@@ -49,8 +49,8 @@ function MainRouter() {
                 element={<MangaChapter />}
               />
               <Route
-                path="/manga/:id/recommendations"
-                element={<Recommendations />}
+                path="/manga/:id/manga-art"
+                element={<MangaArt />}
               />
             </Route>
             <Route element={<ProtectedRoute />}>

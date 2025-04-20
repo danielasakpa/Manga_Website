@@ -1,7 +1,7 @@
-import react from 'eslint-plugin-react';
+import react from "eslint-plugin-react";
 import unusedImports from "eslint-plugin-unused-imports";
-import globals from 'globals';
-const reactRecommended = require('eslint-plugin-react/configs/recommended');
+import globals from "globals";
+const reactRecommended = require("eslint-plugin-react/configs/recommended");
 
 const lint = [
   reactRecommended,
@@ -9,7 +9,7 @@ const lint = [
     files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
     plugins: {
       react,
-      "unused-imports": unusedImports
+      "unused-imports": unusedImports,
     },
     languageOptions: {
       ecmaVersion: "latest",
@@ -41,5 +41,4 @@ const lint = [
   },
 ];
 
-export default lint
-  
+export default lint;

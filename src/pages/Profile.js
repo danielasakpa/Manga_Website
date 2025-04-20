@@ -101,7 +101,7 @@ const Profile = () => {
                     alt=""
                     decoding='async' 
                     fetchPriority='high'
-                    className="absolute inset-0 left-1/2 transform -translate-x-1/2 z-10 w-full md:w-[500px] h-full bg-gray-200 bg-opacity-40 bg-cover bg-top mb-4"
+                    className="absolute inset-0 left-1/2 transform -translate-x-1/2 z-10 w-full md:w-[500px] h-full bg-gray-200 bg-opacity-70 bg-cover bg-top mb-4"
                   />
                   <div className="hidden md:block absolute inset-0 w-[100%] h-[250px] md:h-[300px] bg-black opacity-90" />
                 </div>
