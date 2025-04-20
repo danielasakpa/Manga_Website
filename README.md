@@ -127,74 +127,54 @@ The project is organized into different modules, each serving a specific purpose
    git clone https://github.com/danielasakpa/Netlify-Serverless-Manga-Server
    git clone https://github.com/danielasakpa/Netlify-Serverless-Manga-Proxy
    ```
-   
+
 2. **Set up environment variables:**
 
-- `REACT_APP_MANGA_SERVER_URL`: URL for the manga server.
-- `REACT_APP_PROXY_SERVER_URL` URL for the proxy server.
+   Create a `.env` file in the root directory of the project and set the following variables:
+   * `REACT_APP_MANGA_SERVER_URL=http://localhost:9999`
+   * `REACT_APP_PROXY_SERVER_URL=http://localhost:8888`
+
+   These variables specify the **Manga Server** and **Proxy Server** URLs for development.
 
 3. **Run the applications:**
 
-   - **Manga Server:**
-
+   * **Manga Server** (Backend server for authentication and data management):
      ```bash
+     cd Netlify-Serverless-Manga-Server
      npm install
-     npm start
+     netlify dev
      ```
-     - ***Additional Steps:***
+     This will run the server locally, listening on `http://localhost:9999`.
 
-       Set up the required environmental variables by creating a .env file in the root directory of the project and filling in the necessary values for MONGO_URI, JWT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CLIENT_URL, SERVER_URL, and SESSION_SECRET.
-     
-   - **Proxy Server:**
-
+   * **Proxy Server** (Server to handle requests to the MangaDex API and serve manga images):
      ```bash
+     cd Netlify-Serverless-Manga-Proxy
      npm install
+     netlify dev
      ```
+     This will run the proxy server locally, listening on `http://localhost:8888`.
 
-     - ***_For Windows:_***
-
-       ```bash
-       npm i sharp@0.32.6
-       ```
-
-     - ***_For Linux:_***
-
-       ```bash
-       npm uninstall sharp
-       npm install --include=optional --arch=x64 --platform=linux sharp@0.32.6
-       ```
-
-     - ***_Run the server:_***
-
-       ```bash
-       npm run start
-       ```
-
-   - **YUKI MANGA (React Frontend):**
-
+   * **YUKI MANGA** (React Frontend):
      ```bash
+     cd Manga_Website
      npm install
      npm start
      ```
 
 4. **Explore and Contribute:**
 
-   Feel free to explore the app and contribute to its development. If you encounter any issues or have suggestions, please open an [issue](https://github.com/danielasakpa/Manga_Website/issues).
+   Feel free to explore the app and contribute to its development. If you encounter any issues or have suggestions, please open an issue.
 
 ## Explore API Documentation
-
-Explore the [MangaDex API documentation](https://api.mangadex.org/docs/) for more details on integrating and working with the MangaDex API.
+Explore the MangaDex API documentation for more details on integrating and working with the MangaDex API.
 
 ## Explore Proxy Server
-
 Explore the [Netlify-Serverless-Manga-Proxy repository](https://github.com/danielasakpa/Netlify-Serverless-Manga-Proxy) to understand the custom proxy server's inner workings and contribute to its development.
 
 ## Explore Manga Server
-
 Explore the [Netlify-Serverless-Manga-Server repository](https://github.com/danielasakpa/Netlify-Serverless-Manga-Server) for insights into the user authentication and data management server and contribute to its enhancement.
 
 ## Contributing
-
 If you'd like to contribute to **YUKI MANGA**, please follow these guidelines:
 
 1. Fork the repository and create a new branch.
@@ -204,5 +184,4 @@ If you'd like to contribute to **YUKI MANGA**, please follow these guidelines:
 5. Participate in discussions and address feedback.
 
 ## License
-
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License.
