@@ -18,7 +18,7 @@ function MangaChapter() {
 
   // Fetch data for all chapters of the manga
   const {
-    data: chaptersData,
+    data: chapterData,
     isLoading: isChaptersLoading,
     isError: isChaptersError,
   } = useMangaChapters(id, [`${lang}`], 100, 0, true);
@@ -92,7 +92,7 @@ function MangaChapter() {
   }
 
   // Filter and sort chapters data
-  const filteredChapters = chaptersData.filter((chapter, index, self) => {
+  const filteredChapters = chapterData.data.filter((chapter, index, self) => {
     const firstIndex = self.findIndex(
       (c) => c.attributes.chapter === chapter.attributes.chapter
     );
