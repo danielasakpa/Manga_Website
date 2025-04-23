@@ -132,7 +132,7 @@ The project is organized into different modules, each serving a specific purpose
 
    Create a `.env` file in the root directory of the project and set the following variables:
    * `REACT_APP_MANGA_SERVER_URL=http://localhost:9999`
-   * `REACT_APP_PROXY_SERVER_URL=http://localhost:8888`
+   * `REACT_APP_PROXY_SERVER_URL=http://localhost:7777`
 
    These variables specify the **Manga Server** and **Proxy Server** URLs for development.
 
