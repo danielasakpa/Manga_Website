@@ -3,7 +3,7 @@ import axios from 'axios';
 // Utility function to get all users
 export const getAllUsers = async () => {
     try {
-        const response = await axios.get('${process.env.REACT_APP_MANGA_SERVER_URL}/api/user');
+        const response = await axios.get(`${process.env.REACT_APP_MANGA_SERVER_URL}/api/user`);
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while fetching users.');
@@ -33,7 +33,7 @@ export const createUser = async (userData) => {
     try {
         await axios({
             method: "post",
-            url: '${process.env.REACT_APP_MANGA_SERVER_URL}/api/user',
+            url: `${process.env.REACT_APP_MANGA_SERVER_URL}/api/user`,
             data: userData
         });
 
