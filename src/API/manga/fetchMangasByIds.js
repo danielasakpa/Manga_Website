@@ -8,7 +8,7 @@ export default async function fetchMangasByIds(seasonalMangasData) {
             .filter(rel => rel.type === 'manga')
             .map(rel => rel.id);
 
-            console.log(mangaIds)
+            // console.log(mangaIds)
 
         const response = await axios({
             method: 'get',

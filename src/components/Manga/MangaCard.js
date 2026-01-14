@@ -106,6 +106,8 @@ const MangaCard = React.memo(
 
     const title = attributes.title.en || getTitle("en") || getTitle("ja");
 
+    // console.log("MangaCard Rendered:", title);
+
     return (
       <m.div
         className={`relative rounded-[4px] cursor-pointer w-[120px] h-[170px] xm:w-[160px] xm:h-[200px] md:w-[300px] md:h-[300px] lg:w-[280px] lg:h-[530px]  overflow-hidden shadow-lg bg-white transform transition-transform `}
@@ -151,7 +153,7 @@ const MangaCard = React.memo(
           }`}
         >
           <p className="text-[12px] text-white text-center font-semibold">
-            {title.split(" ").slice(0, 2).join(" ")}...
+            {title ? title.split(" ").slice(0, 2).join(" ") + "..." : "No Title"}
           </p>
         </div>
 
@@ -161,7 +163,7 @@ const MangaCard = React.memo(
           } transition-opacity duration-300`}
         >
           <p className="p-2 text-[12px] font-semibold">
-            {title.split(" ").slice(0, 2).join(" ")}
+            {title ? title.split(" ").slice(0, 2).join(" ") + "..." : "No Title"}
           </p>
           <div className="flex items-center justify-center pb-2">
             <span className="text-gray-500">Rating:</span>

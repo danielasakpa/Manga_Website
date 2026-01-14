@@ -29,7 +29,7 @@ export default async function fetchMangaArt(mangaId) {
       },
     });
 
-    console.log("response", response);
+    // console.log("response", response);
 
     return response.data
   } catch (error) {

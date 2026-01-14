@@ -21,33 +21,32 @@ const CarouselImage = ({ manga }) => {
 
   const [sortedChapters, setSortedChapters] = useState(null);
 
-  
-  useEffect(() => {
-    if (chaptersData && chaptersData && chaptersData.length > 0) {
-      const filteredChapters = chaptersData.filter((chapter, index, self) => {
-        // Find the index of the first occurrence of the chapter number in the array
-        const firstIndex = self.findIndex(
-          (c) => c.attributes.chapter === chapter.attributes.chapter
-        );
+  // console.log("chaptersData:", chaptersData);
 
-        // Keep only the chapter if its index matches the first occurrence index
-        return index === firstIndex;
-      });
+useEffect(() => {
+  if (chaptersData?.data && chaptersData.data.length > 0) {
+    const filteredChapters = chaptersData.data.filter((chapter, index, self) => {
+      const firstIndex = self.findIndex(
+        (c) => c.attributes.chapter === chapter.attributes.chapter
+      );
+      return index === firstIndex;
+    });
 
-      const sortedChapters = filteredChapters.sort((a, b) => {
-        return (
-          parseInt(a.attributes.chapter, 10) -
-          parseInt(b.attributes.chapter, 10)
-        );
-      });
+    const sortedChapters = filteredChapters.sort((a, b) => {
+      return (
+        parseFloat(a.attributes.chapter) - parseFloat(b.attributes.chapter)
+      );
+    });
 
-      setSortedChapters(sortedChapters);
-    } else {
-      setSortedChapters(null);
-    }
-  }, [chaptersData]);
+    setSortedChapters(sortedChapters);
+  } else {
+    setSortedChapters(null);
+  }
+}, [chaptersData]);
 
   const imageUrl = coverFilename;
+
+  // console.log("sortedChapters:", sortedChapters);
 
   return (
     <>
@@ -77,12 +76,8 @@ const CarouselImage = ({ manga }) => {
           </div>
           <div className="z-30 lg:w-[60%] ml-3 sm:ml-5 lg:ml-0">
             <h1 className="text-white font-semibold text-[30px] md:text-[40px] leading-9 lg:leading-10 mb-2">
-              {manga?.attributes.title.en
-                ? manga.attributes.title.en.split(" ").slice(0, 3).join(" ")
-                : manga.attributes.altTitles[0].en
-                    .split(" ")
-                    .slice(0, 3)
-                    .join(" ")}
+              {manga?.attributes.title.en ??
+                manga?.attributes.altTitles.find((t) => t.en)?.en}
             </h1>
             <p className="text-white text-[15px] md:text-[17px] mb-5">
               {manga?.attributes.description.en
