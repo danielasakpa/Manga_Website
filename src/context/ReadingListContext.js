@@ -12,9 +12,19 @@ import showToast from "../utils/toastUtils";
 const ReadingListContext = createContext();
 
 export const ReadingListProvider = ({ children }) => {
-  const [readingList, setReadingList] = useState(
-    JSON.parse(localStorage.getItem("reading list")) || []
-  );
+  const getInitialReadingList = () => {
+    try {
+      const data = localStorage.getItem("reading list");
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.error("Invalid reading list in localStorage:", error);
+      localStorage.removeItem("reading list");
+      return [];
+    }
+  };
+
+  const [readingList, setReadingList] = useState(getInitialReadingList);
+
   const [readingListError, setReadingListError] = useState("");
   const [isLoadingList, setIsLoadingList] = useState(false);
 
