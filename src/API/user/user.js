@@ -3,7 +3,12 @@ import axios from 'axios';
 // Utility function to get all users
 export const getAllUsers = async () => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_MANGA_SERVER_URL}/api/user`);
+        const response = await axios.get(
+            `${process.env.REACT_APP_MANGA_SERVER_URL}/api/user`,
+            {
+                withCredentials: true,
+            }
+        );
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'An error occurred while fetching users.');
@@ -20,6 +25,7 @@ export const getOneUser = async (userId, token) => {
                 Authorization: token,
                 'Content-Type': 'application/json',
             },
+            withCredentials: true,
         });
 
         return response.data;
@@ -34,7 +40,8 @@ export const createUser = async (userData) => {
         await axios({
             method: "post",
             url: `${process.env.REACT_APP_MANGA_SERVER_URL}/api/user`,
-            data: userData
+            data: userData,
+            withCredentials: true,
         });
 
     } catch (error) {
@@ -44,7 +51,6 @@ export const createUser = async (userData) => {
 
 // Utility function to update a user by ID
 export const updateUser = async (userId, userData, token) => {
-
     try {
         const response = await axios({
             method: 'put',
@@ -53,7 +59,8 @@ export const updateUser = async (userId, userData, token) => {
                 Authorization: token,
                 'Content-Type': 'application/json',
             },
-            data: userData
+            data: userData,
+            withCredentials: true,
         });
 
         return response.data;
@@ -72,6 +79,7 @@ export const deleteUser = async (userId, token) => {
                 Authorization: token,
                 'Content-Type': 'application/json',
             },
+            withCredentials: true,
         });
         return response.data;
     } catch (error) {

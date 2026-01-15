@@ -25,7 +25,6 @@ const AuthProvider = ({ children }) => {
               headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
-               "Access-Control-Allow-Credentials": true,
               },
               withCredentials: true,
             });
@@ -46,17 +45,20 @@ const AuthProvider = ({ children }) => {
       }
     };
     getUser();
-  }, []);
+  }, [token, navigate, location.state?.prevUrl]);
 
   useEffect(() => {
     handleTokenExpiration(token, logout);
-  }, []);
+  }, [token]);
 
   const login = async (userData) => {
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_MANGA_SERVER_URL}/api/auth/login`,
-        userData
+        userData,
+        {
+          withCredentials: true, 
+        }
       );
       const { user, message, token } = data;
 
@@ -65,7 +67,7 @@ const AuthProvider = ({ children }) => {
       showToast(message, "success", "top-center");
       navigate(location.state?.prevUrl || "/");
     } catch (error) {
-      showToast(error?.message || "Login failed", "error", "top-center");
+      showToast(error?.response?.data?.message || error?.message || "Login failed", "error", "top-center");
     }
   };
 
