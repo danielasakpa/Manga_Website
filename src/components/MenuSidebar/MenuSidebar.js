@@ -9,11 +9,12 @@ import { useAuth } from "../../Auth/AuthProvider";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { GiCompass } from "react-icons/gi";
 import { CiLogout } from "react-icons/ci";
+import { safeJsonParse } from "../../utils/localStorage";
 
 export const MenuSidebar = () => {
   const { isAuthenticated, logout } = useAuth();
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = safeJsonParse("user");
 
   const [open, setOpen] = useState(false);
   const ref = useRef(null);

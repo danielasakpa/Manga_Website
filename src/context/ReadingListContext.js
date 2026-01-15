@@ -8,40 +8,16 @@ import {
 } from "../API/readingList/readingList";
 import { useAuth } from "../Auth/AuthProvider";
 import showToast from "../utils/toastUtils";
+import { getReadingList as getReadingListFromStorage, getUserId, safeJsonStringify } from "../utils/localStorage";
 
 const ReadingListContext = createContext();
 
 export const ReadingListProvider = ({ children }) => {
-  const getInitialReadingList = () => {
-    try {
-      const data = localStorage.getItem("reading list");
-      if (!data || data === "undefined" || data === "null") return [];
-      return JSON.parse(data);
-    } catch (error) {
-      console.error("Invalid reading list in localStorage:", error);
-      localStorage.removeItem("reading list");
-      return [];
-    }
-  };
-
-  const [readingList, setReadingList] = useState(getInitialReadingList);
+  const [readingList, setReadingList] = useState(getReadingListFromStorage());
   const [readingListError, setReadingListError] = useState("");
   const [isLoadingList, setIsLoadingList] = useState(false);
 
   const { token } = useAuth();
-
-  // Safely get userId
-  const getUserId = () => {
-    try {
-      const user = localStorage.getItem("user");
-      if (!user || user === "undefined" || user === "null") return null;
-      return JSON.parse(user)?._id;
-    } catch (error) {
-      console.error("Error parsing user from localStorage:", error);
-      return null;
-    }
-  };
-
   const userId = getUserId();
 
   const addManga = async (token, userId, mangaId, status, mangaData) => {
@@ -53,7 +29,7 @@ export const ReadingListProvider = ({ children }) => {
       const newManga = response.manga;
       const updatedReadingList = [newManga, ...readingList];
       setReadingList(updatedReadingList);
-      localStorage.setItem("reading list", JSON.stringify(updatedReadingList));
+      safeJsonStringify("reading list", updatedReadingList);
       showToast("Manga was added to the list");
     } catch (error) {
       console.error("Error adding manga:", error);
@@ -80,7 +56,7 @@ export const ReadingListProvider = ({ children }) => {
         manga.manga === updatedManga.manga ? updatedManga : manga
       );
       setReadingList(updatedList);
-      localStorage.setItem("reading list", JSON.stringify(updatedList));
+      safeJsonStringify("reading list", updatedList);
       showToast("Manga was updated in the list");
     } catch (error) {
       console.error("Error updating manga:", error);
@@ -92,7 +68,7 @@ export const ReadingListProvider = ({ children }) => {
     try {
       const response = await getMangaUtil(token, userId, mangaId);
       if (!response) {
-        throw new Error("No response from server");
+        return null;
       }
       
       // Check if response is already an object or needs parsing
@@ -119,7 +95,7 @@ export const ReadingListProvider = ({ children }) => {
         : readingListData;
       
       const mangas = parsedData?.readingList?.mangas || [];
-      localStorage.setItem("reading list", JSON.stringify(mangas));
+      safeJsonStringify("reading list", mangas);
       setReadingList(mangas);
       setIsLoadingList(false);
     } catch (error) {
@@ -134,7 +110,7 @@ export const ReadingListProvider = ({ children }) => {
       await deleteMangaUtil(token, userId, mangaId);
       const updatedList = readingList.filter((manga) => manga.manga !== mangaId);
       setReadingList(updatedList);
-      localStorage.setItem("reading list", JSON.stringify(updatedList));
+      safeJsonStringify("reading list", updatedList);
       showToast("Manga was removed from the list", "error");
     } catch (error) {
       console.error("Error deleting manga:", error);

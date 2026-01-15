@@ -6,13 +6,14 @@ import showToast from '../utils/toastUtils';
 import { useNavigate } from "react-router-dom";
 import { Circles } from 'react-loader-spinner'
 import randomImage from '../API/randomImage/randomImage';
+import { getUser } from '../utils/localStorage';
 
 const Profile = () => {
   const { logout, token } = useAuth();
 
   const navigate = useNavigate();
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")))
+  const [user, setUser] = useState(getUser());
   const [loading, setLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
   const [animeImg, setAnimeImg] = useState("")
@@ -64,6 +65,12 @@ const Profile = () => {
     }
   }
 
+  // If no user is found, redirect to login
+  if (!user) {
+    navigate('/login');
+    return null;
+  }
+
   return (
     <>
       <div
@@ -110,18 +117,18 @@ const Profile = () => {
             <div className="mx-auto w-[max-content] my-4 ">
               <div>
                 <p className="text-[40px] font-medium break-all over mb-3">
-                  {user?.username}
+                  {user?.username || 'Guest'}
                 </p>
                 <div>
                   <div className='mb-3'>
                     <p className="mb-2 text-[20px] font-semibold">
                       User Email
                     </p>
-                    <p className="text-gray-600">{user?.email}</p>
+                    <p className="text-gray-600">{user?.email || 'N/A'}</p>
                   </div>
                   <div className='mb-3'>
                     <p className="mb-2 text-[20px] font-semibold">User ID</p>
-                    <p className="text-gray-600 ">{user?._id}</p>
+                    <p className="text-gray-600 ">{user?._id || 'N/A'}</p>
                   </div>
                 </div>
               </div>

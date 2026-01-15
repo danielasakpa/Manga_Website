@@ -14,9 +14,9 @@ import MangaImageAndDescriptionSection from '../components/Manga/MangaImageAndDe
 import RelatedMangaSection from '../components/Manga/RelatedMangaSection';
 import RecommendedMangaSection from '../components/Manga/RecommendedMangaSection';
 
-
 // Utils
 import showToast from '../utils/toastUtils';
+import { getUserId } from '../utils/localStorage';
 import LogIngSvg from '../assets/svg/Login-bro.svg';
 
 
@@ -36,7 +36,7 @@ const MangaOverview = React.memo(() => {
     const [vis, setVis] = useState(false);
 
     // User and manga IDs with token
-    const userId = JSON.parse(localStorage.getItem("user"))?._id;
+    const userId = getUserId();
     const mangaId = id;
 
     // Fetch manga data
